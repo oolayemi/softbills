@@ -1,0 +1,228 @@
+import 'dart:convert';
+
+import 'package:dio/dio.dart';
+import 'package:flutter/material.dart';
+import 'package:no_name/core/enums/wallet_types.dart';
+import 'package:stacked/stacked.dart';
+import 'package:stacked_services/stacked_services.dart';
+
+import '../../app/locator.dart';
+import '../../core/constants/loading_dialog.dart';
+import '../../core/exceptions/error_handling.dart';
+import '../../core/models/cable_tv_data.dart';
+import '../../core/models/currency_rates.dart';
+import '../../core/models/wallet_response.dart';
+import '../../core/services/auth_service.dart';
+import '../../core/utils/tools.dart';
+import '../../widgets/utility_widgets.dart';
+import '../services/transfer_funds_service.dart';
+
+class CableTvViewModel extends ReactiveViewModel {
+  final TransferFundsService _transferFundsService = locator<TransferFundsService>();
+  final AuthService _authService = locator<AuthService>();
+  final DialogService _dialogService = locator<DialogService>();
+  final NavigationService _navigationService = locator<NavigationService>();
+
+  TextEditingController iucNumberController = TextEditingController();
+  TextEditingController amountController = TextEditingController();
+
+
+  List<CableBillers>? get cableBillers => _transferFundsService.cableBillers;
+  CableBillers? biller;
+
+  Map<String?, List<CableTvPackage>?> get cablePackages => _transferFundsService.packages;
+  CableTvPackage? package;
+
+  bool verified = false;
+  String? customerName;
+
+  List<Wallet>? get walletTypes => _authService.walletResponse;
+  Wallet? selectedWallet;
+
+  List<Rates>? get rateList => _authService.ratesList;
+
+  Rates? selectedRate;
+  String? buildText;
+
+  final formKey = GlobalKey<FormState>();
+
+  void setup(context) async{
+    selectedWallet = walletTypes!.first;
+    getExchange();
+    if(cableBillers!.isEmpty) {
+      await getData(context);
+    }
+    if(cableBillers!.isNotEmpty) {
+      setBiller(cableBillers![0], context);
+    }
+    notifyListeners();
+  }
+
+  void getExchange() {
+    String fromValue = selectedWallet!.walletType!.toLowerCase();
+    String toValue = 'NAIRA'.toLowerCase();
+    selectedRate = rateList?.where((element) => element.currencyFrom == fromValue).where((element) => element.currencyTo == toValue).first;
+
+    if (selectedRate != null){
+      buildText = (amountController.text.isNotEmpty && fromValue != toValue) ? "${amountController.text}${matchCurrency(toValue)} = ${(int.parse(amountController.text) / selectedRate!.rate!).toStringAsFixed(2)}${matchCurrency(fromValue)}" : null;
+    }
+    notifyListeners();
+  }
+
+  void setBiller(CableBillers val, BuildContext context) async{
+    biller = val;
+    package = null;
+    verified = false;
+    customerName = null;
+    amountController.text = '';
+    notifyListeners();
+    if(cablePackages[val.name] == null) {
+      await fetchPackages(context, val);
+    }
+    notifyListeners();
+  }
+
+  void setPackage(CableTvPackage val) {
+    package = val;
+    amountController.text = val.price!.toString();
+    getExchange();
+    notifyListeners();
+  }
+
+  Future getData(context) async {
+
+    try {
+
+      final response = await dio().get('/cable/providers');
+
+      int? statusCode = response.statusCode;
+
+      String? success = jsonDecode(response.toString())['status'];
+      Map<String, dynamic> json = jsonDecode(response.toString());
+
+      if (statusCode == 200) {
+        if (success == 'success') {
+          CableTvData temp = CableTvData.fromJson(json);
+          _transferFundsService.setCableBillers(temp.billers);
+          notifyListeners();
+        } else {
+          flusher(json['message'] ?? 'Error Fetching data', context, color: Colors.red);
+        }
+      } else {
+        flusher(json['message'] ?? 'Error Fetching data', context, color: Colors.red);
+      }
+    } on DioError catch (e) {
+      print(e.response);
+      flusher(DioExceptions.fromDioError(e).toString(), context, color: Colors.red);
+    }
+  }
+
+  Future fetchPackages(context, CableBillers biller) async {
+    try {
+
+      final response = await dio().get('/cable/${biller.type}/provider');
+
+      int? statusCode = response.statusCode;
+
+      String? success = jsonDecode(response.toString())['status'];
+      Map<String, dynamic> json = jsonDecode(response.toString());
+
+      if (statusCode == 200) {
+        if (success == 'success') {
+          PlansData temp = PlansData.fromJson(json);
+          _transferFundsService.addPackage(biller.name, temp.billers);
+          notifyListeners();
+        } else {
+          flusher(json['message'] ?? 'Error Fetching data', context, color: Colors.red);
+        }
+      } else {
+        flusher(json['message'] ?? 'Error Fetching data', context, color: Colors.red);
+      }
+    } on DioError catch (e) {
+      print(e.response);
+      flusher(DioExceptions.fromDioError(e).toString(), context, color: Colors.red);
+    }
+  }
+
+  Future validateProvider(context) async {
+    LoaderDialog.showLoadingDialog(context, message: "Validating details...");
+
+    Map<String, dynamic> payload = {
+      'smartCardNo': iucNumberController.text,
+      'biller_id': biller!.id.toString()
+    };
+
+    try {
+      final response = await dio().post('/cable/validate', data: payload);
+
+      int? statusCode = response.statusCode;
+      String? success = jsonDecode(response.toString())['status'];
+
+      Map<String, dynamic> json = jsonDecode(response.toString());
+      print(json);
+
+      _dialogService.completeDialog(DialogResponse());
+      if (statusCode == 200) {
+        if (success == 'success') {
+          verified = true;
+          customerName = json['data']['fullName'];
+          flusher('Verified Successfully', context, color: Colors.green);
+          notifyListeners();
+        } else {
+          flusher(json['message'] ?? 'Error Fetching data', context, color: Colors.red);
+        }
+      } else {
+        flusher(json['message'] ?? 'Error Fetching data', context, color: Colors.red);
+      }
+    } on DioError catch (e) {
+      print(e.response);
+      _dialogService.completeDialog(DialogResponse());
+      flusher(DioExceptions.fromDioError(e).toString(), context, color: Colors.red);
+    }
+  }
+
+  Future purchasePackage(context) async {
+    LoaderDialog.showLoadingDialog(context, message: "Purchasing Cable TV...");
+
+    Map<String, dynamic> payload = {
+      'smartCardNo': iucNumberController.text,
+      'type': biller!.type,
+      'code': package!.code,
+      'amount': package!.amount
+    };
+
+    try {
+
+      final response = await dio().post('/cable/purchase', data: payload);
+
+      int? statusCode = response.statusCode;
+      String? success = jsonDecode(response.toString())['status'];
+
+      Map<String, dynamic> json = jsonDecode(response.toString());
+
+      if (statusCode == 200) {
+        if (success == 'success') {
+          await _authService.getWalletDetails();
+          await _authService.getWalletTransactions(page: 1);
+          notifyListeners();
+          _dialogService.completeDialog(DialogResponse());
+          _navigationService.back();
+        } else {
+          _dialogService.completeDialog(DialogResponse());
+          flusher(json['message'] ?? 'Error Fetching data', context, color: Colors.red);
+        }
+      } else {
+        _dialogService.completeDialog(DialogResponse());
+        flusher(json['message'] ?? 'Error Fetching data', context, color: Colors.red);
+      }
+    } on DioError catch (e) {
+      _dialogService.completeDialog(DialogResponse());
+      flusher(DioExceptions.fromDioError(e).toString(), context, color: Colors.red);
+    }
+  }
+
+  @override
+  // TODO: implement reactiveServices
+  List<ReactiveServiceMixin> get reactiveServices => [_authService, _transferFundsService];
+
+}

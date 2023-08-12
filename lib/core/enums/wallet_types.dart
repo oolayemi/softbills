@@ -1,0 +1,1 @@
+enum WalletTypes {btc, naira}
