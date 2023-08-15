@@ -21,11 +21,14 @@ class SignUpOneView extends StatelessWidget {
                   children: const [
                     Text("1/3"),
                     SizedBox(width: 10),
-                    TabButton(selectedPage: 1, pageNumber: 1, width: 25, height: 8),
+                    TabButton(
+                        selectedPage: 1, pageNumber: 1, width: 25, height: 8),
                     SizedBox(width: 5),
-                    TabButton(selectedPage: 1, pageNumber: 2, width: 25, height: 8),
+                    TabButton(
+                        selectedPage: 1, pageNumber: 2, width: 25, height: 8),
                     SizedBox(width: 5),
-                    TabButton(selectedPage: 1, pageNumber: 3, width: 25, height: 8),
+                    TabButton(
+                        selectedPage: 1, pageNumber: 3, width: 25, height: 8),
                     SizedBox(width: 5),
                   ],
                 )
@@ -34,7 +37,8 @@ class SignUpOneView extends StatelessWidget {
             body: Stack(
               children: [
                 Container(
-                  padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
+                  padding: EdgeInsets.only(
+                      bottom: MediaQuery.of(context).viewInsets.bottom),
                   child: Form(
                     key: model.formKey,
                     child: ListView(
@@ -59,14 +63,29 @@ class SignUpOneView extends StatelessWidget {
                         BuildTextField(
                           title: "First Name",
                           controller: model.firstnameController,
-                          validator: (String? value) => value!.isEmpty ? "Firstname field cannot be empty" : null,
+                          validator: (String? value) => value!.isEmpty
+                              ? "Firstname field cannot be empty"
+                              : null,
                         ),
-                        BuildTextField(title: "Last Name", controller: model.lastnameController,
-                          validator: (String? value) => value!.isEmpty ? "Lastname field cannot be empty" : null,),
-                        BuildTextField(title: "Email Address", controller: model.emailController,
-                          validator: (String? value) => value!.isEmpty ? "Email field cannot be empty" : null,),
+                        BuildTextField(
+                          title: "Last Name",
+                          controller: model.lastnameController,
+                          validator: (String? value) => value!.isEmpty
+                              ? "Lastname field cannot be empty"
+                              : null,
+                        ),
+                        BuildTextField(
+                          title: "Email Address",
+                          controller: model.emailController,
+                          validator: (String? value) => value!.isEmpty
+                              ? "Email field cannot be empty"
+                              : null,
+                        ),
                         BuildDropDown(
-                            list: const ['Male', 'Female'], title: 'Gender', value: model.gender, onChanged: model.setGender),
+                            list: const ['Male', 'Female'],
+                            title: 'Gender',
+                            value: model.gender,
+                            onChanged: model.setGender),
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
@@ -81,18 +100,30 @@ class SignUpOneView extends StatelessWidget {
                               onInputChanged: (PhoneNumber number) {
                                 model.setPhoneNumber(number.phoneNumber!);
                               },
-                              selectorConfig: const SelectorConfig(selectorType: PhoneInputSelectorType.DIALOG, trailingSpace: false),
+                              selectorConfig: const SelectorConfig(
+                                  selectorType: PhoneInputSelectorType.DIALOG,
+                                  trailingSpace: false),
                               ignoreBlank: false,
                               countries: const ['NG'],
                               autoValidateMode: AutovalidateMode.disabled,
-                              selectorTextStyle: const TextStyle(color: Colors.black),
+                              selectorTextStyle:
+                                  const TextStyle(color: Colors.black),
                               formatInput: true,
-                              keyboardType: const TextInputType.numberWithOptions(),
+                              keyboardType:
+                                  const TextInputType.numberWithOptions(),
                               inputDecoration: InputDecoration(
-                                fillColor: const Color(0xFF605F5F).withOpacity(.32),
                                 filled: true,
-                                border: OutlineInputBorder(borderRadius: BorderRadius.circular(10), borderSide: BorderSide.none),
-                              ),
+                                  fillColor:
+                                      const Color(0xFF605F5F).withOpacity(.1),
+                                  border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(10),
+                                    borderSide: const BorderSide(
+                                        color: Colors.grey, width: .5),
+                                  ),
+                                  enabledBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(10),
+                                    borderSide: BorderSide.none,
+                                  )),
                               onSaved: (PhoneNumber number) {
                                 print('On Saved: $number');
                               },
@@ -111,10 +142,11 @@ class SignUpOneView extends StatelessWidget {
                     title: "Proceed",
                     onPressed: () {
                       if (model.formKey.currentState!.validate()) {
-                        if(model.gender != null) {
+                        if (model.gender != null) {
                           model.gotoSignUpTwo();
-                        }else {
-                          Fluttertoast.showToast(msg: "Please select a gender to continue");
+                        } else {
+                          Fluttertoast.showToast(
+                              msg: "Please select a gender to continue");
                         }
                       }
                     },

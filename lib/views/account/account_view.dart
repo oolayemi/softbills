@@ -27,9 +27,11 @@ class AccountView extends StatelessWidget {
                   children: [
                     _personalDetails(),
                     const SizedBox(height: 40),
-                    _eachSection("Personal Data", () => model.gotoPersonalDataView()),
+                    _eachSection(
+                        "Personal Data", () => model.gotoPersonalDataView()),
                     _eachSection("Settings", () => model.gotoSettingsView()),
-                    _eachSection("Next of Kin Information", () => model.gotoNextOfKin()),
+                    _eachSection(
+                        "Next of Kin Information", () => model.gotoNextOfKin()),
                   ],
                 ),
                 Positioned(
@@ -42,7 +44,8 @@ class AccountView extends StatelessWidget {
                       StorageService().removeString("token");
                       StorageService().removeString('email');
                       StorageService().removeBool('isLoggedIn');
-                      NavigationService().clearStackAndShowView(const SignInView());
+                      NavigationService()
+                          .clearStackAndShowView(const SignInView());
                     },
                   ),
                 )
@@ -59,8 +62,13 @@ class AccountView extends StatelessWidget {
         Container(
           height: 60,
           width: 60,
-          decoration: BoxDecoration(color: BrandColors.primary, borderRadius: BorderRadius.circular(18)),
-          child: Center(child: Text("${model.profile?.firstName?.substring(0,1) ?? "O"}${model.profile?.lastName?.substring(0,1) ?? "O"}", style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600))),
+          decoration: BoxDecoration(
+              color: BrandColors.primary,
+              borderRadius: BorderRadius.circular(18)),
+          child: Center(
+              child: Text(
+                  "${model.profile?.firstName?.substring(0, 1) ?? "O"}${model.profile?.lastName?.substring(0, 1) ?? "O"}",
+                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600))),
         ),
         const SizedBox(width: 15),
         Expanded(
@@ -73,12 +81,14 @@ class AccountView extends StatelessWidget {
               ),
               Text(
                 model.profile?.email ?? "olayemiolaomo5@gmail.com",
-                style: TextStyle(fontSize: 16, color: Colors.white.withOpacity(.6)),
+                style: TextStyle(
+                    fontSize: 16, color: Colors.white.withOpacity(.6)),
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text("Tier ${model.profile?.tier ?? "1"}", style: const TextStyle(fontSize: 18)),
+                  Text("Tier ${model.profile?.tier ?? "1"}",
+                      style: const TextStyle(fontSize: 18)),
                   InkWell(
                     onTap: () => model.gotoUpgrade(),
                     child: Row(
@@ -112,10 +122,15 @@ class AccountView extends StatelessWidget {
         width: double.maxFinite,
         margin: const EdgeInsets.symmetric(vertical: 10),
         padding: const EdgeInsets.all(12),
-        decoration: BoxDecoration(color: const Color(0xFF3C3C3C).withOpacity(.57), borderRadius: BorderRadius.circular(10)),
+        decoration: BoxDecoration(
+            color: const Color(0xFF605F5F).withOpacity(.1),
+            borderRadius: BorderRadius.circular(10)),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [Text(title), const Icon(Icons.arrow_forward_ios_outlined)],
+          children: [
+            Text(title),
+            const Icon(Icons.arrow_forward_ios_outlined),
+          ],
         ),
       ),
     );

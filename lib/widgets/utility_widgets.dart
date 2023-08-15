@@ -477,11 +477,15 @@ class BuildTextField extends StatelessWidget {
             hintText: hintText,
             suffixIcon: suffixIcon,
             //contentPadding: const EdgeInsets.symmetric(horizontal: 10),
-            fillColor: const Color(0xFF605F5F).withOpacity(.32),
+            fillColor: const Color(0xFF605F5F).withOpacity(.1),
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(10),
-              borderSide: BorderSide.none,
+              borderSide: const BorderSide(color: Colors.grey, width: .5),
             ),
+            enabledBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(10),
+              borderSide: BorderSide.none,
+            )
           ),
           onChanged: onChanged,
           textInputAction: isLast ? TextInputAction.done : TextInputAction.next,
@@ -511,7 +515,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
     return AppBar(
       elevation: 0,
       centerTitle: false,
-      backgroundColor: const Color(0xFFF58634),
+      backgroundColor: BrandColors.primary,
       leading: withBackButton
           ? IconButton(
               onPressed: () => Navigator.pop(context),
@@ -740,7 +744,7 @@ class BuildDropDown extends StatelessWidget {
           padding: const EdgeInsets.only(right: 6, left: 6, top: 6, bottom: 6),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(10),
-            color: const Color(0xFF605F5F).withOpacity(.32),
+            color: const Color(0xFF605F5F).withOpacity(.1),
           ),
           child: Row(
             children: [
@@ -914,10 +918,10 @@ class EachRoundLink extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: MediaQuery.of(context).size.height * .20,
+      height: 100,
       width: MediaQuery.of(context).size.height * .20,
       decoration: BoxDecoration(
-        color: Colors.black.withOpacity(.2),
+        color: Colors.white,
         borderRadius: BorderRadius.circular(10),
       ),
       child: InkWell(
@@ -925,21 +929,17 @@ class EachRoundLink extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            CircleAvatar(
-              radius: 28,
-              backgroundColor: const Color(0xFF3D3D3D),
-              child: Center(
-                child: Icon(
-                  icon,
-                  size: 25,
-                  color: Colors.white,
-                ),
+            Center(
+              child: Icon(
+                icon,
+                size: 25,
+                color: BrandColors.secondary,
               ),
             ),
             const SizedBox(height: 10),
             Text(
               title,
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
+              style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w500),
             )
           ],
         ),

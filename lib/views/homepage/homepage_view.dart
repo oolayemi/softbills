@@ -21,7 +21,7 @@ class HomePageView extends StatelessWidget {
         onModelReady: (model) => model.setUp(),
         builder: (context, model, child) {
           return Scaffold(
-            backgroundColor: BrandColors.mainBackground,
+            backgroundColor: const Color(0xFFEEF0F2),
             body: SafeArea(
               child: SmartRefresher(
                 enablePullDown: true,
@@ -38,20 +38,6 @@ class HomePageView extends StatelessWidget {
                         children: [
                           Row(
                             children: [
-                              Container(
-                                height: 50,
-                                width: 50,
-                                decoration: BoxDecoration(
-                                    color: BrandColors.primary,
-                                    borderRadius: BorderRadius.circular(18)),
-                                child: Center(
-                                    child: Text(
-                                        "${model.profileData?.firstName?.substring(0, 1) ?? "O"}${model.profileData?.lastName?.substring(0, 1) ?? 'O'}",
-                                        style: const TextStyle(
-                                            fontSize: 20,
-                                            fontWeight: FontWeight.w600))),
-                              ),
-                              const SizedBox(width: 10),
                               Text(
                                 "Hello ${model.profileData?.firstName ?? "Ola"},",
                                 style: const TextStyle(
@@ -90,7 +76,7 @@ class HomePageView extends StatelessWidget {
 
   Widget _walletCard(context, HomePageViewModel model) {
     return Container(
-      height: 160,
+      height: 170,
       padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
           gradient: LinearGradient(
@@ -103,10 +89,10 @@ class HomePageView extends StatelessWidget {
       child: Column(
         children: [
           Row(
-            children: [
+            children: const [
               Text(
                   "Balance",
-                  style: const TextStyle(fontSize: 16, color: Colors.white)),
+                  style: TextStyle(fontSize: 16, color: Colors.white)),
               ],
           ),
           const SizedBox(height: 5),
@@ -114,13 +100,13 @@ class HomePageView extends StatelessWidget {
             children: [
               Text.rich(
                 TextSpan(
-                  text: model.viewBalance ? "10000.89" : "*******",
+                  text: model.viewBalance ? "N100.89" : "*****",
                   style: const TextStyle(
-                      fontSize: 30, fontWeight: FontWeight.w900, color: Colors.white),
-                  children: <TextSpan>[
+                      fontSize: 26, fontWeight: FontWeight.w900, color: Colors.white),
+                  children: const <TextSpan>[
                     TextSpan(
                       text: "",
-                      style: const TextStyle(fontSize: 15),
+                      style: TextStyle(fontSize: 15),
                     ),
                   ],
                 ),
@@ -134,7 +120,7 @@ class HomePageView extends StatelessWidget {
                         ? Icons.visibility_outlined
                         : Icons.visibility_off_outlined, color: Colors.grey,),
                     const SizedBox(width: 5),
-                    Text(!model.viewBalance ? "Show" : "Hide", style: TextStyle(color: Colors.grey),),
+                    Text(!model.viewBalance ? "Show" : "Hide", style: const TextStyle(color: Colors.grey),),
                   ],
                 ),
               )
@@ -153,7 +139,7 @@ class HomePageView extends StatelessWidget {
                     borderRadius: BorderRadius.circular(35)),
                 child: Row(
                   children: [
-                    Expanded(
+                    const Expanded(
                       child: Text(
                         "1234567890",
                         maxLines: 1,
