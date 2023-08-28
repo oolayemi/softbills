@@ -28,11 +28,14 @@ class AirtimeView extends StatelessWidget {
                   children: [
                     SingleChildScrollView(
                       scrollDirection: Axis.horizontal,
-                      child: model.airtimeBeneficiaries == null || model.airtimeBeneficiaries!.isEmpty
+                      child: model.airtimeBeneficiaries == null ||
+                              model.airtimeBeneficiaries!.isEmpty
                           ? const SizedBox()
                           : Row(
-                        children: model.airtimeBeneficiaries!.map((e) => _eachBeneficiary(e, model)).toList(),
-                      ),
+                              children: model.airtimeBeneficiaries!
+                                  .map((e) => _eachBeneficiary(e, model))
+                                  .toList(),
+                            ),
                     ),
                     const SizedBox(height: 30),
                     Row(
@@ -58,16 +61,22 @@ class AirtimeView extends StatelessWidget {
                             textInputType: TextInputType.number,
                             controller: model.phoneController,
                             hintText: "Enter phone number",
-                            validator: (String? val) => val!.isEmpty ? "Phone field cannot be empty" : null,
+                            validator: (String? val) => val!.isEmpty
+                                ? "Phone field cannot be empty"
+                                : null,
                             suffixIcon: InkWell(
                               onTap: () async {
                                 FocusScope.of(context).unfocus();
-                                final PhoneContact contact = await FlutterContactPicker.pickPhoneContact();
+                                final PhoneContact contact =
+                                    await FlutterContactPicker
+                                        .pickPhoneContact();
                                 String? phone = contact.phoneNumber?.number;
                                 if (phone != null) {
                                   String repHyphen = phone.replaceAll('-', '');
-                                  String newPhone = repHyphen.replaceAll(' ', '');
-                                  model.phoneController.text = '0${newPhone.substring(newPhone.length - 10)}';
+                                  String newPhone =
+                                      repHyphen.replaceAll(' ', '');
+                                  model.phoneController.text =
+                                      '0${newPhone.substring(newPhone.length - 10)}';
                                   model.notifyListeners();
                                 }
                               },
@@ -84,15 +93,10 @@ class AirtimeView extends StatelessWidget {
                       title: "Amount",
                       controller: model.amountController,
                       suffixTitle: Text(
-                        formatMoney(
-                          model.selectedWallet!.balance,
-                          walletType: model.selectedWallet!.walletType!,
-                        ),
+                        formatMoney(model.selectedWallet?.balance ?? "123.32"),
                       ),
-                      onChanged: (string) {
-                        model.getExchange();
-                      },
-                      validator: (String? val) => val!.isEmpty ? "Amount field cannot be empty" : null,
+                      validator: (String? val) =>
+                          val!.isEmpty ? "Amount field cannot be empty" : null,
                     ),
                     const SizedBox(height: 3),
                     Row(
@@ -102,7 +106,6 @@ class AirtimeView extends StatelessWidget {
                       ],
                     ),
                     const SizedBox(height: 10),
-                    SelectPaymentOption(model: model),
                   ],
                 ),
               ),
@@ -132,7 +135,8 @@ class AirtimeView extends StatelessWidget {
     );
   }
 
-  Widget _eachBeneficiary(AirtimeBeneficiary airtimeBeneficiary, AirtimeViewModel model) {
+  Widget _eachBeneficiary(
+      AirtimeBeneficiary airtimeBeneficiary, AirtimeViewModel model) {
     checkImage() {
       if (airtimeBeneficiary.operator == 'mtn') {
         return 'assets/images/billers/mtn.webp';
@@ -144,6 +148,7 @@ class AirtimeView extends StatelessWidget {
         return 'assets/images/billers/9mobile.webp';
       }
     }
+
     return Row(
       children: [
         InkWell(

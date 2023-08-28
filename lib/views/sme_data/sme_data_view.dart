@@ -31,10 +31,13 @@ class SmeDataView extends StatelessWidget {
                   children: [
                     SingleChildScrollView(
                       scrollDirection: Axis.horizontal,
-                      child: model.dataBeneficiaries == null || model.dataBeneficiaries!.isEmpty
+                      child: model.dataBeneficiaries == null ||
+                              model.dataBeneficiaries!.isEmpty
                           ? const SizedBox()
                           : Row(
-                              children: model.dataBeneficiaries!.map((e) => _eachBeneficiary(e, model)).toList(),
+                              children: model.dataBeneficiaries!
+                                  .map((e) => _eachBeneficiary(e, model))
+                                  .toList(),
                             ),
                     ),
                     const SizedBox(height: 30),
@@ -43,16 +46,19 @@ class SmeDataView extends StatelessWidget {
                       textInputType: TextInputType.number,
                       controller: model.phoneController,
                       hintText: "9032395066",
-                      validator: (String? val) => val!.isEmpty ? "Phone field cannot be empty" : null,
+                      validator: (String? val) =>
+                          val!.isEmpty ? "Phone field cannot be empty" : null,
                       suffixIcon: InkWell(
                         onTap: () async {
                           FocusScope.of(context).unfocus();
-                          final PhoneContact contact = await FlutterContactPicker.pickPhoneContact();
+                          final PhoneContact contact =
+                              await FlutterContactPicker.pickPhoneContact();
                           String? phone = contact.phoneNumber?.number;
                           if (phone != null) {
                             String repHyphen = phone.replaceAll('-', '');
                             String newPhone = repHyphen.replaceAll(' ', '');
-                            model.phoneController.text = '0${newPhone.substring(newPhone.length - 10)}';
+                            model.phoneController.text =
+                                '0${newPhone.substring(newPhone.length - 10)}';
                             model.notifyListeners();
                           }
                         },
@@ -69,14 +75,14 @@ class SmeDataView extends StatelessWidget {
                       controller: model.amountController,
                       suffixTitle: Text(
                         formatMoney(
-                          model.selectedWallet!.balance!,
-                          walletType: model.selectedWallet!.walletType!,
+                          model.selectedWallet?.balance ?? "1223.2",
                         ),
                       ),
                       onChanged: (string) {
                         model.getExchange();
                       },
-                      validator: (String? val) => val!.isEmpty ? "Amount field cannot be empty" : null,
+                      validator: (String? val) =>
+                          val!.isEmpty ? "Amount field cannot be empty" : null,
                     ),
                     const SizedBox(height: 3),
                     Row(
@@ -86,7 +92,6 @@ class SmeDataView extends StatelessWidget {
                       ],
                     ),
                     const SizedBox(height: 10),
-                    SelectPaymentOption(model: model),
                   ],
                 ),
               ),
@@ -117,7 +122,8 @@ class SmeDataView extends StatelessWidget {
     );
   }
 
-  Widget _eachBeneficiary(DataBeneficiary dataBeneficiary, SmeDataViewModel model) {
+  Widget _eachBeneficiary(
+      DataBeneficiary dataBeneficiary, SmeDataViewModel model) {
     checkImage() {
       if (dataBeneficiary.operator == 'mtn') {
         return 'assets/images/billers/mtn.webp';
@@ -169,7 +175,8 @@ class SmeDataView extends StatelessWidget {
               planSelection(
                 ctx: context,
                 plans: model.smeBillers,
-                selectPlan: (SMEDataBillers plan) => model.setPackage(plan, context),
+                selectPlan: (SMEDataBillers plan) =>
+                    model.setPackage(plan, context),
               );
             }
           },
@@ -178,7 +185,9 @@ class SmeDataView extends StatelessWidget {
             width: double.maxFinite,
             padding: const EdgeInsets.symmetric(horizontal: 10),
             decoration: BoxDecoration(
-                color: const Color(0xFF605F5F).withOpacity(.32), borderRadius: BorderRadius.circular(10), border: Border.all()),
+              color: const Color(0xFF605F5F).withOpacity(.1),
+              borderRadius: BorderRadius.circular(10),
+            ),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
@@ -186,22 +195,31 @@ class SmeDataView extends StatelessWidget {
                 Expanded(
                   child: model.package != null
                       ? Text(
-                          model.package == null ? 'Select MTN SME Data Plan' : model.package!.description!,
-                          style: Theme.of(context).textTheme.headline5!.copyWith(fontSize: SizeConfig.textSize(context, 1.8)),
+                          model.package == null
+                              ? 'Select MTN SME Data Plan'
+                              : model.package!.description!,
+                          style: Theme.of(context)
+                              .textTheme
+                              .headline5!
+                              .copyWith(
+                                  fontSize: SizeConfig.textSize(context, 1.8)),
                         )
                       : Container(
-                          padding: EdgeInsets.symmetric(vertical: SizeConfig.yMargin(context, 2)),
+                          padding: EdgeInsets.symmetric(
+                              vertical: SizeConfig.yMargin(context, 2)),
                           child: Row(
                             children: [
                               AspectRatio(
                                 aspectRatio: 1.0,
                                 child: CircularProgressIndicator(
-                                  valueColor: AlwaysStoppedAnimation<Color?>(Colors.grey[500]),
+                                  valueColor: AlwaysStoppedAnimation<Color?>(
+                                      Colors.grey[500]),
                                   strokeWidth: 2,
                                 ),
                               ),
                               Container(
-                                margin: EdgeInsets.symmetric(horizontal: SizeConfig.xMargin(context, 4)),
+                                margin: EdgeInsets.symmetric(
+                                    horizontal: SizeConfig.xMargin(context, 4)),
                                 child: const Text('Loading'),
                               )
                             ],
@@ -221,7 +239,10 @@ class SmeDataView extends StatelessWidget {
   }
 }
 
-void planSelection({required BuildContext ctx, List<SMEDataBillers>? plans, Function? selectPlan}) {
+void planSelection(
+    {required BuildContext ctx,
+    List<SMEDataBillers>? plans,
+    Function? selectPlan}) {
   showModalBottomSheet(
       enableDrag: false,
       context: ctx,
@@ -238,12 +259,15 @@ void planSelection({required BuildContext ctx, List<SMEDataBillers>? plans, Func
             child: Column(
               children: [
                 Container(
-                  padding: EdgeInsets.symmetric(horizontal: SizeConfig.xMargin(context, 4)),
+                  padding: EdgeInsets.symmetric(
+                      horizontal: SizeConfig.xMargin(context, 4)),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       const Text('Select MTN SME Data Plan'),
-                      IconButton(onPressed: () => Navigator.of(ctx).pop(), icon: const Icon(Icons.close))
+                      IconButton(
+                          onPressed: () => Navigator.of(ctx).pop(),
+                          icon: const Icon(Icons.close))
                     ],
                   ),
                 ),
@@ -261,11 +285,20 @@ void planSelection({required BuildContext ctx, List<SMEDataBillers>? plans, Func
                             child: Container(
                               width: SizeConfig.xMargin(context, 100),
                               padding: EdgeInsets.symmetric(
-                                  vertical: SizeConfig.yMargin(context, 2), horizontal: SizeConfig.xMargin(context, 4)),
-                              decoration: BoxDecoration(border: Border(bottom: BorderSide(color: Colors.grey[200]!))),
+                                  vertical: SizeConfig.yMargin(context, 2),
+                                  horizontal: SizeConfig.xMargin(context, 4)),
+                              decoration: BoxDecoration(
+                                  border: Border(
+                                      bottom: BorderSide(
+                                          color: Colors.grey[200]!))),
                               child: Text('${item.description}',
                                   // '${item.description} @ ${item.code}',
-                                  style: Theme.of(context).textTheme.headline3!.copyWith(fontSize: SizeConfig.textSize(context, 2))),
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .headline3!
+                                      .copyWith(
+                                          fontSize:
+                                              SizeConfig.textSize(context, 2))),
                             ),
                           )
                       ],

@@ -57,10 +57,7 @@ class CableTvView extends StatelessWidget {
                         controller: model.amountController,
                         enabled: false,
                         suffixTitle: Text(
-                          formatMoney(
-                            model.selectedWallet!.balance!,
-                            walletType: model.selectedWallet!.walletType!,
-                          ),
+                          formatMoney(model.selectedWallet?.balance ?? "0.00"),
                         ),
                         onChanged: (string) {
                           model.getExchange();
@@ -74,7 +71,6 @@ class CableTvView extends StatelessWidget {
                         ],
                       ),
                       const SizedBox(height: 10),
-                      SelectPaymentOption(model: model)
                     ],
                   ),
                 ),
@@ -131,7 +127,7 @@ class CableTvView extends StatelessWidget {
               width: double.maxFinite,
               padding: const EdgeInsets.symmetric(horizontal: 10),
               decoration: BoxDecoration(
-                  color: const Color(0xFF605F5F).withOpacity(.32), borderRadius: BorderRadius.circular(10), border: Border.all()),
+                  color: const Color(0xFF605F5F).withOpacity(.1), borderRadius: BorderRadius.circular(10)),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
@@ -214,7 +210,7 @@ class CableTvView extends StatelessWidget {
             width: double.maxFinite,
             padding: const EdgeInsets.symmetric(horizontal: 10),
             decoration: BoxDecoration(
-                color: const Color(0xFF605F5F).withOpacity(.32), borderRadius: BorderRadius.circular(10), border: Border.all()),
+                color: const Color(0xFF605F5F).withOpacity(.1), borderRadius: BorderRadius.circular(10)),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,

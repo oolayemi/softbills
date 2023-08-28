@@ -110,7 +110,7 @@ class NextOfKinView extends StatelessWidget {
                               validator: (value) => value!.isEmpty ? "Phone number field cannot be empty" : null,
                               keyboardType: const TextInputType.numberWithOptions(),
                               inputDecoration: InputDecoration(
-                                fillColor: const Color(0xFF605F5F).withOpacity(.32),
+                                fillColor: const Color(0xFF605F5F).withOpacity(.1),
                                 filled: true,
                                 border: OutlineInputBorder(borderRadius: BorderRadius.circular(10), borderSide: BorderSide.none),
                               ),

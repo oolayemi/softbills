@@ -24,17 +24,9 @@ String formatAmount(amount) {
   return NumberFormat('#,###,###,###.########').format(amount);
 }
 
-String formatMoney(amount, {String walletType = 'naira'}) {
+String formatMoney(amount) {
   String nairaSymbol = '₦';
-  String dollarSymbol = "\$";
-  String btcSymbol = 'btc';
-  if (walletType == 'naira'){
     return "$nairaSymbol${formatAmount(amount)}";
-  } else if(walletType == 'dollar') {
-    return "$dollarSymbol${formatAmount(amount)}";
-  } else {
-    return "${formatAmount(amount)} $btcSymbol";
-  }
 }
 
 Dio dio({bool withToken = true}) {

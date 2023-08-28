@@ -76,6 +76,7 @@ class SignUpThreeView extends StatelessWidget {
                           hintText: "****",
                           maxLength: 4,
                           obscure: true,
+                          isLast: true,
                           textInputType: TextInputType.number,
                           validator: (String? value) => value!.isEmpty
                               ? "Confirm PIN field cannot be empty"

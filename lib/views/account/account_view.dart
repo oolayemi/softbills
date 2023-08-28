@@ -68,7 +68,7 @@ class AccountView extends StatelessWidget {
           child: Center(
               child: Text(
                   "${model.profile?.firstName?.substring(0, 1) ?? "O"}${model.profile?.lastName?.substring(0, 1) ?? "O"}",
-                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600))),
+                  style: const TextStyle(fontSize: 20, fontWeight: FontWeight.w600))),
         ),
         const SizedBox(width: 15),
         Expanded(
@@ -129,7 +129,7 @@ class AccountView extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text(title),
-            const Icon(Icons.arrow_forward_ios_outlined),
+            const Icon(Icons.arrow_forward_ios_outlined, color: Colors.grey,),
           ],
         ),
       ),

@@ -41,7 +41,7 @@ class SettingsView extends StatelessWidget {
         width: double.maxFinite,
         margin: const EdgeInsets.symmetric(vertical: 10),
         padding: const EdgeInsets.all(12),
-        decoration: BoxDecoration(color: const Color(0xFF3C3C3C).withOpacity(.57), borderRadius: BorderRadius.circular(10)),
+        decoration: BoxDecoration(color: const Color(0xFF605F5F).withOpacity(.1), borderRadius: BorderRadius.circular(10)),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [Text(title), suffix],

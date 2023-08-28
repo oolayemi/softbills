@@ -27,7 +27,7 @@ class InitialSignUpView extends StatelessWidget {
                   //   bottomRight: Radius.circular(10),
                   // )),
                   child: Image.asset(
-                    "assets/images/background/design.jpg",
+                    "assets/images/background/bills_payment.webp",
                     fit: BoxFit.fill,
                   ),
                 ),

@@ -52,7 +52,7 @@ class PersonalDataView extends StatelessWidget {
                 width: size.width / 3.5,
                 child: Text(
                   title,
-                  style: const TextStyle(color: Colors.white),
+                  style: const TextStyle(),
                 ),
               ),
               Column(
@@ -61,7 +61,7 @@ class PersonalDataView extends StatelessWidget {
                 children: [
                   Text(
                     value,
-                    style: const TextStyle(color: Colors.white),
+                    style: const TextStyle(),
                   ),
                 ],
               )

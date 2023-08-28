@@ -89,8 +89,7 @@ class DataView extends StatelessWidget {
                       enabled: false,
                       suffixTitle: Text(
                         formatMoney(
-                          model.selectedWallet!.balance!,
-                          walletType: model.selectedWallet!.walletType!,
+                          model.selectedWallet?.balance ?? "123.23",
                         ),
                       ),
                       onChanged: (string) {
@@ -106,8 +105,6 @@ class DataView extends StatelessWidget {
                     ),
                     const SizedBox(height: 10),
                     _selectDataPlan(context, model),
-                    const SizedBox(height: 30),
-                    SelectPaymentOption(model: model),
                   ],
                 ),
               ),
@@ -246,7 +243,7 @@ class DataView extends StatelessWidget {
             width: double.maxFinite,
             padding: const EdgeInsets.symmetric(horizontal: 10),
             decoration: BoxDecoration(
-                color: const Color(0xFF605F5F).withOpacity(.32), borderRadius: BorderRadius.circular(10), border: Border.all()),
+                color: const Color(0xFF605F5F).withOpacity(.1), borderRadius: BorderRadius.circular(10)),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [

@@ -32,22 +32,31 @@ class BettingView extends StatelessWidget {
                       hintText: "Bet Number",
                       controller: model.betNumber,
                       bottomSpacing: 0,
-                      validator: (String? val) => val!.isEmpty ? "Bet number field cannot be empty" : null,
+                      validator: (String? val) => val!.isEmpty
+                          ? "Bet number field cannot be empty"
+                          : null,
                     ),
                     model.verified
                         ? Container(
-                            margin: EdgeInsets.only(top: SizeConfig.yMargin(context, 1)),
-                            padding: EdgeInsets.symmetric(vertical: SizeConfig.yMargin(context, 1)),
+                            margin: EdgeInsets.only(
+                                top: SizeConfig.yMargin(context, 1)),
+                            padding: EdgeInsets.symmetric(
+                                vertical: SizeConfig.yMargin(context, 1)),
                             width: double.infinity,
                             decoration: BoxDecoration(
                                 color: BrandColors.colorGreen.withOpacity(0.08),
-                                borderRadius: BorderRadius.circular(SizeConfig.yMargin(context, .5))),
+                                borderRadius: BorderRadius.circular(
+                                    SizeConfig.yMargin(context, .5))),
                             child: Center(
-                              child: Text('Customer Name: ${model.customerName!}',
+                              child: Text(
+                                  'Customer Name: ${model.customerName!}',
                                   style: Theme.of(context)
                                       .textTheme
                                       .headline5!
-                                      .copyWith(color: BrandColors.colorGreen, fontSize: SizeConfig.textSize(context, 1.8))),
+                                      .copyWith(
+                                          color: BrandColors.colorGreen,
+                                          fontSize: SizeConfig.textSize(
+                                              context, 1.8))),
                             ),
                           )
                         : const SizedBox(height: 20),
@@ -58,15 +67,13 @@ class BettingView extends StatelessWidget {
                       title: "Amount",
                       controller: model.amountController,
                       suffixTitle: Text(
-                        formatMoney(
-                          model.selectedWallet!.balance!,
-                          walletType: model.selectedWallet!.walletType!,
-                        ),
+                        formatMoney(model.selectedWallet?.balance ?? "213.21"),
                       ),
                       onChanged: (string) {
                         model.getExchange();
                       },
-                      validator: (String? val) => val!.isEmpty ? "Amount field cannot be empty" : null,
+                      validator: (String? val) =>
+                          val!.isEmpty ? "Amount field cannot be empty" : null,
                     ),
                     const SizedBox(height: 3),
                     Row(
@@ -75,8 +82,7 @@ class BettingView extends StatelessWidget {
                         Text(model.buildText ?? ""),
                       ],
                     ),
-                    const SizedBox(height: 10),const SizedBox(height: 30),
-                    SelectPaymentOption(model: model)
+                    const SizedBox(height: 10),
                   ],
                 ),
               ),
@@ -93,8 +99,10 @@ class BettingView extends StatelessWidget {
                           : validateTransactionDetails({
                               "Bet Number": model.betNumber.text,
                               "Provider": model.betName,
-                              'Payment Method': model.selectedWallet!.walletType!
-                            }, model.amountController.text, context, func: () async {
+                              'Payment Method':
+                                  model.selectedWallet!.walletType!
+                            }, model.amountController.text, context,
+                              func: () async {
                               await model.purchaseBetting(context);
                             });
                     }
@@ -121,7 +129,10 @@ class BettingView extends StatelessWidget {
           onTap: () {
             FocusScope.of(context).unfocus();
             if (model.check != null) {
-              betDropDown(ctx: context, check: model.check, selectPlan: (item) => model.setBettingName(item));
+              betDropDown(
+                  ctx: context,
+                  check: model.check,
+                  selectPlan: (item) => model.setBettingName(item));
             }
           },
           child: Container(
@@ -129,7 +140,9 @@ class BettingView extends StatelessWidget {
             width: double.maxFinite,
             padding: const EdgeInsets.symmetric(horizontal: 10),
             decoration: BoxDecoration(
-                color: const Color(0xFF605F5F).withOpacity(.32), borderRadius: BorderRadius.circular(10), border: Border.all()),
+                color: const Color(0xFF605F5F).withOpacity(.1),
+                borderRadius: BorderRadius.circular(10)
+            ),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
@@ -145,21 +158,26 @@ class BettingView extends StatelessWidget {
                                 child: Padding(
                                   padding: const EdgeInsets.all(8.0),
                                   child: CircularProgressIndicator(
-                                    valueColor: AlwaysStoppedAnimation<Color?>(Colors.grey[500]),
+                                    valueColor: AlwaysStoppedAnimation<Color?>(
+                                        Colors.grey[500]),
                                     strokeWidth: 2,
                                   ),
                                 ),
                               ),
                             ),
                             Container(
-                              margin: EdgeInsets.symmetric(horizontal: SizeConfig.xMargin(context, 4)),
+                              margin: EdgeInsets.symmetric(
+                                  horizontal: SizeConfig.xMargin(context, 4)),
                               child: const Text('Loading'),
                             )
                           ],
                         )
                       : Container(
-                          margin: EdgeInsets.only(left: SizeConfig.xMargin(context, 2)),
-                          child: Text(model.betName == null ? 'Select Bet' : model.betName!),
+                          margin: EdgeInsets.only(
+                              left: SizeConfig.xMargin(context, 2)),
+                          child: Text(model.betName == null
+                              ? 'Select Bet'
+                              : model.betName!),
                         ),
                 ),
                 Icon(
@@ -192,12 +210,15 @@ void betDropDown({required BuildContext ctx, check, Function? selectPlan}) {
             child: Column(
               children: [
                 Container(
-                  padding: EdgeInsets.symmetric(horizontal: SizeConfig.xMargin(context, 4)),
+                  padding: EdgeInsets.symmetric(
+                      horizontal: SizeConfig.xMargin(context, 4)),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       const Text('Select Betting'),
-                      IconButton(onPressed: () => Navigator.of(ctx).pop(), icon: const Icon(Icons.close))
+                      IconButton(
+                          onPressed: () => Navigator.of(ctx).pop(),
+                          icon: const Icon(Icons.close))
                     ],
                   ),
                 ),
@@ -214,17 +235,24 @@ void betDropDown({required BuildContext ctx, check, Function? selectPlan}) {
                             child: Container(
                               width: SizeConfig.xMargin(context, 100),
                               padding: EdgeInsets.symmetric(
-                                  vertical: SizeConfig.yMargin(context, 2), horizontal: SizeConfig.xMargin(context, 4)),
-                              decoration: BoxDecoration(border: Border(bottom: BorderSide(color: Colors.grey[200]!))),
+                                  vertical: SizeConfig.yMargin(context, 2),
+                                  horizontal: SizeConfig.xMargin(context, 4)),
+                              decoration: BoxDecoration(
+                                  border: Border(
+                                      bottom: BorderSide(
+                                          color: Colors.grey[200]!))),
                               child: Row(
                                 children: [
                                   Container(
-                                    margin: EdgeInsets.only(left: SizeConfig.xMargin(context, 2)),
+                                    margin: EdgeInsets.only(
+                                        left: SizeConfig.xMargin(context, 2)),
                                     child: Text(item,
                                         style: Theme.of(context)
                                             .textTheme
                                             .headline3!
-                                            .copyWith(fontSize: SizeConfig.textSize(context, 2))),
+                                            .copyWith(
+                                                fontSize: SizeConfig.textSize(
+                                                    context, 2))),
                                   ),
                                 ],
                               ),

@@ -54,8 +54,7 @@ class ElectricityView extends StatelessWidget {
                       controller: model.amountController,
                       suffixTitle: Text(
                         formatMoney(
-                          model.selectedWallet!.balance!,
-                          walletType: model.selectedWallet!.walletType!,
+                          model.selectedWallet!.balance!
                         ),
                       ),
                       validator: (String? val) => val!.isEmpty ? "Amount field cannot be empty" : null,

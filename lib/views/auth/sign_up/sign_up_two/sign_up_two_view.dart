@@ -64,6 +64,7 @@ class SignUpTwoView extends StatelessWidget {
                           hintText: "************",
                           controller: model.passwordController,
                           obscure: true,
+                          isLast: true,
                           onChanged: model.setPassword,
                           validator: (String? value) => value!.isEmpty ? "Password field cannot be empty" : null,
                         ),

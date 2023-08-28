@@ -19,17 +19,11 @@ class KycView extends StatelessWidget {
             ),
             body: Column(
               children: [
-                const Text(
-                  "",
-                  style: TextStyle(fontSize: 16),
-                ),
-                const SizedBox(height: 40),
                 _eachSection(
                   "BVN",
-                  model.profile!.tier! >= 2 ? null : () => model.gotoBVN(),
-                  suffixIcon: model.profile!.tier! >= 2
-                      ? const Icon(Icons.check_circle, color: Colors.green)
-                      : const Icon(Icons.arrow_forward_ios_outlined),
+                  null,
+                  // model.profile!.tier! >= 2 ? null : () => model.gotoBVN(),
+                  suffixIcon: const Icon(Icons.arrow_forward_ios_outlined),
                 ),
                 _eachSection("ID", () => model.gotoIDVerification()),
               ],
@@ -46,7 +40,7 @@ class KycView extends StatelessWidget {
         width: double.maxFinite,
         margin: const EdgeInsets.symmetric(vertical: 10),
         padding: const EdgeInsets.all(12),
-        decoration: BoxDecoration(color: const Color(0xFF3C3C3C).withOpacity(.57), borderRadius: BorderRadius.circular(10)),
+        decoration: BoxDecoration(color: const Color(0xFF605F5F).withOpacity(.1), borderRadius: BorderRadius.circular(10)),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [Text(title), suffixIcon],

@@ -388,7 +388,7 @@ class AmountTextField extends StatelessWidget {
                 children: [
                   Text(
                     title!,
-                    style: const TextStyle(fontSize: 16, color: Colors.white),
+                    style: const TextStyle(fontSize: 16),
                   ),
                   suffixTitle ?? const SizedBox()
                 ],
@@ -405,7 +405,7 @@ class AmountTextField extends StatelessWidget {
               borderSide: BorderSide.none,
             ),
             filled: true,
-            fillColor: const Color(0xFF605F5F).withOpacity(.32),
+            fillColor: const Color(0xFF605F5F).withOpacity(.1)
           ),
           inputFormatters: [FilteringTextInputFormatter.digitsOnly],
           keyboardType: TextInputType.number,
@@ -546,9 +546,14 @@ class CustomScaffoldWidget extends StatelessWidget {
       backgroundColor: BrandColors.mainBackground,
       resizeToAvoidBottomInset: false,
       appBar: appBar,
-      body: Padding(
-        padding: EdgeInsets.all(padding),
-        child: body,
+      body: GestureDetector(
+        onTap: () {
+          FocusScope.of(context).requestFocus(FocusNode());
+        },
+        child: Padding(
+          padding: EdgeInsets.all(padding),
+          child: body,
+        ),
       ),
     );
   }
@@ -591,8 +596,7 @@ class EachTransactionSection extends StatelessWidget {
               style: const TextStyle(fontSize: 14, color: Colors.white),
             ),
             trailing: Text(
-              formatMoney(dataResponse.amount,
-                  walletType: dataResponse.walletSource ?? 'naira'),
+              formatMoney(dataResponse.amount),
               style: const TextStyle(
                   fontSize: 18,
                   fontWeight: FontWeight.w600,
@@ -810,7 +814,7 @@ class BuildBillerDropDown extends StatelessWidget {
       children: [
         Text(
           title,
-          style: const TextStyle(color: Colors.white),
+          style: const TextStyle(),
         ),
         const SizedBox(
           height: 6,
@@ -819,7 +823,7 @@ class BuildBillerDropDown extends StatelessWidget {
           padding: const EdgeInsets.only(right: 6, left: 6, top: 6, bottom: 6),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(10),
-            color: const Color(0xFF605F5F).withOpacity(.32),
+            color: const Color(0xFF605F5F).withOpacity(.1)
           ),
           child: Row(
             children: [

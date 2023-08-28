@@ -81,8 +81,8 @@ class HomePageView extends StatelessWidget {
       decoration: BoxDecoration(
           gradient: LinearGradient(
             colors: [
-              const Color(0xFF2801AE),
-              const Color(0xFF4D008A).withOpacity(.8),
+              BrandColors.primary,
+              BrandColors.primary,
             ],
           ),
           borderRadius: BorderRadius.circular(20)),
@@ -118,9 +118,9 @@ class HomePageView extends StatelessWidget {
                   children: [
                     Icon(!model.viewBalance
                         ? Icons.visibility_outlined
-                        : Icons.visibility_off_outlined, color: Colors.grey,),
+                        : Icons.visibility_off_outlined, color: Colors.white,),
                     const SizedBox(width: 5),
-                    Text(!model.viewBalance ? "Show" : "Hide", style: const TextStyle(color: Colors.grey),),
+                    Text(!model.viewBalance ? "Show" : "Hide", style: const TextStyle(color: Colors.white),),
                   ],
                 ),
               )
@@ -336,9 +336,7 @@ class HomePageView extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Text(
-                              formatMoney(model.selectedWallet!.balance,
-                                  walletType:
-                                      model.selectedWallet!.walletType!),
+                              formatMoney(model.selectedWallet!.balance),
                               style: const TextStyle(
                                   fontWeight: FontWeight.w700, fontSize: 20)),
                           const SizedBox(height: 10),

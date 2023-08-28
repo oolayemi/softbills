@@ -23,7 +23,7 @@ class TransactionHistory extends StatelessWidget {
             style: TextStyle(color: Colors.white.withOpacity(.5), fontSize: 15),
           )),
           Text(
-            formatMoney(dataResponse.amount!, walletType: dataResponse.walletSource ?? 'naira'),
+            formatMoney(dataResponse.amount!),
             style: const TextStyle(color: Colors.white, fontSize: 28),
           ),
           Text(
@@ -107,7 +107,7 @@ class TransactionHistory extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
                     Text(
-                      formatMoney(dataResponse.prevBalance, walletType: dataResponse.walletSource ?? 'naira'),
+                      formatMoney(dataResponse.prevBalance),
                       style: const TextStyle(color: Colors.white),
                     )
                   ],
@@ -135,7 +135,7 @@ class TransactionHistory extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
                     Text(
-                      formatMoney(dataResponse.newBalance, walletType: dataResponse.walletSource ?? 'naira'),
+                      formatMoney(dataResponse.newBalance),
                       style: const TextStyle(color: Colors.white),
                     )
                   ],
