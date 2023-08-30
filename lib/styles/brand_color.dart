@@ -5,7 +5,7 @@ class BrandColors {
 
   static const primary = Color(0xFF0991CC);
   static const secondary = Color(0xFFF58634);
-  static const mainBackground = Color(0xFFFFFFFF);
+  static const mainBackground = Color(0xFFEEF0F2);
   static const darkBlueBackground = Color(0xFF12101A);
 
   static const mainBlack = Color(0xFF050403);

@@ -50,11 +50,11 @@ class SignUpThreeView extends StatelessWidget {
                           ),
                         ),
                         const SizedBox(height: 10),
-                        Text(
-                          "Please set up your transaction.",
+                        const Text(
+                          "Please set up your transaction pin",
                           style: TextStyle(
                             fontSize: 19,
-                            color: Colors.white.withOpacity(.8),
+                            color: Colors.black,
                           ),
                         ),
                         const SizedBox(height: 30),

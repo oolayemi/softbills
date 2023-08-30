@@ -18,7 +18,7 @@ class AllTransactionsView extends StatelessWidget {
                 children: [
                   // const AmountTextField(),
                   // const SizedBox(height: 30),
-                  EachTransactionSection(transactionList: model.transactions,),
+                  RecentTransactionSection(transactionList: model.transactions,),
                 ],
               ),
             ),

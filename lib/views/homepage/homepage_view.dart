@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:intl/intl.dart';
 import 'package:no_name/core/utils/tools.dart';
 import 'package:no_name/styles/brand_color.dart';
 import 'package:no_name/views/homepage/homepage_viewmodel.dart';
@@ -79,7 +80,7 @@ class HomePageView extends StatelessWidget {
       height: 170,
       padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
-          gradient: LinearGradient(
+          gradient: const LinearGradient(
             colors: [
               BrandColors.primary,
               BrandColors.primary,
@@ -150,7 +151,7 @@ class HomePageView extends StatelessWidget {
                     InkWell(
                       onTap: () {
                         Clipboard.setData(
-                            ClipboardData(text: model.selectedWallet!.number!));
+                            ClipboardData(text: model.selectedWallet?.number ?? "0123456789"));
                         Fluttertoast.showToast(
                             msg: "Account number copied",
                             backgroundColor: Colors.green);
@@ -267,14 +268,59 @@ class HomePageView extends StatelessWidget {
           ],
         ),
         const SizedBox(height: 20),
-        EachTransactionSection(
-            transactionList: model.transactions!.take(5).toList())
+        eachTransaction(),
+        eachTransaction(),
+        eachTransaction(),
+        eachTransaction(),
+        // RecentTransactionSection(
+        //     transactionList: model.transactions!.take(5).toList(),
+        // )
+      ],
+    );
+  }
+
+  Widget eachTransaction({bool isLast = false}) {
+    return Column(
+      children: [
+        ListTile(
+          leading: const CircleAvatar(
+            radius: 20,
+            backgroundImage: AssetImage("assets/images/background/unsplash.png"),
+          ),
+          horizontalTitleGap: 8,
+          title: const Text(
+            "Title",
+            style: TextStyle(fontSize: 18),
+          ),
+          subtitle: Text(
+            DateFormat('hh:mm a')
+                .format(DateTime.now()),
+            style: const TextStyle(fontSize: 14),
+          ),
+          trailing: Text(
+            formatMoney("123.32"),
+            style: const TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.w600),
+          ),
+        ),
+        isLast
+            ? const SizedBox()
+            : Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 15.0),
+          child: Divider(
+            height: 2,
+            color: const Color(0xFF605F5F).withOpacity(0.66),
+            thickness: 2,
+          ),
+        ),
+        const SizedBox(height: 10)
       ],
     );
   }
 
   _fundAccountPopUp(context, HomePageViewModel model) {
-    VirtualAccount virtualAccount = model.selectedWallet!.virtualAccount!;
+
     return showModalBottomSheet(
       context: context,
       isScrollControlled: true,
@@ -288,7 +334,7 @@ class HomePageView extends StatelessWidget {
               topLeft: Radius.circular(24),
             ),
             child: Container(
-              color: BrandColors.darkBlueBackground,
+              color: BrandColors.mainBackground,
               padding: EdgeInsets.only(
                 bottom: MediaQuery.of(context).viewInsets.bottom,
                 top: 20,
@@ -318,11 +364,11 @@ class HomePageView extends StatelessWidget {
                           ),
                         ),
                       ),
-                      Expanded(
+                      const Expanded(
                         child: Center(
                           child: Text(
-                            "Fund your ${model.selectedWallet!.walletType} Account",
-                            style: const TextStyle(fontSize: 18),
+                            "Fund your account",
+                            style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
                           ),
                         ),
                       )
@@ -334,13 +380,8 @@ class HomePageView extends StatelessWidget {
                       width: MediaQuery.of(context).size.width * .7,
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
+                        children: const [
                           Text(
-                              formatMoney(model.selectedWallet!.balance),
-                              style: const TextStyle(
-                                  fontWeight: FontWeight.w700, fontSize: 20)),
-                          const SizedBox(height: 10),
-                          const Text(
                               "Add funds to your account by making a bank transfer from your Nigerian bank account.",
                               textAlign: TextAlign.center)
                         ],
@@ -351,7 +392,7 @@ class HomePageView extends StatelessWidget {
                   Container(
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(10),
-                        color: Colors.black38),
+                        color: Colors.white),
                     child: Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: Column(
@@ -361,24 +402,15 @@ class HomePageView extends StatelessWidget {
                             children: [
                               Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  const Text("Account Name",
+                                children: const [
+                                  Text("Account Name",
                                       style: TextStyle(fontSize: 14)),
-                                  Text(virtualAccount.accountName!,
-                                      style: const TextStyle(
+                                  Text("Olayemi Olaomo",
+                                      style: TextStyle(
                                           fontSize: 14,
                                           fontWeight: FontWeight.bold)),
                                 ],
-                              ),
-                              IconButton(
-                                  onPressed: () {
-                                    Clipboard.setData(ClipboardData(
-                                        text: virtualAccount.accountName!));
-                                    Fluttertoast.showToast(
-                                        msg: "Account name copied",
-                                        backgroundColor: Colors.green);
-                                  },
-                                  icon: const Icon(Icons.copy, size: 20))
+                              )
                             ],
                           ),
                           const Divider(),
@@ -387,24 +419,15 @@ class HomePageView extends StatelessWidget {
                             children: [
                               Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  const Text("Bank Name",
+                                children: const [
+                                  Text("Bank Name",
                                       style: TextStyle(fontSize: 14)),
-                                  Text(virtualAccount.bankName!,
-                                      style: const TextStyle(
+                                  Text("Test Bank",
+                                      style: TextStyle(
                                           fontSize: 14,
                                           fontWeight: FontWeight.bold)),
                                 ],
-                              ),
-                              IconButton(
-                                  onPressed: () {
-                                    Clipboard.setData(ClipboardData(
-                                        text: virtualAccount.bankName!));
-                                    Fluttertoast.showToast(
-                                        msg: "Bank name copied",
-                                        backgroundColor: Colors.green);
-                                  },
-                                  icon: const Icon(Icons.copy, size: 20))
+                              )
                             ],
                           ),
                           const Divider(),
@@ -413,24 +436,15 @@ class HomePageView extends StatelessWidget {
                             children: [
                               Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  const Text("Account Number",
+                                children: const [
+                                  Text("Account Number",
                                       style: TextStyle(fontSize: 14)),
-                                  Text(virtualAccount.accountNumber!,
-                                      style: const TextStyle(
+                                  Text("0123456789",
+                                      style: TextStyle(
                                           fontSize: 14,
                                           fontWeight: FontWeight.bold)),
                                 ],
-                              ),
-                              IconButton(
-                                  onPressed: () {
-                                    Clipboard.setData(ClipboardData(
-                                        text: virtualAccount.accountNumber!));
-                                    Fluttertoast.showToast(
-                                        msg: "Account number copied",
-                                        backgroundColor: Colors.green);
-                                  },
-                                  icon: const Icon(Icons.copy, size: 20))
+                              )
                             ],
                           ),
                         ],
@@ -444,9 +458,9 @@ class HomePageView extends StatelessWidget {
                         title: "Share Details",
                         onPressed: () {
                           String data =
-                              "Account name: ${virtualAccount.accountName}\n"
-                              "Account number: ${virtualAccount.accountNumber}\n"
-                              "Bank name: ${virtualAccount.bankName}";
+                              "Account name: ${"Olayemi Olaomo"}\n"
+                              "Account number: ${"0123456789"}\n"
+                              "Bank name: ${"Test Bank"}";
                           Clipboard.setData(ClipboardData(text: data));
                           Fluttertoast.showToast(
                               msg: "Account details copied",

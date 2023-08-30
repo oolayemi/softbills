@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:no_name/styles/brand_color.dart';
 import 'package:no_name/widgets/utility_widgets.dart';
 import 'package:stacked/stacked.dart';
 
@@ -23,16 +24,23 @@ class KycView extends StatelessWidget {
                   "BVN",
                   null,
                   // model.profile!.tier! >= 2 ? null : () => model.gotoBVN(),
-                  suffixIcon: const Icon(Icons.arrow_forward_ios_outlined),
+                  suffixIcon: const Icon(Icons.arrow_forward_ios_outlined,
+                      color: BrandColors.secondary),
                 ),
-                _eachSection("ID", () => model.gotoIDVerification()),
+                _eachSection(
+                  "ID",
+                  () => model.gotoIDVerification(),
+                  suffixIcon: const Icon(Icons.arrow_forward_ios_outlined,
+                      color: BrandColors.secondary),
+                ),
               ],
             ),
           );
         });
   }
 
-  _eachSection(String title, dynamic onTap, {Widget suffixIcon = const Icon(Icons.arrow_forward_ios_outlined)}) {
+  _eachSection(String title, dynamic onTap,
+      {Widget suffixIcon = const Icon(Icons.arrow_forward_ios_outlined)}) {
     return GestureDetector(
       onTap: onTap,
       child: Container(
@@ -40,7 +48,8 @@ class KycView extends StatelessWidget {
         width: double.maxFinite,
         margin: const EdgeInsets.symmetric(vertical: 10),
         padding: const EdgeInsets.all(12),
-        decoration: BoxDecoration(color: const Color(0xFF605F5F).withOpacity(.1), borderRadius: BorderRadius.circular(10)),
+        decoration: BoxDecoration(
+            color: Colors.white, borderRadius: BorderRadius.circular(10)),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [Text(title), suffixIcon],

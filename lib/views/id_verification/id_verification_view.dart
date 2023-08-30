@@ -21,12 +21,7 @@ class IDVerificationView extends StatelessWidget {
               children: [
                 Column(
                   children: const [
-                    Text(
-                      "",
-                      style: TextStyle(fontSize: 16),
-                    ),
-                    SizedBox(height: 40),
-                    BuildTextField(title: "ID", hintText: "Choose an ID",)
+                    BuildTextField(title: "ID", hintText: "Choose an ID")
                   ],
                 ),
                 const Positioned(

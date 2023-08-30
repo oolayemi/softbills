@@ -50,8 +50,6 @@ class SignUpThreeViewModel extends ReactiveViewModel {
   }
 
   Future<void> signUp(context) async {
-    _navigationService.clearStackAndShowView(DashboardView());
-    return;
     LoaderDialog.showLoadingDialog(context, message: "Signing up...");
     try {
 

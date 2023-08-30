@@ -90,7 +90,7 @@ class SignInView extends StatelessWidget {
                             TextSpan(
                               text: "Sign Up",
                               style: TextStyle(
-                                color: Colors.white,
+                                color: Colors.black,
                                 fontWeight: FontWeight.bold,
                                 fontFamily: "BaiJamjuree",
                               ),

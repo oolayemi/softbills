@@ -400,13 +400,12 @@ class AmountTextField extends StatelessWidget {
           enabled: enabled,
           onChanged: onChanged,
           decoration: InputDecoration(
-            border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(10),
-              borderSide: BorderSide.none,
-            ),
-            filled: true,
-            fillColor: const Color(0xFF605F5F).withOpacity(.1)
-          ),
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(10),
+                borderSide: BorderSide.none,
+              ),
+              filled: true,
+              fillColor: const Color(0xFF605F5F).withOpacity(.1)),
           inputFormatters: [FilteringTextInputFormatter.digitsOnly],
           keyboardType: TextInputType.number,
         ),
@@ -472,21 +471,20 @@ class BuildTextField extends StatelessWidget {
           obscureText: obscure,
           style: const TextStyle(color: Colors.black),
           decoration: InputDecoration(
-            filled: true,
-            counterText: '',
-            hintText: hintText,
-            suffixIcon: suffixIcon,
-            //contentPadding: const EdgeInsets.symmetric(horizontal: 10),
-            fillColor: const Color(0xFF605F5F).withOpacity(.1),
-            border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(10),
-              borderSide: const BorderSide(color: Colors.grey, width: .5),
-            ),
-            enabledBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(10),
-              borderSide: BorderSide.none,
-            )
-          ),
+              filled: true,
+              counterText: '',
+              hintText: hintText,
+              suffixIcon: suffixIcon,
+              //contentPadding: const EdgeInsets.symmetric(horizontal: 10),
+              fillColor: const Color(0xFF605F5F).withOpacity(.1),
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(10),
+                borderSide: const BorderSide(color: Colors.grey, width: .5),
+              ),
+              enabledBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(10),
+                borderSide: BorderSide.none,
+              )),
           onChanged: onChanged,
           textInputAction: isLast ? TextInputAction.done : TextInputAction.next,
         ),
@@ -559,10 +557,10 @@ class CustomScaffoldWidget extends StatelessWidget {
   }
 }
 
-class EachTransactionSection extends StatelessWidget {
+class RecentTransactionSection extends StatelessWidget {
   final List<DataResponse>? transactionList;
 
-  const EachTransactionSection({Key? key, this.transactionList})
+  const RecentTransactionSection({Key? key, this.transactionList})
       : super(key: key);
 
   @override
@@ -573,12 +571,9 @@ class EachTransactionSection extends StatelessWidget {
         children: [
           ListTile(
             onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) =>
-                        TransactionHistory(dataResponse: dataResponse)),
-              );
+              Navigator.push(context, MaterialPageRoute(builder: (context) {
+                return TransactionHistory(dataResponse: dataResponse);
+              }));
             },
             leading: const CircleAvatar(
               radius: 20,
@@ -822,9 +817,8 @@ class BuildBillerDropDown extends StatelessWidget {
         Container(
           padding: const EdgeInsets.only(right: 6, left: 6, top: 6, bottom: 6),
           decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(10),
-            color: const Color(0xFF605F5F).withOpacity(.1)
-          ),
+              borderRadius: BorderRadius.circular(10),
+              color: const Color(0xFF605F5F).withOpacity(.1)),
           child: Row(
             children: [
               list.isNotEmpty
@@ -891,12 +885,12 @@ class EachLink extends StatelessWidget {
         children: [
           CircleAvatar(
             radius: 28,
-            backgroundColor: const Color(0xFF3D3D3D),
+            backgroundColor: Colors.white,
             child: Center(
               child: Icon(
                 icon,
                 size: 25,
-                color: Colors.white,
+                color: BrandColors.secondary,
               ),
             ),
           ),

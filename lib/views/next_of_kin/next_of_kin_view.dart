@@ -91,7 +91,7 @@ class NextOfKinView extends StatelessWidget {
                           children: [
                             const Text(
                               "Phone Number",
-                              style: TextStyle(color: Colors.white),
+                              style: TextStyle(color: Colors.black),
                             ),
                             const SizedBox(
                               height: 6,
@@ -105,7 +105,7 @@ class NextOfKinView extends StatelessWidget {
                               textFieldController: model.phone,
                               countries: const ['NG'],
                               autoValidateMode: AutovalidateMode.disabled,
-                              selectorTextStyle: const TextStyle(color: Colors.white),
+                              selectorTextStyle: const TextStyle(color: Colors.black),
                               formatInput: true,
                               validator: (value) => value!.isEmpty ? "Phone number field cannot be empty" : null,
                               keyboardType: const TextInputType.numberWithOptions(),
