@@ -6,8 +6,8 @@ import 'package:no_name/widgets/utility_widgets.dart';
 import '../core/models/transaction_history_data.dart';
 
 class TransactionHistory extends StatelessWidget {
-  final DataResponse dataResponse;
-  const TransactionHistory({Key? key, required this.dataResponse}) : super(key: key);
+  final DataResponse? dataResponse;
+  const TransactionHistory({Key? key, this.dataResponse}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -19,16 +19,16 @@ class TransactionHistory extends StatelessWidget {
         children: [
           Center(
               child: Text(
-            dataResponse.transactionType == 'credit' ? "Credit" : "Debit",
-            style: TextStyle(color: Colors.white.withOpacity(.5), fontSize: 15),
+            dataResponse?.transactionType == 'credit' ? "Credit" : "Debit",
+            style: TextStyle(fontSize: 15),
           )),
           Text(
-            formatMoney(dataResponse.amount!),
-            style: const TextStyle(color: Colors.white, fontSize: 28),
+            formatMoney(dataResponse?.amount ?? "123.32"),
+            style: const TextStyle(fontSize: 28, fontWeight: FontWeight.w700),
           ),
-          Text(
+          const Text(
             'Amount',
-            style: TextStyle(color: Colors.white.withOpacity(.5)),
+            style: TextStyle(),
           ),
           const SizedBox(height: 30),
           Row(
@@ -38,7 +38,7 @@ class TransactionHistory extends StatelessWidget {
                 width: size.width / 3.5,
                 child: const Text(
                   "Date",
-                  style: TextStyle(color: Colors.white),
+                  style: TextStyle(),
                 ),
               ),
               Expanded(
@@ -47,12 +47,12 @@ class TransactionHistory extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
                     Text(
-                      DateFormat('dd MMMM, yyyy').format(DateTime.parse(dataResponse.createdAt!)),
-                      style: const TextStyle(color: Colors.white),
+                      DateFormat('dd MMMM, yyyy').format(DateTime.parse(dataResponse?.createdAt ?? "2023-08-12")),
+                      style: const TextStyle(),
                     ),
                     Text(
-    DateFormat('kk:mm a').format(DateTime.parse(dataResponse.createdAt!)),
-                      style: TextStyle(color: Colors.white),
+    DateFormat('kk:mm a').format(DateTime.parse(dataResponse?.createdAt ?? "2023-08-12")),
+                      style: TextStyle(),
                     ),
                   ],
                 ),
@@ -70,7 +70,7 @@ class TransactionHistory extends StatelessWidget {
                 width: size.width / 3.5,
                 child: const Text(
                   "Service",
-                  style: TextStyle(color: Colors.white),
+                  style: TextStyle(),
                 ),
               ),
               Expanded(
@@ -79,8 +79,8 @@ class TransactionHistory extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
                     Text(
-                      dataResponse.type!,
-                      style: TextStyle(color: Colors.white),
+                      dataResponse?.type ?? "credit",
+                      style: TextStyle(),
                     )
                   ],
                 ),
@@ -98,7 +98,7 @@ class TransactionHistory extends StatelessWidget {
                 width: size.width / 3.5,
                 child: const Text(
                   "Prev Balance",
-                  style: TextStyle(color: Colors.white),
+                  style: TextStyle(),
                 ),
               ),
               Expanded(
@@ -107,8 +107,8 @@ class TransactionHistory extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
                     Text(
-                      formatMoney(dataResponse.prevBalance),
-                      style: const TextStyle(color: Colors.white),
+                      formatMoney(dataResponse?.prevBalance ?? "123.22"),
+                      style: const TextStyle(),
                     )
                   ],
                 ),
@@ -126,7 +126,7 @@ class TransactionHistory extends StatelessWidget {
                 width: size.width / 3.5,
                 child: const Text(
                   "New Balance",
-                  style: TextStyle(color: Colors.white),
+                  style: TextStyle(),
                 ),
               ),
               Expanded(
@@ -135,8 +135,8 @@ class TransactionHistory extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
                     Text(
-                      formatMoney(dataResponse.newBalance),
-                      style: const TextStyle(color: Colors.white),
+                      formatMoney(dataResponse?.newBalance ?? "213.22"),
+                      style: const TextStyle(),
                     )
                   ],
                 ),
@@ -154,7 +154,7 @@ class TransactionHistory extends StatelessWidget {
                 width: size.width / 3.5,
                 child: const Text(
                   "Reference",
-                  style: TextStyle(color: Colors.white),
+                  style: TextStyle(),
                 ),
               ),
               Expanded(
@@ -163,8 +163,8 @@ class TransactionHistory extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
                     Text(
-                      dataResponse.reference!,
-                      style: TextStyle(color: Colors.white),
+                      dataResponse?.reference ?? "89dftys89",
+                      style: TextStyle(),
                     )
                   ],
                 ),
@@ -182,7 +182,7 @@ class TransactionHistory extends StatelessWidget {
                 width: size.width / 3.5,
                 child: const Text(
                   "Narration",
-                  style: TextStyle(color: Colors.white),
+                  style: TextStyle(),
                 ),
               ),
               Expanded(
@@ -191,9 +191,9 @@ class TransactionHistory extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
                     Text(
-                      dataResponse.narration!,
+                      dataResponse?.narration ?? "dlkjfsd8f9sd89b iud89sbdyds",
                       textAlign: TextAlign.end,
-                      style: TextStyle(color: Colors.white),
+                      style: TextStyle(),
                     )
                   ],
                 ),

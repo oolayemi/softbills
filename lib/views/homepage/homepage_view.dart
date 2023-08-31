@@ -8,6 +8,7 @@ import 'package:no_name/views/homepage/homepage_viewmodel.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:stacked/stacked.dart';
 
+import '../../widgets/transaction_history.dart';
 import '../../widgets/utility_widgets.dart';
 
 class HomePageView extends StatelessWidget {
@@ -58,7 +59,7 @@ class HomePageView extends StatelessWidget {
                               // const SizedBox(height: 30),
                               // Image.asset("assets/images/intro.png", fit: BoxFit.fitWidth),
                               const SizedBox(height: 30),
-                              _recentTransactions(),
+                              _recentTransactions(context),
                               const SizedBox(height: 15),
                             ],
                           ),
@@ -256,7 +257,7 @@ class HomePageView extends StatelessWidget {
     );
   }
 
-  _recentTransactions() {
+  _recentTransactions(context) {
     HomePageViewModel model = HomePageViewModel();
     return Column(
       children: [
@@ -279,10 +280,10 @@ class HomePageView extends StatelessWidget {
           ],
         ),
         const SizedBox(height: 20),
-        eachTransaction(),
-        eachTransaction(),
-        eachTransaction(),
-        eachTransaction(),
+        eachTransaction(context),
+        eachTransaction(context),
+        eachTransaction(context),
+        eachTransaction(context),
         // RecentTransactionSection(
         //     transactionList: model.transactions!.take(5).toList(),
         // )
@@ -290,20 +291,29 @@ class HomePageView extends StatelessWidget {
     );
   }
 
-  Widget eachTransaction({bool isLast = false}) {
+  Widget eachTransaction(context, {bool isLast = false}) {
     return Column(
       children: [
         Container(
           decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(10),
               border: Border.all(
-                  color: BrandColors.secondary.withOpacity(.7), width: 1)),
+                  color: BrandColors.secondary.withOpacity(.3), width: 1)),
           child: ListTile(
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => TransactionHistory()),
+              );
+            },
             leading: Container(
               height: 40,
               width: 40,
-              decoration: BoxDecoration(
+              decoration: const BoxDecoration(
                   shape: BoxShape.circle, color: BrandColors.secondary),
+              child: const Center(
+                child: Icon(Icons.outbound_outlined, color: Colors.white,),
+              ),
             ),
             horizontalTitleGap: 8,
             title: const Text(
