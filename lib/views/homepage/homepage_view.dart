@@ -89,19 +89,22 @@ class HomePageView extends StatelessWidget {
         children: [
           Row(
             children: const [
-              Text(
-                  "Balance",
+              Text("Balance",
                   style: TextStyle(fontSize: 16, color: Colors.white)),
-              ],
+            ],
           ),
           const SizedBox(height: 5),
           Row(
             children: [
               Text.rich(
                 TextSpan(
-                  text: model.viewBalance ? formatMoney(model.wallet!.balance.toString()) : "*****",
+                  text: model.viewBalance
+                      ? formatMoney(model.wallet!.balance.toString())
+                      : "*****",
                   style: const TextStyle(
-                      fontSize: 26, fontWeight: FontWeight.w900, color: Colors.white),
+                      fontSize: 26,
+                      fontWeight: FontWeight.w900,
+                      color: Colors.white),
                   children: const <TextSpan>[
                     TextSpan(
                       text: "",
@@ -115,11 +118,17 @@ class HomePageView extends StatelessWidget {
                 onTap: () => model.toggleViewBalance(),
                 child: Row(
                   children: [
-                    Icon(!model.viewBalance
-                        ? Icons.visibility_outlined
-                        : Icons.visibility_off_outlined, color: Colors.white,),
+                    Icon(
+                      !model.viewBalance
+                          ? Icons.visibility_outlined
+                          : Icons.visibility_off_outlined,
+                      color: Colors.white,
+                    ),
                     const SizedBox(width: 5),
-                    Text(!model.viewBalance ? "Show" : "Hide", style: const TextStyle(color: Colors.white),),
+                    Text(
+                      !model.viewBalance ? "Show" : "Hide",
+                      style: const TextStyle(color: Colors.white),
+                    ),
                   ],
                 ),
               )
@@ -180,8 +189,12 @@ class HomePageView extends StatelessWidget {
                         ),
                       ),
                       const SizedBox(width: 10),
-                      const Text("Fund",
-                          maxLines: 1, overflow: TextOverflow.ellipsis, style: TextStyle(color: Colors.white),),
+                      const Text(
+                        "Fund",
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: TextStyle(color: Colors.white),
+                      ),
                     ],
                   ),
                 ),
@@ -280,45 +293,47 @@ class HomePageView extends StatelessWidget {
   Widget eachTransaction({bool isLast = false}) {
     return Column(
       children: [
-        ListTile(
-          leading: const CircleAvatar(
-            radius: 20,
-            backgroundImage: AssetImage("assets/images/background/unsplash.png"),
-          ),
-          horizontalTitleGap: 8,
-          title: const Text(
-            "Title",
-            style: TextStyle(fontSize: 18),
-          ),
-          subtitle: Text(
-            DateFormat('hh:mm a')
-                .format(DateTime.now()),
-            style: const TextStyle(fontSize: 14),
-          ),
-          trailing: Text(
-            formatMoney("123.32"),
-            style: const TextStyle(
+        Container(
+          decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(10),
+              border: Border.all(
+                  color: BrandColors.secondary.withOpacity(.7), width: 1)),
+          child: ListTile(
+            leading: Container(
+              height: 40,
+              width: 40,
+              decoration: BoxDecoration(
+                  shape: BoxShape.circle, color: BrandColors.secondary),
+            ),
+            horizontalTitleGap: 8,
+            title: const Text(
+              "Airtime worth of 300k and 200k",
+              maxLines: 1,
+              style: TextStyle(
+                fontSize: 17,
+                fontWeight: FontWeight.w500,
+                overflow: TextOverflow.ellipsis,
+              ),
+            ),
+            subtitle: Text(
+              DateFormat('hh:mm a').format(DateTime.now()),
+              style: const TextStyle(fontSize: 14),
+            ),
+            trailing: Text(
+              formatMoney("123.32"),
+              style: const TextStyle(
                 fontSize: 18,
-                fontWeight: FontWeight.w600),
+                fontWeight: FontWeight.w700,
+              ),
+            ),
           ),
         ),
-        isLast
-            ? const SizedBox()
-            : Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 15.0),
-          child: Divider(
-            height: 2,
-            color: const Color(0xFF605F5F).withOpacity(0.66),
-            thickness: 2,
-          ),
-        ),
-        const SizedBox(height: 10)
+        const SizedBox(height: 8)
       ],
     );
   }
 
   _fundAccountPopUp(context, HomePageViewModel model) {
-
     return showModalBottomSheet(
       context: context,
       isScrollControlled: true,
@@ -366,7 +381,8 @@ class HomePageView extends StatelessWidget {
                         child: Center(
                           child: Text(
                             "Fund your account",
-                            style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
+                            style: TextStyle(
+                                fontSize: 20, fontWeight: FontWeight.w600),
                           ),
                         ),
                       )
@@ -403,7 +419,10 @@ class HomePageView extends StatelessWidget {
                                 children: [
                                   const Text("Account Name",
                                       style: TextStyle(fontSize: 14)),
-                                  Text(model.wallet?.virtualAccount?.accountName ?? "N/A",
+                                  Text(
+                                      model.wallet?.virtualAccount
+                                              ?.accountName ??
+                                          "N/A",
                                       style: const TextStyle(
                                           fontSize: 14,
                                           fontWeight: FontWeight.bold)),
@@ -420,7 +439,9 @@ class HomePageView extends StatelessWidget {
                                 children: [
                                   const Text("Bank Name",
                                       style: TextStyle(fontSize: 14)),
-                                  Text(model.wallet?.virtualAccount?.bankName ?? "N/A",
+                                  Text(
+                                      model.wallet?.virtualAccount?.bankName ??
+                                          "N/A",
                                       style: const TextStyle(
                                           fontSize: 14,
                                           fontWeight: FontWeight.bold)),
@@ -437,7 +458,10 @@ class HomePageView extends StatelessWidget {
                                 children: [
                                   const Text("Account Number",
                                       style: TextStyle(fontSize: 14)),
-                                  Text(model.wallet?.virtualAccount?.accountNumber ?? "N/A",
+                                  Text(
+                                      model.wallet?.virtualAccount
+                                              ?.accountNumber ??
+                                          "N/A",
                                       style: const TextStyle(
                                           fontSize: 14,
                                           fontWeight: FontWeight.bold)),
@@ -675,50 +699,50 @@ class HomePageView extends StatelessWidget {
                   ),
                   const SizedBox(height: 25),
                   Column(
-                  //     children: model.walletTypes!.map((e) {
-                  //   return InkWell(
-                  //     onTap: () {
-                  //       model.setWalletOption(e);
-                  //       setModalState(() {});
-                  //       Navigator.pop(context);
-                  //     },
-                  //     child: Container(
-                  //       width: double.infinity,
-                  //       margin: const EdgeInsets.only(bottom: 10),
-                  //       padding: const EdgeInsets.symmetric(
-                  //           vertical: 15, horizontal: 20),
-                  //       decoration: BoxDecoration(
-                  //         color:
-                  //             model.selectedWallet!.walletType == e.walletType
-                  //                 ? const Color(0xFF3200E0)
-                  //                 : null,
-                  //         border: Border.all(color: Colors.grey, width: 1),
-                  //         borderRadius: BorderRadius.circular(10.0),
-                  //       ),
-                  //       child: Row(
-                  //         children: [
-                  //           Radio(
-                  //               value: e,
-                  //               activeColor: BrandColors.secondary,
-                  //               visualDensity: const VisualDensity(
-                  //                   horizontal: VisualDensity.minimumDensity,
-                  //                   vertical: VisualDensity.minimumDensity),
-                  //               groupValue: model.selectedWallet,
-                  //               onChanged: (value) {
-                  //                 model.setWalletOption(e);
-                  //                 setModalState(() {});
-                  //                 Navigator.pop(context);
-                  //               }),
-                  //           Text(
-                  //             '${ucWord(e.walletType!)} Account',
-                  //             style: const TextStyle(
-                  //                 fontSize: 14.0, fontWeight: FontWeight.w500),
-                  //           ),
-                  //         ],
-                  //       ),
-                  //     ),
-                  //   );
-                  // }).toList()
+                      //     children: model.walletTypes!.map((e) {
+                      //   return InkWell(
+                      //     onTap: () {
+                      //       model.setWalletOption(e);
+                      //       setModalState(() {});
+                      //       Navigator.pop(context);
+                      //     },
+                      //     child: Container(
+                      //       width: double.infinity,
+                      //       margin: const EdgeInsets.only(bottom: 10),
+                      //       padding: const EdgeInsets.symmetric(
+                      //           vertical: 15, horizontal: 20),
+                      //       decoration: BoxDecoration(
+                      //         color:
+                      //             model.selectedWallet!.walletType == e.walletType
+                      //                 ? const Color(0xFF3200E0)
+                      //                 : null,
+                      //         border: Border.all(color: Colors.grey, width: 1),
+                      //         borderRadius: BorderRadius.circular(10.0),
+                      //       ),
+                      //       child: Row(
+                      //         children: [
+                      //           Radio(
+                      //               value: e,
+                      //               activeColor: BrandColors.secondary,
+                      //               visualDensity: const VisualDensity(
+                      //                   horizontal: VisualDensity.minimumDensity,
+                      //                   vertical: VisualDensity.minimumDensity),
+                      //               groupValue: model.selectedWallet,
+                      //               onChanged: (value) {
+                      //                 model.setWalletOption(e);
+                      //                 setModalState(() {});
+                      //                 Navigator.pop(context);
+                      //               }),
+                      //           Text(
+                      //             '${ucWord(e.walletType!)} Account',
+                      //             style: const TextStyle(
+                      //                 fontSize: 14.0, fontWeight: FontWeight.w500),
+                      //           ),
+                      //         ],
+                      //       ),
+                      //     ),
+                      //   );
+                      // }).toList()
                       // [
                       //
                       //   const SizedBox(height: 15),
