@@ -36,11 +36,10 @@ class SetLoginPinView extends StatelessWidget {
                             ),
                           ),
                           const SizedBox(height: 10),
-                          Text(
+                          const Text(
                             "Please set your login PIN for sign in...",
                             style: TextStyle(
                               fontSize: 19,
-                              color: Colors.white.withOpacity(.8),
                             ),
                           ),
                         ],
@@ -55,9 +54,9 @@ class SetLoginPinView extends StatelessWidget {
                       defaultPinTheme: PinTheme(
                         width: 80,
                         height: 80,
-                        textStyle: const TextStyle(fontSize: 28, fontWeight: FontWeight.w600),
+                        textStyle: const TextStyle(fontSize: 28, fontWeight: FontWeight.w600, color: Colors.white),
                         decoration: BoxDecoration(
-                          color: const Color(0xFF4D4A58),
+                          color: Colors.grey,
                           border: Border.all(color: const Color(0xFFE1D7C0).withOpacity(.2)),
                           borderRadius: BorderRadius.circular(30),
                         ),
@@ -78,7 +77,6 @@ class SetLoginPinView extends StatelessWidget {
                         if (model.pinController.text.length < 4) model.pinController.text = model.pinController.text + value;
                       },
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      textColor: Colors.white,
                       rightButtonFn: () {
                         if (model.pinController.text.isNotEmpty) {
                           model.pinController.text = model.pinController.text.substring(0, model.pinController.text.length - 1);

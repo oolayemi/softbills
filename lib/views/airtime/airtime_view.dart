@@ -93,7 +93,7 @@ class AirtimeView extends StatelessWidget {
                       title: "Amount",
                       controller: model.amountController,
                       suffixTitle: Text(
-                        formatMoney(model.selectedWallet?.balance ?? "123.32"),
+                        formatMoney(model.wallet?.balance ?? "123.32"),
                       ),
                       validator: (String? val) =>
                           val!.isEmpty ? "Amount field cannot be empty" : null,
@@ -120,7 +120,6 @@ class AirtimeView extends StatelessWidget {
                       validateTransactionDetails({
                         "Phone Number": model.phoneController.text,
                         "Network": model.selectedBiller!.name,
-                        'Payment Method': model.selectedWallet!.walletType
                       }, model.amountController.text, context, func: () async {
                         await model.purchaseAirtime(context);
                       });

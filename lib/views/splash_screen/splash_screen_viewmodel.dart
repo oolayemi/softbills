@@ -14,7 +14,6 @@ class SplashScreenViewModel extends ReactiveViewModel {
   final StorageService _storageService = locator<StorageService>();
 
   String imagePath = "assets/icons/softbills_icon.png";
-  Timer? timer;
 
   void setup() {
     Future.delayed(const Duration(seconds: 3), () {
@@ -28,30 +27,6 @@ class SplashScreenViewModel extends ReactiveViewModel {
                 : const SignInView(),
       );
     });
-  }
-
-  void doAnimation() {
-    timer = Timer(const Duration(milliseconds: 1), () {
-      imagePath = "assets/icons/frame1.png";
-      notifyListeners();
-      timer = Timer(const Duration(milliseconds: 300), () {
-        imagePath = "assets/icons/frame2.png";
-        notifyListeners();
-        timer = Timer(const Duration(milliseconds: 300), () {
-          imagePath = "assets/icons/frame3.png";
-          notifyListeners();
-          timer = Timer(const Duration(milliseconds: 800), () {
-            doAnimation();
-          });
-        });
-      });
-    });
-  }
-
-  @override
-  void dispose() {
-    timer!.cancel();
-    super.dispose();
   }
 
   @override

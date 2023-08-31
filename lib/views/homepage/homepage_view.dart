@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:intl/intl.dart';
 import 'package:no_name/core/utils/tools.dart';
@@ -9,7 +8,6 @@ import 'package:no_name/views/homepage/homepage_viewmodel.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:stacked/stacked.dart';
 
-import '../../core/models/wallet_response.dart';
 import '../../widgets/utility_widgets.dart';
 
 class HomePageView extends StatelessWidget {
@@ -40,9 +38,9 @@ class HomePageView extends StatelessWidget {
                           Row(
                             children: [
                               Text(
-                                "Hello ${model.profileData?.firstName ?? "Ola"},",
+                                "Hello ${model.profileData?.firstname},",
                                 style: const TextStyle(
-                                    fontSize: 20, color: Colors.black),
+                                    fontSize: 20, fontWeight: FontWeight.w500),
                               )
                             ],
                           ),
@@ -101,7 +99,7 @@ class HomePageView extends StatelessWidget {
             children: [
               Text.rich(
                 TextSpan(
-                  text: model.viewBalance ? "N100.89" : "*****",
+                  text: model.viewBalance ? formatMoney(model.wallet!.balance.toString()) : "*****",
                   style: const TextStyle(
                       fontSize: 26, fontWeight: FontWeight.w900, color: Colors.white),
                   children: const <TextSpan>[
@@ -140,18 +138,18 @@ class HomePageView extends StatelessWidget {
                     borderRadius: BorderRadius.circular(35)),
                 child: Row(
                   children: [
-                    const Expanded(
+                    Expanded(
                       child: Text(
-                        "1234567890",
+                        model.wallet!.number!,
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
-                        style: TextStyle(color: Colors.white),
+                        style: const TextStyle(color: Colors.white),
                       ),
                     ),
                     InkWell(
                       onTap: () {
                         Clipboard.setData(
-                            ClipboardData(text: model.selectedWallet?.number ?? "0123456789"));
+                            ClipboardData(text: model.wallet?.number));
                         Fluttertoast.showToast(
                             msg: "Account number copied",
                             backgroundColor: Colors.green);
@@ -377,7 +375,7 @@ class HomePageView extends StatelessWidget {
                   const SizedBox(height: 10),
                   Center(
                     child: SizedBox(
-                      width: MediaQuery.of(context).size.width * .7,
+                      width: MediaQuery.of(context).size.width * .8,
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: const [
@@ -388,7 +386,7 @@ class HomePageView extends StatelessWidget {
                       ),
                     ),
                   ),
-                  const SizedBox(height: 15),
+                  const SizedBox(height: 18),
                   Container(
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(10),
@@ -402,11 +400,11 @@ class HomePageView extends StatelessWidget {
                             children: [
                               Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
-                                children: const [
-                                  Text("Account Name",
+                                children: [
+                                  const Text("Account Name",
                                       style: TextStyle(fontSize: 14)),
-                                  Text("Olayemi Olaomo",
-                                      style: TextStyle(
+                                  Text(model.wallet?.virtualAccount?.accountName ?? "N/A",
+                                      style: const TextStyle(
                                           fontSize: 14,
                                           fontWeight: FontWeight.bold)),
                                 ],
@@ -419,11 +417,11 @@ class HomePageView extends StatelessWidget {
                             children: [
                               Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
-                                children: const [
-                                  Text("Bank Name",
+                                children: [
+                                  const Text("Bank Name",
                                       style: TextStyle(fontSize: 14)),
-                                  Text("Test Bank",
-                                      style: TextStyle(
+                                  Text(model.wallet?.virtualAccount?.bankName ?? "N/A",
+                                      style: const TextStyle(
                                           fontSize: 14,
                                           fontWeight: FontWeight.bold)),
                                 ],
@@ -436,11 +434,11 @@ class HomePageView extends StatelessWidget {
                             children: [
                               Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
-                                children: const [
-                                  Text("Account Number",
+                                children: [
+                                  const Text("Account Number",
                                       style: TextStyle(fontSize: 14)),
-                                  Text("0123456789",
-                                      style: TextStyle(
+                                  Text(model.wallet?.virtualAccount?.accountNumber ?? "N/A",
+                                      style: const TextStyle(
                                           fontSize: 14,
                                           fontWeight: FontWeight.bold)),
                                 ],
@@ -458,9 +456,9 @@ class HomePageView extends StatelessWidget {
                         title: "Share Details",
                         onPressed: () {
                           String data =
-                              "Account name: ${"Olayemi Olaomo"}\n"
-                              "Account number: ${"0123456789"}\n"
-                              "Bank name: ${"Test Bank"}";
+                              "Account name: ${model.wallet?.virtualAccount?.accountName ?? "N/A"}\n"
+                              "Account number: ${model.wallet?.virtualAccount?.accountNumber ?? "N/A"}\n"
+                              "Bank name: ${model.wallet?.virtualAccount?.bankName ?? "N/A"}";
                           Clipboard.setData(ClipboardData(text: data));
                           Fluttertoast.showToast(
                               msg: "Account details copied",
@@ -677,50 +675,50 @@ class HomePageView extends StatelessWidget {
                   ),
                   const SizedBox(height: 25),
                   Column(
-                      children: model.walletTypes!.map((e) {
-                    return InkWell(
-                      onTap: () {
-                        model.setWalletOption(e);
-                        setModalState(() {});
-                        Navigator.pop(context);
-                      },
-                      child: Container(
-                        width: double.infinity,
-                        margin: const EdgeInsets.only(bottom: 10),
-                        padding: const EdgeInsets.symmetric(
-                            vertical: 15, horizontal: 20),
-                        decoration: BoxDecoration(
-                          color:
-                              model.selectedWallet!.walletType == e.walletType
-                                  ? const Color(0xFF3200E0)
-                                  : null,
-                          border: Border.all(color: Colors.grey, width: 1),
-                          borderRadius: BorderRadius.circular(10.0),
-                        ),
-                        child: Row(
-                          children: [
-                            Radio(
-                                value: e,
-                                activeColor: BrandColors.secondary,
-                                visualDensity: const VisualDensity(
-                                    horizontal: VisualDensity.minimumDensity,
-                                    vertical: VisualDensity.minimumDensity),
-                                groupValue: model.selectedWallet,
-                                onChanged: (value) {
-                                  model.setWalletOption(e);
-                                  setModalState(() {});
-                                  Navigator.pop(context);
-                                }),
-                            Text(
-                              '${ucWord(e.walletType!)} Account',
-                              style: const TextStyle(
-                                  fontSize: 14.0, fontWeight: FontWeight.w500),
-                            ),
-                          ],
-                        ),
-                      ),
-                    );
-                  }).toList()
+                  //     children: model.walletTypes!.map((e) {
+                  //   return InkWell(
+                  //     onTap: () {
+                  //       model.setWalletOption(e);
+                  //       setModalState(() {});
+                  //       Navigator.pop(context);
+                  //     },
+                  //     child: Container(
+                  //       width: double.infinity,
+                  //       margin: const EdgeInsets.only(bottom: 10),
+                  //       padding: const EdgeInsets.symmetric(
+                  //           vertical: 15, horizontal: 20),
+                  //       decoration: BoxDecoration(
+                  //         color:
+                  //             model.selectedWallet!.walletType == e.walletType
+                  //                 ? const Color(0xFF3200E0)
+                  //                 : null,
+                  //         border: Border.all(color: Colors.grey, width: 1),
+                  //         borderRadius: BorderRadius.circular(10.0),
+                  //       ),
+                  //       child: Row(
+                  //         children: [
+                  //           Radio(
+                  //               value: e,
+                  //               activeColor: BrandColors.secondary,
+                  //               visualDensity: const VisualDensity(
+                  //                   horizontal: VisualDensity.minimumDensity,
+                  //                   vertical: VisualDensity.minimumDensity),
+                  //               groupValue: model.selectedWallet,
+                  //               onChanged: (value) {
+                  //                 model.setWalletOption(e);
+                  //                 setModalState(() {});
+                  //                 Navigator.pop(context);
+                  //               }),
+                  //           Text(
+                  //             '${ucWord(e.walletType!)} Account',
+                  //             style: const TextStyle(
+                  //                 fontSize: 14.0, fontWeight: FontWeight.w500),
+                  //           ),
+                  //         ],
+                  //       ),
+                  //     ),
+                  //   );
+                  // }).toList()
                       // [
                       //
                       //   const SizedBox(height: 15),

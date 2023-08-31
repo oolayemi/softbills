@@ -61,13 +61,13 @@ class SignInViewModel extends ReactiveViewModel {
 
   Future<void> getDetails({bool gotoDashboard = true}) async {
     await _authService.getProfile();
-    await _authService.getNextOfKin();
+    // await _authService.getNextOfKin();
     await _authService.getWalletDetails();
-    await _authService.getVirtualAccounts();
-    await _authService.getAirtimeBeneficiaries();
-    await _authService.getDataBeneficiaries();
-    await _authService.getWalletTransactions(page: 1);
-    await _authService.getCurrentRate();
+    // await _authService.getVirtualAccounts();
+    // await _authService.getAirtimeBeneficiaries();
+    // await _authService.getDataBeneficiaries();
+    // await _authService.getWalletTransactions(page: 1);
+    // await _authService.getCurrentRate();
     //save pin, then otp verification
     gotoDashboard ? _navigationService.clearStackAndShowView(const DashboardView()) : null;
   }
@@ -106,7 +106,7 @@ class SignInViewModel extends ReactiveViewModel {
       if (statusCode == 200) {
         Map jsonData = jsonDecode(response.toString());
         if (responseData['status'] == 'success') {
-          _storageService.addString("token", jsonData['token']);
+          _storageService.addString("token", jsonData['data']['token']);
           _storageService.addString('email', emailController.text);
           _storageService.addBool('isLoggedIn', true);
           await getDetails(gotoDashboard: false).then((value) {

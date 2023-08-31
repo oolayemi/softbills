@@ -1,73 +1,56 @@
 class WalletResponse {
+  bool? success;
   String? status;
   String? message;
-  List<Wallet>? data;
+  WalletData? data;
 
-  WalletResponse({this.status, this.message, this.data});
+  WalletResponse({this.success, this.status, this.message, this.data});
 
   WalletResponse.fromJson(Map<String, dynamic> json) {
+    success = json['success'];
     status = json['status'];
     message = json['message'];
-    if (json['data'] != null) {
-      data = <Wallet>[];
-      json['data'].forEach((v) {
-        data!.add(Wallet.fromJson(v));
-      });
-    }
+    data = json['data'] != null ? WalletData.fromJson(json['data']) : null;
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
+    data['success'] = success;
     data['status'] = status;
     data['message'] = message;
     if (this.data != null) {
-      data['data'] = this.data!.map((v) => v.toJson()).toList();
+      data['data'] = this.data!.toJson();
     }
     return data;
   }
 }
 
-class Wallet {
-  int? id;
-  String? uuid;
-  int? userId;
+class WalletData {
+  String? id;
+  String? userId;
   String? number;
+  String? currency;
   String? balance;
-  String? walletType;
-  String? requestId;
-  String? context;
-  String? createdTimestamp;
-  String? label;
   String? createdAt;
   String? updatedAt;
   VirtualAccount? virtualAccount;
 
-  Wallet(
+  WalletData(
       {this.id,
-        this.uuid,
         this.userId,
         this.number,
+        this.currency,
         this.balance,
-        this.walletType,
-        this.requestId,
-        this.context,
-        this.createdTimestamp,
-        this.label,
         this.createdAt,
         this.updatedAt,
         this.virtualAccount});
 
-  Wallet.fromJson(Map<String, dynamic> json) {
+  WalletData.fromJson(Map<String, dynamic> json) {
     id = json['id'];
-    uuid = json['uuid'];
     userId = json['user_id'];
     number = json['number'];
-    balance = json['balance'].toString();
-    walletType = json['type'];
-    requestId = json['request_id'];
-    context = json['context'];
-    createdTimestamp = json['created_timestamp'];
-    label = json['label'];
+    currency = json['currency'];
+    balance = json['balance'];
     createdAt = json['created_at'];
     updatedAt = json['updated_at'];
     virtualAccount = json['virtual_account'] != null
@@ -78,15 +61,10 @@ class Wallet {
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
     data['id'] = id;
-    data['uuid'] = uuid;
     data['user_id'] = userId;
     data['number'] = number;
+    data['currency'] = currency;
     data['balance'] = balance;
-    data['wallet_type'] = walletType;
-    data['request_id'] = requestId;
-    data['context'] = context;
-    data['created_timestamp'] = createdTimestamp;
-    data['label'] = label;
     data['created_at'] = createdAt;
     data['updated_at'] = updatedAt;
     if (virtualAccount != null) {
@@ -97,9 +75,9 @@ class Wallet {
 }
 
 class VirtualAccount {
-  int? id;
-  int? userId;
-  int? walletId;
+  String? id;
+  String? userId;
+  String? walletId;
   String? accountReference;
   String? accountName;
   String? accountNumber;

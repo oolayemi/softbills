@@ -29,8 +29,7 @@ class SmeDataViewModel extends ReactiveViewModel {
   TextEditingController phoneController = TextEditingController();
   final formKey = GlobalKey<FormState>();
 
-  List<Wallet>? get walletTypes => _authService.walletResponse;
-  Wallet? selectedWallet;
+  WalletData? get wallet => _authService.walletResponse;
 
   List<SMEDataBillers>? get smeBillers => _transferFundsService.smeBillers;
 
@@ -46,9 +45,7 @@ class SmeDataViewModel extends ReactiveViewModel {
   String? buildText;
 
   Future setup(BuildContext context) async {
-    selectedWallet = walletTypes!.first;
     errorFetching = false;
-    getExchange();
 
     if (smeBillers!.isEmpty) {
       await getData(context);
@@ -57,17 +54,6 @@ class SmeDataViewModel extends ReactiveViewModel {
       setBiller(smeBillers![0], context);
     }
 
-    notifyListeners();
-  }
-
-  void getExchange() {
-    String fromValue = selectedWallet!.walletType!.toLowerCase();
-    String toValue = 'NAIRA'.toLowerCase();
-    selectedRate = rateList?.where((element) => element.currencyFrom == fromValue).where((element) => element.currencyTo == toValue).first;
-
-    if (selectedRate != null){
-      buildText = (amountController.text.isNotEmpty && fromValue != toValue) ? "${amountController.text}${matchCurrency(toValue)} = ${(int.parse(amountController.text) / selectedRate!.rate!).toStringAsFixed(2)}${matchCurrency(fromValue)}" : null;
-    }
     notifyListeners();
   }
 
@@ -105,7 +91,6 @@ class SmeDataViewModel extends ReactiveViewModel {
     package = val;
     amountController.text = val.price ?? "100";
     print(amountController.text);
-    getExchange();
     notifyListeners();
   }
 
@@ -113,7 +98,6 @@ class SmeDataViewModel extends ReactiveViewModel {
     package = val;
     amountController.text = val.price ?? "100";
     smeDataName = val.description;
-    getExchange();
     notifyListeners();
   }
 
@@ -128,8 +112,7 @@ class SmeDataViewModel extends ReactiveViewModel {
     Map<String, dynamic> payload = {
       'mobile': phoneController.text,
       'service': package!.code,
-      'amount': amountController.text,
-      'wallet_source': selectedWallet!.walletType
+      'amount': amountController.text
     };
 
     try {

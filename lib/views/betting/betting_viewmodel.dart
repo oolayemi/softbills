@@ -24,9 +24,7 @@ class BettingViewModel extends ReactiveViewModel {
 
   TextEditingController betNumber = TextEditingController();
   TextEditingController amountController = TextEditingController();
-  List<Wallet>? get walletTypes => _authService.walletResponse;
-
-  Wallet? selectedWallet;
+  WalletData? get wallet => _authService.walletResponse;
 
   final formKey = GlobalKey<FormState>();
 
@@ -52,28 +50,8 @@ class BettingViewModel extends ReactiveViewModel {
   }
 
   void setup(BuildContext context) async{
-    selectedWallet = walletTypes!.first;
-    getExchange();
     if(betting.isEmpty) {
       await getData(context);
-
-      //   if(betting.isNotEmpty)
-      //     setBettingName(check);
-      // }
-      // if(betting.isNotEmpty) {
-      //   setBettingName(check);
-      //   // if(betting.isNotEmpty) setBettingName(betting[0]);
-    }
-    notifyListeners();
-  }
-
-  void getExchange() {
-    String fromValue = selectedWallet!.walletType!.toLowerCase();
-    String toValue = 'NAIRA'.toLowerCase();
-    selectedRate = rateList?.where((element) => element.currencyFrom == fromValue).where((element) => element.currencyTo == toValue).first;
-
-    if (selectedRate != null){
-      buildText = (amountController.text.isNotEmpty && fromValue != toValue) ? "${amountController.text}${matchCurrency(toValue)} = ${(int.parse(amountController.text) / selectedRate!.rate!).toStringAsFixed(2)}${matchCurrency(fromValue)}" : null;
     }
     notifyListeners();
   }

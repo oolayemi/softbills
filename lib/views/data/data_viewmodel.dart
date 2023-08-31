@@ -31,9 +31,7 @@ class DataViewModel extends ReactiveViewModel {
 
   final formKey = GlobalKey<FormState>();
 
-  List<Wallet>? get walletTypes => _authService.walletResponse;
-
-  Wallet? selectedWallet;
+  WalletData? get wallet => _authService.walletResponse;
 
   List<AirTimeDataModel> get data => AirTimeDataModel.data;
   AirTimeDataModel? selected;
@@ -123,11 +121,8 @@ class DataViewModel extends ReactiveViewModel {
   }
 
   Future setup(context) async {
-
-    selectedWallet = walletTypes!.first;
     // data = [];
     errorFetching = false;
-    getExchange();
     notifyListeners();
 
     if (billers.isEmpty) {
@@ -146,17 +141,6 @@ class DataViewModel extends ReactiveViewModel {
     if (!errorFetching && fetched) {
       setProvider(data[0]);
       setDataBiller(billers[0]);
-    }
-    notifyListeners();
-  }
-
-  void getExchange() {
-    String fromValue = selectedWallet!.walletType!.toLowerCase();
-    String toValue = 'NAIRA'.toLowerCase();
-    selectedRate = rateList?.where((element) => element.currencyFrom == fromValue).where((element) => element.currencyTo == toValue).first;
-
-    if (selectedRate != null){
-      buildText = (amountController.text.isNotEmpty && fromValue != toValue) ? "${amountController.text}${matchCurrency(toValue)} = ${(int.parse(amountController.text) / selectedRate!.rate!).toStringAsFixed(2)}${matchCurrency(fromValue)}" : null;
     }
     notifyListeners();
   }
@@ -182,7 +166,6 @@ class DataViewModel extends ReactiveViewModel {
       'amount': selectedPlan!.amount,
       'operator': selectedBiller!.name!.toLowerCase(),
       'bundle': selectedPlan!.code.toString(),
-      'wallet_source': selectedWallet!.walletType!
     };
 
     try {
@@ -305,7 +288,6 @@ class DataViewModel extends ReactiveViewModel {
   void setPlan(Plans val) {
     selectedPlan = val;
     amountController.text = val.amount.toString();
-    getExchange();
     notifyListeners();
   }
 

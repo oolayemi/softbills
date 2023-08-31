@@ -2,7 +2,6 @@ import 'dart:convert';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:no_name/core/enums/wallet_types.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
 
@@ -36,8 +35,7 @@ class CableTvViewModel extends ReactiveViewModel {
   bool verified = false;
   String? customerName;
 
-  List<Wallet>? get walletTypes => _authService.walletResponse;
-  Wallet? selectedWallet;
+  WalletData? get wallet => _authService.walletResponse;
 
   List<Rates>? get rateList => _authService.ratesList;
 
@@ -47,24 +45,11 @@ class CableTvViewModel extends ReactiveViewModel {
   final formKey = GlobalKey<FormState>();
 
   void setup(context) async{
-    selectedWallet = walletTypes!.first;
-    getExchange();
     if(cableBillers!.isEmpty) {
       await getData(context);
     }
     if(cableBillers!.isNotEmpty) {
       setBiller(cableBillers![0], context);
-    }
-    notifyListeners();
-  }
-
-  void getExchange() {
-    String fromValue = selectedWallet!.walletType!.toLowerCase();
-    String toValue = 'NAIRA'.toLowerCase();
-    selectedRate = rateList?.where((element) => element.currencyFrom == fromValue).where((element) => element.currencyTo == toValue).first;
-
-    if (selectedRate != null){
-      buildText = (amountController.text.isNotEmpty && fromValue != toValue) ? "${amountController.text}${matchCurrency(toValue)} = ${(int.parse(amountController.text) / selectedRate!.rate!).toStringAsFixed(2)}${matchCurrency(fromValue)}" : null;
     }
     notifyListeners();
   }
@@ -85,7 +70,6 @@ class CableTvViewModel extends ReactiveViewModel {
   void setPackage(CableTvPackage val) {
     package = val;
     amountController.text = val.price!.toString();
-    getExchange();
     notifyListeners();
   }
 

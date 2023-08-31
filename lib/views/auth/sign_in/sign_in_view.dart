@@ -33,11 +33,11 @@ class SignInView extends StatelessWidget {
                         ),
                       ),
                       const SizedBox(height: 10),
-                      Text(
+                      const Text(
                         "Enter your sign in details",
                         style: TextStyle(
                           fontSize: 19,
-                          color: Colors.white.withOpacity(.8),
+                          color: Colors.black,
                         ),
                       ),
                       const SizedBox(height: 50),
@@ -80,7 +80,7 @@ class SignInView extends StatelessWidget {
                     InkWell(
                       onTap: () {
                         NavigationService navigatorService = locator<NavigationService>();
-                        navigatorService.navigateToView(const SignUpOneView());
+                        navigatorService.clearStackAndShowView(const SignUpOneView());
                       },
                       child: RichText(
                         text: const TextSpan(

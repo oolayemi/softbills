@@ -62,13 +62,13 @@ class AccountView extends StatelessWidget {
         Container(
           height: 60,
           width: 60,
-          decoration: BoxDecoration(
+          decoration: const BoxDecoration(
               color: BrandColors.primary,
             shape: BoxShape.circle
           ),
           child: Center(
               child: Text(
-                  "${model.profile?.firstName?.substring(0, 1) ?? "O"}${model.profile?.lastName?.substring(0, 1) ?? "O"}",
+                  "${model.profile?.firstname?.substring(0, 1) ?? "O"}${model.profile?.lastname?.substring(0, 1) ?? "O"}",
                   style: const TextStyle(fontSize: 20, color: Colors.white, fontWeight: FontWeight.w600))),
         ),
         const SizedBox(width: 15),
@@ -77,7 +77,7 @@ class AccountView extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                "${model.profile?.firstName ?? "Olayemi"} ${model.profile?.lastName ?? "Olaomo"}",
+                "${model.profile?.firstname ?? "Olayemi"} ${model.profile?.lastname ?? "Olaomo"}",
                 style: const TextStyle(fontSize: 18),
               ),
               Text(

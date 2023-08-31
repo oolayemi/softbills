@@ -31,8 +31,8 @@ class AuthService with ReactiveServiceMixin {
   final RxValue<NokData?> _nokResponse = RxValue<NokData?>(null);
   NokData? get nokResponse => _nokResponse.value;
 
-  final RxValue<List<Wallet>?> _walletResponse = RxValue<List<Wallet>?>(null);
-  List<Wallet>? get walletResponse => _walletResponse.value;
+  final RxValue<WalletData?> _walletResponse = RxValue<WalletData?>(null);
+  WalletData? get walletResponse => _walletResponse.value;
 
   final RxValue<List<Rates>?> _ratesList = RxValue<List<Rates>?>(null);
   List<Rates>? get ratesList => _ratesList.value;
@@ -126,6 +126,7 @@ class AuthService with ReactiveServiceMixin {
 
         int? statusCode = value.statusCode;
         Map<String, dynamic> responseData = value.data!;
+
 
         if (statusCode == 200) {
           if (responseData['status'] == 'success') {
@@ -224,6 +225,8 @@ class AuthService with ReactiveServiceMixin {
 
         int? statusCode = value.statusCode;
         Map<String, dynamic> responseData = value.data!;
+
+        print(jsonEncode(responseData));
 
         if (statusCode == 200) {
           if (responseData['status'] == 'success') {

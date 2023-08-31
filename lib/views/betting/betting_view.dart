@@ -67,11 +67,8 @@ class BettingView extends StatelessWidget {
                       title: "Amount",
                       controller: model.amountController,
                       suffixTitle: Text(
-                        formatMoney(model.selectedWallet?.balance ?? "213.21"),
+                        formatMoney(model.wallet?.balance ?? "213.21"),
                       ),
-                      onChanged: (string) {
-                        model.getExchange();
-                      },
                       validator: (String? val) =>
                           val!.isEmpty ? "Amount field cannot be empty" : null,
                     ),
@@ -99,8 +96,6 @@ class BettingView extends StatelessWidget {
                           : validateTransactionDetails({
                               "Bet Number": model.betNumber.text,
                               "Provider": model.betName,
-                              'Payment Method':
-                                  model.selectedWallet!.walletType!
                             }, model.amountController.text, context,
                               func: () async {
                               await model.purchaseBetting(context);

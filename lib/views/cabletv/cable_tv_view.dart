@@ -57,10 +57,9 @@ class CableTvView extends StatelessWidget {
                         controller: model.amountController,
                         enabled: false,
                         suffixTitle: Text(
-                          formatMoney(model.selectedWallet?.balance ?? "0.00"),
+                          formatMoney(model.wallet!.balance),
                         ),
                         onChanged: (string) {
-                          model.getExchange();
                         },
                       ),
                       const SizedBox(height: 3),
@@ -87,7 +86,6 @@ class CableTvView extends StatelessWidget {
                             "IUC Number": model.iucNumberController.text,
                             "Provider": model.biller!.name,
                             "Package": model.package!.name,
-                            'Payment Method': model.selectedWallet!.walletType
                           }, model.amountController.text, context, func: () async {
                             await model.purchasePackage(context);
                           });

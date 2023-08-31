@@ -35,12 +35,9 @@ class ElectricityViewModel extends ReactiveViewModel {
   List<ElectricityBillers>? get electricityBillers => _transferFundsService.electricityBillers;
   ElectricityBillers? selectedBiller;
 
-  List<Wallet>? get walletType => _authService.walletResponse;
-
-  Wallet? selectedWallet;
+  WalletData? get wallet => _authService.walletResponse;
 
   void setup(BuildContext context) async {
-    selectedWallet = walletType!.first;
     if (electricityBillers!.isEmpty) {
       await getData(context);
       if (electricityBillers!.isNotEmpty) setElectricityBiller(electricityBillers![0]);
@@ -154,7 +151,6 @@ class ElectricityViewModel extends ReactiveViewModel {
       'account_number': meterNoController.text,
       'type': selectedBiller!.type,
       'amount': amountController.text,
-      'wallet_source': selectedWallet!.walletType,
     };
 
     try {

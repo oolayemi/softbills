@@ -54,7 +54,7 @@ class ElectricityView extends StatelessWidget {
                       controller: model.amountController,
                       suffixTitle: Text(
                         formatMoney(
-                          model.selectedWallet!.balance!
+                          model.wallet!.balance!
                         ),
                       ),
                       validator: (String? val) => val!.isEmpty ? "Amount field cannot be empty" : null,
@@ -76,8 +76,6 @@ class ElectricityView extends StatelessWidget {
                                 ),
                               )
                             : const SizedBox(),
-                    const SizedBox(height: 30),
-                    SelectPaymentOption(model: model)
                   ],
                 ),
               ),
@@ -94,8 +92,7 @@ class ElectricityView extends StatelessWidget {
                           : validateTransactionDetails({
                               "Meter Number": model.meterNoController.text,
                               "Name": model.accountName,
-                              "Provider": model.selectedBiller!.shortName,
-                              'Payment Method': model.selectedWallet!.walletType
+                              "Provider": model.selectedBiller!.shortName
                             }, model.amountController.text, context, func: () async {
                               await model.purchaseElectricity(context);
                             });

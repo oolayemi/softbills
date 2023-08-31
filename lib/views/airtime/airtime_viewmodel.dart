@@ -34,8 +34,7 @@ class AirtimeViewModel extends ReactiveViewModel {
 
   List<AirtimeBeneficiary>? get airtimeBeneficiaries => _authService.airtimeBeneficiaries;
 
-  List<Wallet>? get walletTypes => _authService.walletResponse;
-  Wallet? selectedWallet;
+  WalletData? get wallet => _authService.walletResponse;
 
   List<DataBillers>? tempBillers = [];
 
@@ -57,9 +56,7 @@ class AirtimeViewModel extends ReactiveViewModel {
   String? buildText;
 
   Future setup(BuildContext context) async {
-    selectedWallet = walletTypes!.first;
     errorFetching = false;
-    getExchange();
 
     notifyListeners();
     if (billers.isEmpty) {
@@ -78,17 +75,6 @@ class AirtimeViewModel extends ReactiveViewModel {
     if (!errorFetching && fetched) {
       setProvider(data[0]);
       setDataBiller(billers[0]);
-    }
-    notifyListeners();
-  }
-
-  void getExchange() {
-    String fromValue = selectedWallet!.walletType!.toLowerCase();
-    String toValue = 'NAIRA'.toLowerCase();
-    selectedRate = rateList?.where((element) => element.currencyFrom == fromValue).where((element) => element.currencyTo == toValue).first;
-
-    if (selectedRate != null){
-      buildText = (amountController.text.isNotEmpty && fromValue != toValue) ? "${amountController.text}${matchCurrency(toValue)} = ${(int.parse(amountController.text) / selectedRate!.rate!).toStringAsFixed(2)}${matchCurrency(fromValue)}" : null;
     }
     notifyListeners();
   }
@@ -175,7 +161,6 @@ class AirtimeViewModel extends ReactiveViewModel {
       'amount': amountController.text,
       'mobile': phoneController.text,
       'operator': selectedBiller!.name!.toLowerCase(),
-      'wallet_source': selectedWallet!.walletType
     };
 
 

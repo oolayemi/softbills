@@ -83,7 +83,7 @@ class InitialSignUpView extends StatelessWidget {
                     onPressed: () {
                       NavigationService navigatorService =
                           locator<NavigationService>();
-                      navigatorService.navigateToView(const SignUpOneView());
+                      navigatorService.clearStackAndShowView(const SignUpOneView());
                     }),
               ),
             )

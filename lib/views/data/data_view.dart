@@ -89,12 +89,9 @@ class DataView extends StatelessWidget {
                       enabled: false,
                       suffixTitle: Text(
                         formatMoney(
-                          model.selectedWallet?.balance ?? "123.23",
+                          model.wallet?.balance,
                         ),
                       ),
-                      onChanged: (string) {
-                        model.getExchange();
-                      },
                       validator: (String? val) => val!.isEmpty ? "Amount field cannot be empty" : null,
                     ),const SizedBox(height: 3),
                     Row(
@@ -120,7 +117,6 @@ class DataView extends StatelessWidget {
                         "Phone Number": model.phoneController.text,
                         "Network": model.selectedBiller!.name,
                         "Data Plan": "${model.selectedPlan!.description} @ ${model.selectedPlan!.duration}",
-                        'Payment Method': model.selectedWallet!.walletType
                       }, model.amountController.text, context, func: () async {
                         await model.purchaseData(context);
                       });

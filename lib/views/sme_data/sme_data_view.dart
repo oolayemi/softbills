@@ -75,12 +75,9 @@ class SmeDataView extends StatelessWidget {
                       controller: model.amountController,
                       suffixTitle: Text(
                         formatMoney(
-                          model.selectedWallet?.balance ?? "1223.2",
+                          model.wallet!.balance,
                         ),
                       ),
-                      onChanged: (string) {
-                        model.getExchange();
-                      },
                       validator: (String? val) =>
                           val!.isEmpty ? "Amount field cannot be empty" : null,
                     ),
@@ -107,7 +104,6 @@ class SmeDataView extends StatelessWidget {
                         "Phone Number": model.phoneController.text,
                         // "Network": model.selectedBiller!.name,
                         "Data Plan": "${model.package!.description}",
-                        'Payment Method': model.selectedWallet!.walletType
                       }, model.amountController.text, context, func: () async {
                         await model.purchaseData(context);
                       });

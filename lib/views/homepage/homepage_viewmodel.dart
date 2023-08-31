@@ -24,15 +24,12 @@ class HomePageViewModel extends ReactiveViewModel {
 
   ProfileData? get profileData => _authService.profileResponse;
 
-  List<Wallet>? get walletTypes => _authService.walletResponse;
+  WalletData? get wallet => _authService.walletResponse;
   List<VirtualAccountData>? get virtualAccounts => _authService.virtualAccountData;
 
   final RefreshController refreshController = RefreshController(initialRefresh: false);
 
-  Wallet? selectedWallet;
-
   Future<void> setUp() async {
-    selectedWallet = walletTypes!.first;
   }
 
   void onRefresh() async{
@@ -75,13 +72,6 @@ class HomePageViewModel extends ReactiveViewModel {
 
   void gotoCableTV() {
     _navigationService.navigateToView(const CableTvView());
-  }
-
-  void setWalletOption(Wallet val) {
-    selectedWallet = val;
-
-    print(selectedWallet);
-    notifyListeners();
   }
 
   @override

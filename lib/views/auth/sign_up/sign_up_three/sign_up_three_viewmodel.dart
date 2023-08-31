@@ -63,10 +63,12 @@ class SignUpThreeViewModel extends ReactiveViewModel {
       int? statusCode = response.statusCode;
       Map responseData = response.data!;
 
+      print(responseData);
+
       if (statusCode == 200) {
         Map jsonData = jsonDecode(response.toString());
         if (responseData['status'] == 'success') {
-          _storageService.addString("token", jsonData['token']);
+          _storageService.addString("token", jsonData['data']['token']);
           _storageService.addString('email', details['email']);
           _storageService.addBool('isLoggedIn', true);
           await getDetails();

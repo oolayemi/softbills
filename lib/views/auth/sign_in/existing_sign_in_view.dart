@@ -21,13 +21,15 @@ class ExistingSignInView extends StatelessWidget {
           body: Stack(
             children: [
               Container(
-                padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
+                padding: EdgeInsets.only(
+                    bottom: MediaQuery.of(context).viewInsets.bottom),
                 child: ListView(
                   children: [
                     Center(
                       child: Column(
                         children: [
-                          Image.asset("assets/images/user.png", height: 100, width: 100),
+                          Image.asset("assets/images/user.png",
+                              height: 100, width: 100),
                           const SizedBox(height: 20),
                           const Text(
                             "Welcome Back",
@@ -38,12 +40,9 @@ class ExistingSignInView extends StatelessWidget {
                             ),
                           ),
                           const SizedBox(height: 10),
-                          Text(
+                          const Text(
                             "Enter your login PIN to sign in...",
-                            style: TextStyle(
-                              fontSize: 19,
-                              color: Colors.white.withOpacity(.8),
-                            ),
+                            style: TextStyle(fontSize: 19),
                           ),
                         ],
                       ),
@@ -59,10 +58,15 @@ class ExistingSignInView extends StatelessWidget {
                       defaultPinTheme: PinTheme(
                         width: 80,
                         height: 80,
-                        textStyle: const TextStyle(fontSize: 28, fontWeight: FontWeight.w600),
+                        textStyle: const TextStyle(
+                          fontSize: 28,
+                          fontWeight: FontWeight.w600,
+                          color: Colors.white,
+                        ),
                         decoration: BoxDecoration(
-                          color: const Color(0xFF4D4A58),
-                          border: Border.all(color: const Color(0xFFE1D7C0).withOpacity(.2)),
+                          color: Colors.grey,
+                          border: Border.all(
+                              color: const Color(0xFFE1D7C0).withOpacity(.2)),
                           borderRadius: BorderRadius.circular(30),
                         ),
                       ),
@@ -79,13 +83,16 @@ class ExistingSignInView extends StatelessWidget {
                   children: [
                     NumericKeyboard(
                       onKeyboardTap: (String value) {
-                        if (model.pinController.text.length < 4) model.pinController.text = model.pinController.text + value;
+                        if (model.pinController.text.length < 4)
+                          model.pinController.text =
+                              model.pinController.text + value;
                       },
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      textColor: Colors.white,
                       rightButtonFn: () {
                         if (model.pinController.text.isNotEmpty) {
-                          model.pinController.text = model.pinController.text.substring(0, model.pinController.text.length - 1);
+                          model.pinController.text = model.pinController.text
+                              .substring(
+                                  0, model.pinController.text.length - 1);
                         }
                       },
                       rightIcon: const Icon(
@@ -94,13 +101,18 @@ class ExistingSignInView extends StatelessWidget {
                       ),
                       leftButtonFn: () async {
                         if (await model.biometrics()) {
-                          LoaderDialog.showLoadingDialog(context, message: "Signing in");
+                          LoaderDialog.showLoadingDialog(context,
+                              message: "Signing in");
                           await model.getDetails();
                           DialogService().completeDialog(DialogResponse());
-                          flusher("Sign in successful", context, color: Colors.green);
+                          flusher("Sign in successful", context,
+                              color: Colors.green);
                         }
                       },
-                      leftIcon: model.canUseBiometrics ? const Icon(Icons.fingerprint_rounded, color: Colors.red, size: 35) : null,
+                      leftIcon: model.canUseBiometrics
+                          ? const Icon(Icons.fingerprint_rounded,
+                              color: Colors.red, size: 35)
+                          : null,
                     ),
                     InkWell(
                       onTap: () => model.gotoSignUp(),
