@@ -7,6 +7,7 @@ import '../core/models/transaction_history_data.dart';
 
 class TransactionHistory extends StatelessWidget {
   final DataResponse? dataResponse;
+
   const TransactionHistory({Key? key, this.dataResponse}) : super(key: key);
 
   @override
@@ -20,7 +21,7 @@ class TransactionHistory extends StatelessWidget {
           Center(
               child: Text(
             dataResponse?.transactionType == 'credit' ? "Credit" : "Debit",
-            style: TextStyle(fontSize: 15),
+            style: const TextStyle(fontSize: 15),
           )),
           Text(
             formatMoney(dataResponse?.amount ?? "123.32"),
@@ -47,12 +48,14 @@ class TransactionHistory extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
                     Text(
-                      DateFormat('dd MMMM, yyyy').format(DateTime.parse(dataResponse?.createdAt ?? "2023-08-12")),
+                      DateFormat('dd MMMM, yyyy').format(DateTime.parse(
+                          dataResponse?.createdAt ?? "2023-08-12")),
                       style: const TextStyle(),
                     ),
                     Text(
-    DateFormat('kk:mm a').format(DateTime.parse(dataResponse?.createdAt ?? "2023-08-12")),
-                      style: TextStyle(),
+                      DateFormat('kk:mm a').format(DateTime.parse(
+                          dataResponse?.createdAt ?? "2023-08-12")),
+                      style: const TextStyle(),
                     ),
                   ],
                 ),
@@ -80,7 +83,7 @@ class TransactionHistory extends StatelessWidget {
                   children: [
                     Text(
                       dataResponse?.type ?? "credit",
-                      style: TextStyle(),
+                      style: const TextStyle(),
                     )
                   ],
                 ),
@@ -164,7 +167,7 @@ class TransactionHistory extends StatelessWidget {
                   children: [
                     Text(
                       dataResponse?.reference ?? "89dftys89",
-                      style: TextStyle(),
+                      style: const TextStyle(),
                     )
                   ],
                 ),
@@ -193,7 +196,7 @@ class TransactionHistory extends StatelessWidget {
                     Text(
                       dataResponse?.narration ?? "dlkjfsd8f9sd89b iud89sbdyds",
                       textAlign: TextAlign.end,
-                      style: TextStyle(),
+                      style: const TextStyle(),
                     )
                   ],
                 ),

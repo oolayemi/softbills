@@ -20,7 +20,7 @@ class _LifeCycleManagerState extends State<LifeCycleManager> with WidgetsBinding
   final NavigationService _navigationService = locator<NavigationService>();
   final StorageService _storageService = locator<StorageService>();
 
-  static const _inactivityTimeout = Duration(minutes: 30);
+  static const _inactivityTimeout = Duration(minutes: 2);
   Timer? _keepAliveTimer;
 
   void _keepAlive(bool visible) {
