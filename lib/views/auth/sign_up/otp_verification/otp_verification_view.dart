@@ -36,8 +36,7 @@ class OtpVerificationView extends StatelessWidget {
                     Text(
                       "We will send you a verification code to your Phone number: +234${phone.substring(1, 11)}",
                       style: TextStyle(
-                        fontSize: 19,
-                        color: Colors.white.withOpacity(.8),
+                        fontSize: 19
                       ),
                     ),
                     const SizedBox(height: 30),
@@ -45,9 +44,9 @@ class OtpVerificationView extends StatelessWidget {
                       defaultPinTheme: PinTheme(
                         width: 80,
                         height: 80,
-                        textStyle: const TextStyle(fontSize: 28, fontWeight: FontWeight.w600),
+                        textStyle: const TextStyle(fontSize: 28, fontWeight: FontWeight.w600, color: Colors.white),
                         decoration: BoxDecoration(
-                          color: const Color(0xFF4D4A58),
+                          color: Colors.grey,
                           border: Border.all(color: const Color(0xFFE1D7C0).withOpacity(.2)),
                           borderRadius: BorderRadius.circular(30),
                         ),
@@ -83,7 +82,7 @@ class OtpVerificationView extends StatelessWidget {
                             TextSpan(
                               text: "Resend",
                               style: TextStyle(
-                                color: Colors.white,
+                                color: Colors.black,
                                 fontWeight: FontWeight.bold,
                                 fontFamily: "BaiJamjuree",
                               ),

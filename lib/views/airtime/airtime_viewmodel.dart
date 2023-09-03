@@ -163,8 +163,6 @@ class AirtimeViewModel extends ReactiveViewModel {
       'operator': selectedBiller!.name!.toLowerCase(),
     };
 
-
-
     try {
       final response = await dio().post('/airtime/purchase', data: payload);
 

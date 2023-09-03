@@ -119,7 +119,7 @@ class AirtimeView extends StatelessWidget {
                     if (model.formKey.currentState!.validate()) {
                       validateTransactionDetails({
                         "Phone Number": model.phoneController.text,
-                        "Network": model.selectedBiller!.name,
+                        "Network": model.selectedBiller?.name ?? "MTN",
                       }, model.amountController.text, context, func: () async {
                         await model.purchaseAirtime(context);
                       });

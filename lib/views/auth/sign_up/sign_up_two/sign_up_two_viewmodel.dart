@@ -8,6 +8,13 @@ import '../sign_up_three/sign_up_three_view.dart';
 class SignUpTwoViewModel extends ReactiveViewModel {
   final NavigationService _navigationService = locator<NavigationService>();
   TextEditingController passwordController = TextEditingController();
+  bool obscurePassword = true;
+  bool isPasswordValid = false;
+
+  void toggleObscurePassword() {
+    obscurePassword = !obscurePassword;
+    notifyListeners();
+  }
 
   Map<String, dynamic> details = {};
   final formKey = GlobalKey<FormState>();

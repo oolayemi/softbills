@@ -24,11 +24,14 @@ class SignUpTwoView extends StatelessWidget {
                   children: const [
                     Text("2/3"),
                     SizedBox(width: 10),
-                    TabButton(selectedPage: 2, pageNumber: 1, width: 25, height: 8),
+                    TabButton(
+                        selectedPage: 2, pageNumber: 1, width: 25, height: 8),
                     SizedBox(width: 5),
-                    TabButton(selectedPage: 2, pageNumber: 2, width: 25, height: 8),
+                    TabButton(
+                        selectedPage: 2, pageNumber: 2, width: 25, height: 8),
                     SizedBox(width: 5),
-                    TabButton(selectedPage: 2, pageNumber: 3, width: 25, height: 8),
+                    TabButton(
+                        selectedPage: 2, pageNumber: 3, width: 25, height: 8),
                     SizedBox(width: 5),
                   ],
                 )
@@ -37,7 +40,8 @@ class SignUpTwoView extends StatelessWidget {
             body: Stack(
               children: [
                 Container(
-                  padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
+                  padding: EdgeInsets.only(
+                      bottom: MediaQuery.of(context).viewInsets.bottom),
                   child: Form(
                     key: model.formKey,
                     child: ListView(
@@ -51,11 +55,11 @@ class SignUpTwoView extends StatelessWidget {
                           ),
                         ),
                         const SizedBox(height: 10),
-                        Text(
+                        const Text(
                           "",
                           style: TextStyle(
                             fontSize: 19,
-                            color: Colors.white.withOpacity(.8),
+                            color: Colors.black,
                           ),
                         ),
                         const SizedBox(height: 20),
@@ -63,24 +67,38 @@ class SignUpTwoView extends StatelessWidget {
                           title: "Password",
                           hintText: "************",
                           controller: model.passwordController,
-                          obscure: true,
+                          obscure: model.obscurePassword,
                           isLast: true,
+                          suffixIcon: InkWell(
+                            onTap: () => model.toggleObscurePassword(),
+                            child: Icon(model.obscurePassword
+                                ? Icons.visibility
+                                : Icons.visibility_off),
+                          ),
                           onChanged: model.setPassword,
-                          validator: (String? value) => value!.isEmpty ? "Password field cannot be empty" : null,
+                          validator: (String? value) => value!.isEmpty
+                              ? "Password field cannot be empty"
+                              : !model.isPasswordValid
+                                  ? "The password doesn't match the condition"
+                                  : null,
                         ),
                         const SizedBox(height: 20),
                         FlutterPwValidator(
                             controller: model.passwordController,
                             minLength: 8,
+                            specialCharCount: 1,
                             uppercaseCharCount: 1,
                             numericCharCount: 1,
                             width: 400,
-                            height: 100,
-                            onSuccess: (){
-
+                            height: 130,
+                            onSuccess: () {
+                              model.isPasswordValid = true;
+                              model.notifyListeners();
                             },
-                            onFail: (){}
-                        )
+                            onFail: () {
+                              model.isPasswordValid = false;
+                              model.notifyListeners();
+                            })
                       ],
                     ),
                   ),

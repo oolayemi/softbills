@@ -1023,7 +1023,7 @@ void validateTransactionDetails(
               width: size.width / 3.5,
               child: Text(
                 key,
-                style: const TextStyle(color: Colors.white),
+                style: const TextStyle(color: Colors.black),
               ),
             ),
             Expanded(
@@ -1033,7 +1033,7 @@ void validateTransactionDetails(
                 children: [
                   Text(
                     value,
-                    style: const TextStyle(color: Colors.white),
+                    style: const TextStyle(color: Colors.black),
                     textAlign: TextAlign.end,
                   )
                 ],
@@ -1054,7 +1054,7 @@ void validateTransactionDetails(
     isScrollControlled: true,
     builder: (context) {
       return Container(
-        color: BrandColors.mainBackground,
+        color: BrandColors.primary,
         child: SafeArea(
           minimum: const EdgeInsets.only(top: 60),
           child: CustomScaffoldWidget(
@@ -1065,12 +1065,12 @@ void validateTransactionDetails(
                 Center(
                   child: Text(
                     formatMoney(amount),
-                    style: const TextStyle(color: Colors.white, fontSize: 28),
+                    style: const TextStyle(fontSize: 28, fontWeight: FontWeight.w600),
                   ),
                 ),
-                Text(
+                const Text(
                   'Amount',
-                  style: TextStyle(color: Colors.white.withOpacity(.5)),
+                  style: TextStyle(color: Colors.black),
                 ),
                 const SizedBox(height: 30),
                 Container(
@@ -1083,11 +1083,10 @@ void validateTransactionDetails(
                     width: 80,
                     height: 80,
                     textStyle: const TextStyle(
-                        fontSize: 28, fontWeight: FontWeight.w600),
+                        fontSize: 28, fontWeight: FontWeight.w600, color: Colors.white),
                     decoration: BoxDecoration(
-                      color: const Color(0xFF4D4A58),
-                      border: Border.all(
-                          color: const Color(0xFFE1D7C0).withOpacity(.2)),
+                      color: Colors.grey,
+                      border: Border.all(color: const Color(0xFFE1D7C0).withOpacity(.2)),
                       borderRadius: BorderRadius.circular(30),
                     ),
                   ),

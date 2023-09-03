@@ -19,7 +19,7 @@ class InitialSignUpView extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 SizedBox(
-                  height: 280,
+                  height: 260,
                   width: double.maxFinite,
                   // decoration: const BoxDecoration(
                   //     borderRadius: BorderRadius.only(
@@ -51,21 +51,22 @@ class InitialSignUpView extends StatelessWidget {
                           "Below are a few steps required to get you started.",
                           style: TextStyle(fontSize: 19),
                         ),
-                        const SizedBox(height: 20),
+                        const SizedBox(height: 15),
                         _buildTimelineTile(
                           "Enter your Personal Information",
-                          "",
+                          "We request that you provide your personal information as specified.",
                           isFirst: true,
                         ),
                         _buildTimelineTile(
-                          "Verify your  Phone Number",
-                          "",
+                          "Verify your Phone Number",
+                          "We also require you to verify your phone number for security purposes.",
                         ),
                         _buildTimelineTile(
-                          "Enter your Personal Information",
-                          "",
+                          "Set your Transaction PIN",
+                          "Create a secure transaction PIN to safeguard your transactions.",
                           isLast: true,
                         ),
+                        const SizedBox(height: 20)
                       ],
                     ),
                   ),
@@ -73,7 +74,7 @@ class InitialSignUpView extends StatelessWidget {
               ],
             ),
             Positioned(
-              bottom: 15,
+              bottom: 10,
               right: 0,
               left: 0,
               child: Padding(

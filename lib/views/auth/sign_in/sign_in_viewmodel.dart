@@ -122,8 +122,7 @@ class SignInViewModel extends ReactiveViewModel {
       }
     } on DioError catch (e) {
       _dialogService.completeDialog(DialogResponse());
-      print(e.response);
-      flusher('Request error: ${DioExceptions.fromDioError(e).toString()}', context, color: Colors.red);
+      flusher(DioExceptions.fromDioError(e).toString(), context, color: Colors.red);
     }
   }
 

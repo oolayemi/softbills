@@ -31,7 +31,7 @@ class _LifeCycleManagerState extends State<LifeCycleManager> with WidgetsBinding
       } else {
         _keepAliveTimer = Timer(_inactivityTimeout, () {
 
-          if(_navigationService.currentRoute != Routes.signinViewRoute) {
+          if((_navigationService.currentRoute != Routes.signinViewRoute) && _storageService.getBool('isLoggedIn') == true) {
             _storageService.addBool('isLoggedIn', false);
             _navigationService.clearStackAndShow(Routes.signinViewRoute);
           }
