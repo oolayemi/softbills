@@ -25,8 +25,8 @@ class SettingsView extends StatelessWidget {
                     onChanged: (value) {
                       model.statusBiometric(context, value);
                     })),
+                _eachSection("Change Password", () {}),
                 _eachSection("Change Transaction PIN", () {}),
-                _eachSection("Change Login PIN", () {}),
               ],
             ),
           );

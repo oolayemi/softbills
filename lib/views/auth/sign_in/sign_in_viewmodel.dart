@@ -61,7 +61,7 @@ class SignInViewModel extends ReactiveViewModel {
 
   Future<void> getDetails({bool gotoDashboard = true}) async {
     await _authService.getProfile();
-    // await _authService.getNextOfKin();
+    await _authService.getNextOfKin();
     await _authService.getWalletDetails();
     // await _authService.getVirtualAccounts();
     // await _authService.getAirtimeBeneficiaries();

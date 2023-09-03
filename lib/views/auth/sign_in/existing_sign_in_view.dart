@@ -83,9 +83,10 @@ class ExistingSignInView extends StatelessWidget {
                   children: [
                     NumericKeyboard(
                       onKeyboardTap: (String value) {
-                        if (model.pinController.text.length < 4)
+                        if (model.pinController.text.length < 4) {
                           model.pinController.text =
                               model.pinController.text + value;
+                        }
                       },
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       rightButtonFn: () {
@@ -101,12 +102,10 @@ class ExistingSignInView extends StatelessWidget {
                       ),
                       leftButtonFn: () async {
                         if (await model.biometrics()) {
-                          LoaderDialog.showLoadingDialog(context,
-                              message: "Signing in");
+                          LoaderDialog.showLoadingDialog(context, message: "Signing in");
                           await model.getDetails();
                           DialogService().completeDialog(DialogResponse());
-                          flusher("Sign in successful", context,
-                              color: Colors.green);
+                          flusher("Sign in successful", context, color: Colors.green);
                         }
                       },
                       leftIcon: model.canUseBiometrics

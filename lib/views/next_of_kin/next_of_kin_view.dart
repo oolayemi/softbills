@@ -56,36 +56,6 @@ class NextOfKinView extends StatelessWidget {
                           controller: model.address,
                           validator: (value) => value!.isEmpty ? "Address field cannot be empty" : null,
                         ),
-                        // Row(
-                        //   children: [
-                        //     SizedBox(
-                        //       width: MediaQuery.of(context).size.width / 3.5,
-                        //       child: BuildDropDown(
-                        //         list: const ["MTN", "Airtel", "9mobile", 'GLO'],
-                        //         title: "Country",
-                        //         value: "Airtel",
-                        //         iconUrl: "assets/images/mtn.png",
-                        //         onChanged: (String? value) {},
-                        //       ),
-                        //     ),
-                        //     const SizedBox(width: 10),
-                        //     Expanded(
-                        //       child: BuildTextField(
-                        //         title: "Phone Number",
-                        //         textInputType: TextInputType.number,
-                        //         hintText: "9032395066",
-                        //         suffixIcon: InkWell(
-                        //           onTap: () {
-                        //             FocusScope.of(context).unfocus();
-                        //           },
-                        //           child: const Icon(
-                        //             Icons.perm_contact_cal_outlined,
-                        //           ),
-                        //         ),
-                        //       ),
-                        //     )
-                        //   ],
-                        // ),
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [

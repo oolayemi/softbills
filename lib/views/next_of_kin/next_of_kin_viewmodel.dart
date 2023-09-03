@@ -32,6 +32,7 @@ class NextOfKinViewModel extends ReactiveViewModel {
 
   Future saveNokDetails(context) async {
     LoaderDialog.showLoadingDialog(context, message: "Saving details...");
+    String phoneNumber = phone.text.replaceAll(' ', '');
 
     Map<String, dynamic> payload = {
       'firstname': firstName.text,
@@ -39,7 +40,7 @@ class NextOfKinViewModel extends ReactiveViewModel {
       'email': email.text,
       'address': address.text,
       'relationship': relationship.text,
-      'phone': phone.text
+      'phone': "0${phoneNumber.substring(phoneNumber.length - 10, phoneNumber.length)}"
     };
 
     try {
