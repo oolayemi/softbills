@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:no_name/views/change_password/change_password.dart';
 import 'package:no_name/views/change_transaction_pin/change_transaction_pin.dart';
 import 'package:no_name/widgets/utility_widgets.dart';
 import 'package:stacked/stacked.dart';
@@ -27,7 +28,9 @@ class SettingsView extends StatelessWidget {
                     onChanged: (value) {
                       model.statusBiometric(context, value);
                     })),
-                _eachSection("Change Password", () {}),
+                _eachSection("Change Password", () {
+                  NavigationService().navigateToView(const ChangePasswordView());
+                }),
                 _eachSection("Change Transaction PIN", () {
                   NavigationService().navigateToView(const ChangeTransactionPinView());
                 }),

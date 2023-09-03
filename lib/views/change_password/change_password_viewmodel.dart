@@ -9,33 +9,37 @@ import 'package:stacked_services/stacked_services.dart';
 import '../../app/locator.dart';
 import '../../core/constants/loading_dialog.dart';
 import '../../core/exceptions/error_handling.dart';
-import '../../core/models/nok_response.dart';
 import '../../core/utils/tools.dart';
 import '../../widgets/utility_widgets.dart';
 
-class ChangeTransactionPinViewModel extends ReactiveViewModel {
+class ChangePasswordViewModel extends ReactiveViewModel {
   final AuthService _authService = locator<AuthService>();
   final NavigationService _navigationService = locator<NavigationService>();
   final DialogService _dialogService = locator<DialogService>();
 
+  TextEditingController oldPasswordController = TextEditingController();
+  TextEditingController newPasswordController = TextEditingController();
+  bool obscurePassword = true;
+  bool isPasswordValid = false;
+
+  void toggleObscurePassword() {
+    obscurePassword = !obscurePassword;
+    notifyListeners();
+  }
   final formKey = GlobalKey<FormState>();
 
-  TextEditingController oldPin = TextEditingController();
-  TextEditingController newPin = TextEditingController();
-  TextEditingController confirmNewPin = TextEditingController();
-
-  Future changePin(context) async {
-    LoaderDialog.showLoadingDialog(context, message: "Changing transaction pin...");
+  Future changePassword(context) async {
+    LoaderDialog.showLoadingDialog(context, message: "Changing password...");
 
     Map<String, dynamic> payload = {
-      'current_pin': oldPin.text,
-      'new_pin': newPin.text,
-      'new_pin_confirmation': confirmNewPin.text,
+      'current_password': oldPasswordController.text,
+      'new_password': newPasswordController.text,
+      'new_password_confirmation': newPasswordController.text,
     };
 
     try {
       final response =
-          await dio().post('/user/transaction-pin/change', data: payload);
+          await dio().post('/user/password/change', data: payload);
 
       String? success = jsonDecode(response.toString())['status'];
 
