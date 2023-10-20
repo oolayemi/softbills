@@ -36,8 +36,12 @@ class CableTvView extends StatelessWidget {
                         bottomSpacing: 0,
                         controller: model.iucNumberController,
                         textInputType: TextInputType.number,
-                        inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-                        validator: (String? val) => val!.isEmpty ? "IUC number field cannot be empty" : null,
+                        inputFormatters: [
+                          FilteringTextInputFormatter.digitsOnly
+                        ],
+                        validator: (String? val) => val!.isEmpty
+                            ? "IUC number field cannot be empty"
+                            : null,
                       ),
                       Align(
                         alignment: Alignment.centerRight,
@@ -57,10 +61,9 @@ class CableTvView extends StatelessWidget {
                         controller: model.amountController,
                         enabled: false,
                         suffixTitle: Text(
-                          formatMoney(model.wallet!.balance),
+                          formatMoney(model.wallet?.balance ?? "0"),
                         ),
-                        onChanged: (string) {
-                        },
+                        onChanged: (string) {},
                       ),
                       const SizedBox(height: 3),
                       Row(
@@ -82,15 +85,20 @@ class CableTvView extends StatelessWidget {
                     onPressed: () {
                       if (model.formKey.currentState!.validate()) {
                         if (model.package != null) {
-                          !model.verified ? model.validateProvider(context) : validateTransactionDetails({
-                            "IUC Number": model.iucNumberController.text,
-                            "Provider": model.biller!.name,
-                            "Package": model.package!.name,
-                          }, model.amountController.text, context, func: () async {
-                            await model.purchasePackage(context);
-                          });
+                          !model.verified
+                              ? model.validateProvider(context)
+                              : validateTransactionDetails({
+                                  "IUC Number": model.iucNumberController.text,
+                                  "Provider": model.biller!.name,
+                                  "Package": model.package!.name,
+                                }, model.amountController.text, context,
+                                  func: () async {
+                                  await model.purchasePackage(context);
+                                });
                         } else {
-                          flusher("Please select a package to continue", context, color: Colors.red);
+                          flusher(
+                              "Please select a package to continue", context,
+                              color: Colors.red);
                         }
                       }
                     },
@@ -117,7 +125,10 @@ class CableTvView extends StatelessWidget {
             if (model.cableBillers!.isNotEmpty) {
               FocusScope.of(context).unfocus();
               billerSelection(
-                  ctx: context, billers: model.cableBillers, selectPlan: (CableBillers biller) => model.setBiller(biller, context));
+                  ctx: context,
+                  billers: model.cableBillers,
+                  selectPlan: (CableBillers biller) =>
+                      model.setBiller(biller, context));
             }
           },
           child: Container(
@@ -125,46 +136,62 @@ class CableTvView extends StatelessWidget {
               width: double.maxFinite,
               padding: const EdgeInsets.symmetric(horizontal: 10),
               decoration: BoxDecoration(
-                  color: const Color(0xFF605F5F).withOpacity(.1), borderRadius: BorderRadius.circular(10)),
+                  color: const Color(0xFF605F5F).withOpacity(.1),
+                  borderRadius: BorderRadius.circular(10)),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Expanded(
-                    child: model.cableBillers!.isNotEmpty
+                    child: model.cableBillers != null &&
+                            model.cableBillers!.isNotEmpty
                         ? Row(
                             children: [
                               model.biller == null
                                   ? const SizedBox()
-                                  : CachedNetworkImage(
-                                      imageUrl: model.biller!.image!,
-                                      progressIndicatorBuilder: (context, url, downloadProgress) =>
-                                          LinearProgressIndicator(value: downloadProgress.progress),
-                                      errorWidget: (context, url, error) => const Icon(
-                                        Icons.error,
-                                        color: Colors.red,
+                                  : CircleAvatar(
+                                      radius: 20,
+                                      child: CachedNetworkImage(
+                                        imageUrl: model.biller!.image!,
+                                        progressIndicatorBuilder: (context, url,
+                                                downloadProgress) =>
+                                            LinearProgressIndicator(
+                                                value:
+                                                    downloadProgress.progress),
+                                        errorWidget: (context, url, error) =>
+                                            const Icon(
+                                          Icons.error,
+                                          color: Colors.red,
+                                        ),
+                                        width: SizeConfig.xMargin(context, 7),
                                       ),
-                                      width: SizeConfig.xMargin(context, 10),
                                     ),
                               Container(
-                                margin: EdgeInsets.only(left: SizeConfig.xMargin(context, 2)),
-                                child: Text(model.biller == null ? 'Select Biller' : model.biller!.name!),
+                                margin: EdgeInsets.only(
+                                    left: SizeConfig.xMargin(context, 2)),
+                                child: Text(model.biller == null
+                                    ? 'Select Biller'
+                                    : model.biller!.name!),
                               ),
                             ],
                           )
                         : Container(
-                            padding: EdgeInsets.symmetric(vertical: SizeConfig.yMargin(context, 2)),
+                            padding: EdgeInsets.symmetric(
+                                vertical: SizeConfig.yMargin(context, 2)),
                             child: Row(
                               children: [
                                 AspectRatio(
                                   aspectRatio: 1.0,
                                   child: CircularProgressIndicator(
-                                    valueColor: AlwaysStoppedAnimation<Color?>(Colors.grey[500]),
+                                    valueColor: AlwaysStoppedAnimation<Color?>(
+                                        Colors.grey[500]),
                                     strokeWidth: 2,
                                   ),
                                 ),
                                 Container(
-                                  margin: EdgeInsets.symmetric(horizontal: SizeConfig.xMargin(context, 4)),
+                                  margin: EdgeInsets.symmetric(
+                                      horizontal:
+                                          SizeConfig.xMargin(context, 4)),
                                   child: const Text('Loading'),
                                 )
                               ],
@@ -208,32 +235,39 @@ class CableTvView extends StatelessWidget {
             width: double.maxFinite,
             padding: const EdgeInsets.symmetric(horizontal: 10),
             decoration: BoxDecoration(
-                color: const Color(0xFF605F5F).withOpacity(.1), borderRadius: BorderRadius.circular(10)),
+                color: const Color(0xFF605F5F).withOpacity(.1),
+                borderRadius: BorderRadius.circular(10)),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Expanded(
-                  child: model.biller == null || model.cablePackages[model.biller!.name] == null
+                  child: model.biller == null ||
+                          model.cablePackages[model.biller!.name] == null
                       ? Container(
-                          padding: EdgeInsets.symmetric(vertical: SizeConfig.yMargin(context, 2)),
+                          padding: EdgeInsets.symmetric(
+                              vertical: SizeConfig.yMargin(context, 2)),
                           child: Row(
                             children: [
                               AspectRatio(
                                 aspectRatio: 1.0,
                                 child: CircularProgressIndicator(
-                                  valueColor: AlwaysStoppedAnimation<Color?>(Colors.grey[500]),
+                                  valueColor: AlwaysStoppedAnimation<Color?>(
+                                      Colors.grey[500]),
                                   strokeWidth: 2,
                                 ),
                               ),
                               Container(
-                                margin: EdgeInsets.symmetric(horizontal: SizeConfig.xMargin(context, 4)),
+                                margin: EdgeInsets.symmetric(
+                                    horizontal: SizeConfig.xMargin(context, 4)),
                                 child: const Text('Loading'),
                               )
                             ],
                           ),
                         )
-                      : Text(model.package == null ? 'Select Package' : model.package!.name!),
+                      : Text(model.package == null
+                          ? 'Select Package'
+                          : model.package!.name!),
                 ),
                 Icon(
                   Icons.keyboard_arrow_down,
@@ -247,7 +281,10 @@ class CableTvView extends StatelessWidget {
     );
   }
 
-  void billerSelection({required BuildContext ctx, List<CableBillers>? billers, Function? selectPlan}) {
+  void billerSelection(
+      {required BuildContext ctx,
+      List<CableBillers>? billers,
+      Function? selectPlan}) {
     showModalBottomSheet(
         enableDrag: false,
         context: ctx,
@@ -260,56 +297,72 @@ class CableTvView extends StatelessWidget {
         )),
         builder: (context) => Container(
               padding: EdgeInsets.only(top: SizeConfig.yMargin(context, 2)),
-              height: SizeConfig.yMargin(context, 40),
+              height: SizeConfig.yMargin(context, 50),
               child: Column(
                 children: [
                   Container(
-                    padding: EdgeInsets.symmetric(horizontal: SizeConfig.xMargin(context, 4)),
+                    padding: EdgeInsets.symmetric(
+                        horizontal: SizeConfig.xMargin(context, 4)),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         const Text('Select Provider'),
-                        IconButton(onPressed: () => Navigator.of(ctx).pop(), icon: const Icon(Icons.close))
+                        IconButton(
+                            onPressed: () => Navigator.of(ctx).pop(),
+                            icon: const Icon(Icons.close))
                       ],
                     ),
                   ),
-                  Column(
-                    children: [
-                      for (CableBillers item in billers!)
-                        InkWell(
-                          onTap: () {
-                            selectPlan!(item);
-                            Navigator.of(ctx).pop();
-                          },
-                          child: Container(
-                            width: SizeConfig.xMargin(context, 100),
-                            padding: EdgeInsets.symmetric(
-                                vertical: SizeConfig.yMargin(context, 2), horizontal: SizeConfig.xMargin(context, 4)),
-                            decoration: BoxDecoration(border: Border(bottom: BorderSide(color: Colors.grey[200]!))),
-                            child: Row(
-                              children: [
-                                CachedNetworkImage(
-                                  imageUrl: item.image!,
-                                  width: SizeConfig.xMargin(context, 10),
-                                ),
-                                Container(
-                                  margin: EdgeInsets.only(left: SizeConfig.xMargin(context, 2)),
-                                  child: Text('${item.name}',
-                                      style:
-                                          Theme.of(context).textTheme.headline3!.copyWith(fontSize: SizeConfig.textSize(context, 2))),
-                                ),
-                              ],
+                  ListView.builder(
+                    shrinkWrap: true,
+                    itemCount: billers!.length,
+                      itemBuilder: (context, index) {
+                        CableBillers item = billers.elementAt(index);
+                    return InkWell(
+                      onTap: () {
+                        selectPlan!(item);
+                        Navigator.of(ctx).pop();
+                      },
+                      child: Container(
+                        width: SizeConfig.xMargin(context, 100),
+                        padding: EdgeInsets.symmetric(
+                            vertical: SizeConfig.yMargin(context, 2),
+                            horizontal: SizeConfig.xMargin(context, 4)),
+                        decoration: BoxDecoration(
+                            border: Border(
+                                bottom:
+                                BorderSide(color: Colors.grey[200]!))),
+                        child: Row(
+                          children: [
+                            CachedNetworkImage(
+                              imageUrl: item.image!,
+                              width: SizeConfig.xMargin(context, 10),
                             ),
-                          ),
-                        )
-                    ],
-                  )
+                            Container(
+                              margin: EdgeInsets.only(
+                                  left: SizeConfig.xMargin(context, 2)),
+                              child: Text('${item.name}',
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .headline3!
+                                      .copyWith(
+                                      fontSize: SizeConfig.textSize(
+                                          context, 2))),
+                            ),
+                          ],
+                        ),
+                      ),
+                    );
+                  })
                 ],
               ),
             ));
   }
 
-  void packageSelection({required BuildContext ctx, List<CableTvPackage>? packages, Function? selectPlan}) {
+  void packageSelection(
+      {required BuildContext ctx,
+      List<CableTvPackage>? packages,
+      Function? selectPlan}) {
     showModalBottomSheet(
         enableDrag: false,
         context: ctx,
@@ -326,12 +379,15 @@ class CableTvView extends StatelessWidget {
               child: Column(
                 children: [
                   Container(
-                    padding: EdgeInsets.symmetric(horizontal: SizeConfig.xMargin(context, 4)),
+                    padding: EdgeInsets.symmetric(
+                        horizontal: SizeConfig.xMargin(context, 4)),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         const Text('Select Package'),
-                        IconButton(onPressed: () => Navigator.of(ctx).pop(), icon: const Icon(Icons.close))
+                        IconButton(
+                            onPressed: () => Navigator.of(ctx).pop(),
+                            icon: const Icon(Icons.close))
                       ],
                     ),
                   ),
@@ -348,10 +404,20 @@ class CableTvView extends StatelessWidget {
                               child: Container(
                                 width: SizeConfig.xMargin(context, 100),
                                 padding: EdgeInsets.symmetric(
-                                    vertical: SizeConfig.yMargin(context, 2), horizontal: SizeConfig.xMargin(context, 4)),
-                                decoration: BoxDecoration(border: Border(bottom: BorderSide(color: Colors.grey[200]!))),
-                                child: Text('${item.name} - ${formatMoney(item.amount)}',
-                                    style: Theme.of(context).textTheme.headline3!.copyWith(fontSize: SizeConfig.textSize(context, 2))),
+                                    vertical: SizeConfig.yMargin(context, 2),
+                                    horizontal: SizeConfig.xMargin(context, 4)),
+                                decoration: BoxDecoration(
+                                    border: Border(
+                                        bottom: BorderSide(
+                                            color: Colors.grey[200]!))),
+                                child: Text(
+                                    '${item.name}',
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .headline3!
+                                        .copyWith(
+                                            fontSize: SizeConfig.textSize(
+                                                context, 2))),
                               ),
                             )
                         ],

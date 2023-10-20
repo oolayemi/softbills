@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
@@ -69,7 +70,7 @@ class CableTvViewModel extends ReactiveViewModel {
 
   void setPackage(CableTvPackage val) {
     package = val;
-    amountController.text = val.price!.toString();
+    amountController.text = val.variationAmount!.toString();
     notifyListeners();
   }
 
@@ -87,7 +88,7 @@ class CableTvViewModel extends ReactiveViewModel {
       if (statusCode == 200) {
         if (success == 'success') {
           CableTvData temp = CableTvData.fromJson(json);
-          _transferFundsService.setCableBillers(temp.billers);
+          _transferFundsService.setCableBillers(temp.data);
           notifyListeners();
         } else {
           flusher(json['message'] ?? 'Error Fetching data', context, color: Colors.red);
@@ -104,7 +105,7 @@ class CableTvViewModel extends ReactiveViewModel {
   Future fetchPackages(context, CableBillers biller) async {
     try {
 
-      final response = await dio().get('/cable/${biller.type}/provider');
+      final response = await dio().get('/cable/${biller.serviceID}/provider');
 
       int? statusCode = response.statusCode;
 
@@ -114,7 +115,7 @@ class CableTvViewModel extends ReactiveViewModel {
       if (statusCode == 200) {
         if (success == 'success') {
           PlansData temp = PlansData.fromJson(json);
-          _transferFundsService.addPackage(biller.name, temp.billers);
+          _transferFundsService.addPackage(biller.name, temp.data);
           notifyListeners();
         } else {
           flusher(json['message'] ?? 'Error Fetching data', context, color: Colors.red);
@@ -132,8 +133,8 @@ class CableTvViewModel extends ReactiveViewModel {
     LoaderDialog.showLoadingDialog(context, message: "Validating details...");
 
     Map<String, dynamic> payload = {
-      'smartCardNo': iucNumberController.text,
-      'biller_id': biller!.id.toString()
+      'billers_code': iucNumberController.text,
+      'service_id': biller!.serviceID.toString()
     };
 
     try {
@@ -159,7 +160,6 @@ class CableTvViewModel extends ReactiveViewModel {
         flusher(json['message'] ?? 'Error Fetching data', context, color: Colors.red);
       }
     } on DioError catch (e) {
-      print(e.response);
       _dialogService.completeDialog(DialogResponse());
       flusher(DioExceptions.fromDioError(e).toString(), context, color: Colors.red);
     }
@@ -169,10 +169,11 @@ class CableTvViewModel extends ReactiveViewModel {
     LoaderDialog.showLoadingDialog(context, message: "Purchasing Cable TV...");
 
     Map<String, dynamic> payload = {
-      'smartCardNo': iucNumberController.text,
-      'type': biller!.type,
-      'code': package!.code,
-      'amount': package!.amount
+      'service_id': biller!.serviceID,
+      'billers_code': iucNumberController.text,
+      'variation_code': package!.variationCode,
+      'amount': package!.variationAmount,
+      'subscription_type': 'change'
     };
 
     try {

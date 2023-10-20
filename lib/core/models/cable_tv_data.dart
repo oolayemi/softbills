@@ -1,105 +1,129 @@
-
 class CableTvData {
+  bool? success;
   String? status;
-  List<CableBillers>? billers;
+  String? message;
+  List<CableBillers>? data;
 
-  CableTvData({this.status, this.billers});
+  CableTvData({this.success, this.status, this.message, this.data});
 
   CableTvData.fromJson(Map<String, dynamic> json) {
+    success = json['success'];
     status = json['status'];
-    if (json['billers'] != null) {
-      billers = <CableBillers>[];
-      json['billers'].forEach((v) {
-        billers!.add(CableBillers.fromJson(v));
+    message = json['message'];
+    if (json['data'] != null) {
+      data = <CableBillers>[];
+      json['data'].forEach((v) {
+        data!.add(CableBillers.fromJson(v));
       });
     }
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
+    data['success'] = success;
     data['status'] = status;
-    if (billers != null) {
-      data['billers'] = billers!.map((v) => v.toJson()).toList();
+    data['message'] = message;
+    if (this.data != null) {
+      data['data'] = this.data!.map((v) => v.toJson()).toList();
     }
     return data;
   }
 }
 
 class CableBillers {
-  int? id;
+  String? serviceID;
   String? name;
-  String? type;
+  String? minimiumAmount;
+  String? maximumAmount;
+  String? convinienceFee;
+  String? productType;
   String? image;
 
-  CableBillers({this.id, this.name, this.type, this.image});
+  CableBillers(
+      {this.serviceID,
+        this.name,
+        this.minimiumAmount,
+        this.maximumAmount,
+        this.convinienceFee,
+        this.productType,
+        this.image});
 
   CableBillers.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
+    serviceID = json['serviceID'];
     name = json['name'];
-    type = json['type'];
+    minimiumAmount = json['minimium_amount'];
+    maximumAmount = json['maximum_amount'];
+    convinienceFee = json['convinience_fee'];
+    productType = json['product_type'];
     image = json['image'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
-    data['id'] = id;
+    data['serviceID'] = serviceID;
     data['name'] = name;
-    data['type'] = type;
+    data['minimium_amount'] = minimiumAmount;
+    data['maximum_amount'] = maximumAmount;
+    data['convinience_fee'] = convinienceFee;
+    data['product_type'] = productType;
     data['image'] = image;
     return data;
   }
 }
 
 class PlansData {
+  bool? success;
   String? status;
-  List<CableTvPackage>? billers;
+  String? message;
+  List<CableTvPackage>? data;
 
-  PlansData({this.status, this.billers});
+  PlansData({this.success, this.status, this.message, this.data});
 
   PlansData.fromJson(Map<String, dynamic> json) {
+    success = json['success'];
     status = json['status'];
-    if (json['billers'] != null) {
-      billers = <CableTvPackage>[];
-      json['billers'].forEach((v) {
-        billers!.add(CableTvPackage.fromJson(v));
+    message = json['message'];
+    if (json['data'] != null) {
+      data = <CableTvPackage>[];
+      json['data'].forEach((v) {
+        data!.add(CableTvPackage.fromJson(v));
       });
     }
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
+    data['success'] = success;
     data['status'] = status;
-    if (billers != null) {
-      data['billers'] = billers!.map((v) => v.toJson()).toList();
+    data['message'] = message;
+    if (this.data != null) {
+      data['data'] = this.data!.map((v) => v.toJson()).toList();
     }
     return data;
   }
 }
 
 class CableTvPackage {
+  String? variationCode;
   String? name;
-  String? type;
-  String? code;
-  String? price;
-  String? amount;
+  String? variationAmount;
+  String? fixedPrice;
 
-  CableTvPackage({this.name, this.type, this.code, this.price, this.amount});
+  CableTvPackage({this.variationCode, this.name, this.variationAmount, this.fixedPrice});
 
   CableTvPackage.fromJson(Map<String, dynamic> json) {
+    variationCode = json['variation_code'];
     name = json['name'];
-    type = json['type'];
-    code = json['code'];
-    price = json['price'];
-    amount = json['amount'];
+    variationAmount = json['variation_amount'];
+    fixedPrice = json['fixedPrice'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
+    data['variation_code'] = variationCode;
     data['name'] = name;
-    data['type'] = type;
-    data['code'] = code;
-    data['price'] = price;
-    data['amount'] = amount;
+    data['variation_amount'] = variationAmount;
+    data['fixedPrice'] = fixedPrice;
     return data;
   }
 }

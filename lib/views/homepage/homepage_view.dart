@@ -100,7 +100,7 @@ class HomePageView extends StatelessWidget {
               Text.rich(
                 TextSpan(
                   text: model.viewBalance
-                      ? formatMoney(model.wallet!.balance.toString())
+                      ? formatMoney(model.wallet?.balance.toString() ?? "0")
                       : "*****",
                   style: const TextStyle(
                       fontSize: 26,
@@ -150,7 +150,7 @@ class HomePageView extends StatelessWidget {
                   children: [
                     Expanded(
                       child: Text(
-                        model.wallet!.number!,
+                        model.wallet?.number ?? "N/A",
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                         style: const TextStyle(color: Colors.white),
