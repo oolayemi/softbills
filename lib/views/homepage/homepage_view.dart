@@ -150,7 +150,7 @@ class HomePageView extends StatelessWidget {
                   children: [
                     Expanded(
                       child: Text(
-                        model.wallet?.number ?? "N/A",
+                        model.wallet?.number,
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                         style: const TextStyle(color: Colors.white),
