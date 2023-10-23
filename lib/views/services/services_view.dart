@@ -44,7 +44,7 @@ class ServicesView extends StatelessWidget {
             children: [
               EachLink(icon: Icons.tv_rounded, title: "Cable TV", onTap: () => model.gotoCableTV()),
               const SizedBox(width: 35),
-              EachLink(icon: Icons.light, title: "Electricity", onTap: () => flusher("Coming soon", context, color: Colors.blue, sec: 1)),
+              EachLink(icon: Icons.light, title: "Electricity", onTap: () => model.gotoElectricity()),
               const SizedBox(width: 35),
               // EachLink(icon: Icons.flight, title: "Flight", onTap: () => flusher("Coming soon", context, color: Colors.blue, sec: 1)),
               // const SizedBox(width: 35),

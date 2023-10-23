@@ -92,7 +92,7 @@ class ElectricityView extends StatelessWidget {
                           : validateTransactionDetails({
                               "Meter Number": model.meterNoController.text,
                               "Name": model.accountName,
-                              "Provider": model.selectedBiller!.shortName
+                              "Provider": model.selectedBiller!.name
                             }, model.amountController.text, context, func: () async {
                               await model.purchaseElectricity(context);
                             });
@@ -153,7 +153,7 @@ class ElectricityView extends StatelessWidget {
                                   ),
                             Container(
                               margin: EdgeInsets.only(left: SizeConfig.xMargin(context, 2)),
-                              child: Text(model.selectedBiller == null ? 'Select Biller' : model.selectedBiller!.narration!),
+                              child: Text(model.selectedBiller == null ? 'Select Biller' : model.selectedBiller!.name!),
                             ),
                           ],
                         )
@@ -244,7 +244,7 @@ class ElectricityView extends StatelessWidget {
                               Expanded(
                                 child: Container(
                                   margin: EdgeInsets.only(left: SizeConfig.xMargin(context, 2)),
-                                  child: Text('${item.narration}',
+                                  child: Text('${item.name}',
                                       style:
                                           Theme.of(context).textTheme.displaySmall!.copyWith(fontSize: SizeConfig.textSize(context, 2))),
                                 ),

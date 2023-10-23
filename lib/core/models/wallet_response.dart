@@ -50,7 +50,7 @@ class WalletData {
     userId = json['user_id'];
     number = json['number'];
     currency = json['currency'];
-    balance = json['balance'];
+    balance = json['balance'].toString();
     createdAt = json['created_at'];
     updatedAt = json['updated_at'];
     virtualAccount = json['virtual_account'] != null

@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
@@ -17,7 +18,8 @@ import '../services/transfer_funds_service.dart';
 
 class ElectricityViewModel extends ReactiveViewModel {
   final AuthService _authService = locator<AuthService>();
-  final TransferFundsService _transferFundsService = locator<TransferFundsService>();
+  final TransferFundsService _transferFundsService =
+      locator<TransferFundsService>();
   final NavigationService _navigationService = locator<NavigationService>();
   final DialogService _dialogService = locator<DialogService>();
 
@@ -32,7 +34,8 @@ class ElectricityViewModel extends ReactiveViewModel {
   bool loadingName = false;
   bool verified = false;
 
-  List<ElectricityBillers>? get electricityBillers => _transferFundsService.electricityBillers;
+  List<ElectricityBillers>? get electricityBillers =>
+      _transferFundsService.electricityBillers;
   ElectricityBillers? selectedBiller;
 
   WalletData? get wallet => _authService.walletResponse;
@@ -40,10 +43,12 @@ class ElectricityViewModel extends ReactiveViewModel {
   void setup(BuildContext context) async {
     if (electricityBillers!.isEmpty) {
       await getData(context);
-      if (electricityBillers!.isNotEmpty) setElectricityBiller(electricityBillers![0]);
+      if (electricityBillers!.isNotEmpty)
+        setElectricityBiller(electricityBillers![0]);
     }
     if (electricityBillers!.isNotEmpty) {
-      if (electricityBillers!.isNotEmpty) setElectricityBiller(electricityBillers![0]);
+      if (electricityBillers!.isNotEmpty)
+        setElectricityBiller(electricityBillers![0]);
     }
     notifyListeners();
   }
@@ -73,42 +78,48 @@ class ElectricityViewModel extends ReactiveViewModel {
   }
 
   Future getData(context) async {
-
     try {
-
-      final response = await dio().get('/electricity/billers');
+      final response = await dio().get('/electricity/providers');
 
       int? statusCode = response.statusCode;
 
       Map<String, dynamic> json = jsonDecode(response.toString());
+      log(jsonEncode(json));
       String? success = json['status'];
 
       if (statusCode == 200) {
         if (success == 'success') {
           ElectricityData temp = ElectricityData.fromJson(json);
-          _transferFundsService.setElectricitybiller(temp.billers);
+          _transferFundsService.setElectricitybiller(temp.data);
           notifyListeners();
         } else {
-          flusher(json['message'] ?? 'Error Fetching data', context, color: Colors.red);
+          flusher(json['message'] ?? 'Error Fetching data', context,
+              color: Colors.red);
         }
       } else {
-        flusher(json['message'] ?? 'Error Fetching data', context, color: Colors.red);
+        flusher(json['message'] ?? 'Error Fetching data', context,
+            color: Colors.red);
       }
     } on DioError catch (e) {
       print(e.response);
-      flusher(DioExceptions.fromDioError(e).toString(), context, color: Colors.red);
+      flusher(DioExceptions.fromDioError(e).toString(), context,
+          color: Colors.red);
     }
   }
 
   Future validateMeter(context) async {
-    LoaderDialog.showLoadingDialog(context, message: "Validating meter number...");
+    LoaderDialog.showLoadingDialog(context,
+        message: "Validating meter number...");
     setLoading(true);
 
-    Map<String, dynamic> payload = {'account_number': meterNoController.text, 'type': selectedBiller!.type};
+    Map<String, dynamic> payload = {
+      'billers_code': meterNoController.text,
+      'service_id': selectedBiller!.serviceID,
+      'type': 'prepaid'
+    };
 
     try {
-
-      final response = await dio().post('/electricity/validate-meter', data: payload);
+      final response = await dio().post('/electricity/validate', data: payload);
 
       int? statusCode = response.statusCode;
 
@@ -128,33 +139,37 @@ class ElectricityViewModel extends ReactiveViewModel {
           setLoading(false);
           resetName();
           _dialogService.completeDialog(DialogResponse());
-          flusher(json['message'] ?? 'Error Fetching data', context, color: Colors.red);
+          flusher(json['message'] ?? 'Error Fetching data', context,
+              color: Colors.red);
         }
       } else {
         setLoading(false);
         resetName();
         _dialogService.completeDialog(DialogResponse());
-        flusher(json['message'] ?? 'Error Fetching data', context, color: Colors.red);
+        flusher(json['message'] ?? 'Error Fetching data', context,
+            color: Colors.red);
       }
     } on DioError catch (e) {
       setLoading(false);
       resetName();
       _dialogService.completeDialog(DialogResponse());
-      flusher(DioExceptions.fromDioError(e).toString(), context, color: Colors.red);
+      flusher(DioExceptions.fromDioError(e).toString(), context,
+          color: Colors.red);
     }
   }
 
   Future purchaseElectricity(context) async {
-    LoaderDialog.showLoadingDialog(context, message: 'Purchasing ${selectedBiller!.narration} of ${amountController.text}');
+    LoaderDialog.showLoadingDialog(context,
+        message:
+            'Purchasing ${selectedBiller!.name} of ${amountController.text}');
 
     Map<String, dynamic> payload = {
       'account_number': meterNoController.text,
-      'type': selectedBiller!.type,
+      'type': selectedBiller!.productType,
       'amount': amountController.text,
     };
 
     try {
-
       final response = await dio().post('/electricity/purchase', data: payload);
 
       int? statusCode = response.statusCode;
@@ -173,22 +188,23 @@ class ElectricityViewModel extends ReactiveViewModel {
         } else {
           _dialogService.completeDialog(DialogResponse());
           print(json);
-          flusher(json['message'] ?? 'Error Fetching data', context, color: Colors.red);
+          flusher(json['message'] ?? 'Error Fetching data', context,
+              color: Colors.red);
         }
       } else {
         _dialogService.completeDialog(DialogResponse());
-        flusher(json['message'] ?? 'Error Fetching data', context, color: Colors.red);
+        flusher(json['message'] ?? 'Error Fetching data', context,
+            color: Colors.red);
       }
-
     } on DioError catch (e) {
       _dialogService.completeDialog(DialogResponse());
       print(e);
-      flusher(DioExceptions.fromDioError(e).toString(), context, color: Colors.red);
+      flusher(DioExceptions.fromDioError(e).toString(), context,
+          color: Colors.red);
     }
   }
 
   @override
   // TODO: implement reactiveServices
   List<ReactiveServiceMixin> get reactiveServices => [];
-
 }

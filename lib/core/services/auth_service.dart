@@ -227,8 +227,6 @@ class AuthService with ReactiveServiceMixin {
         int? statusCode = value.statusCode;
         Map<String, dynamic> responseData = value.data!;
 
-        print(jsonEncode(responseData));
-
         if (statusCode == 200) {
           if (responseData['status'] == 'success') {
             WalletResponse temp = WalletResponse.fromJson(responseData);
