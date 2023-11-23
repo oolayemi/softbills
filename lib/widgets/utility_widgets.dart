@@ -7,6 +7,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:crypto/crypto.dart';
 
 import 'package:intl/intl.dart';
+import 'package:no_name/core/models/airtime_billers.dart';
 import 'package:no_name/core/services/utility_storage_service.dart';
 import 'package:no_name/core/utils/tools.dart';
 import 'package:pinput/pinput.dart';
@@ -565,50 +566,55 @@ class RecentTransactionSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Widget eachTransaction(context, DataResponse dataResponse,
-        {bool isLast = false}) {
+    Widget eachTransaction(context, DataResponse dataResponse, {bool isLast = false}) {
       return Column(
         children: [
-          ListTile(
-            onTap: () {
-              Navigator.push(context, MaterialPageRoute(builder: (context) {
-                return TransactionHistory(dataResponse: dataResponse);
-              }));
-            },
-            leading: const CircleAvatar(
-              radius: 20,
-              backgroundImage:
-                  AssetImage("assets/images/background/unsplash.png"),
-            ),
-            horizontalTitleGap: 8,
-            title: Text(
-              dataResponse.type!,
-              style: const TextStyle(fontSize: 18, color: Colors.white),
-            ),
-            subtitle: Text(
-              DateFormat('hh:mm a')
-                  .format(DateTime.parse(dataResponse.createdAt!)),
-              style: const TextStyle(fontSize: 14, color: Colors.white),
-            ),
-            trailing: Text(
-              formatMoney(dataResponse.amount),
-              style: const TextStyle(
+          Container(
+            decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(10),
+                border: Border.all(
+                    color: BrandColors.secondary.withOpacity(.3), width: 1)),
+            child: ListTile(
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => TransactionHistory(dataResponse: dataResponse)),
+                );
+              },
+              leading: Container(
+                height: 40,
+                width: 40,
+                decoration: const BoxDecoration(
+                    shape: BoxShape.circle, color: BrandColors.secondary),
+                child: const Center(
+                  child: Icon(Icons.outbound_outlined, color: Colors.white,),
+                ),
+              ),
+              horizontalTitleGap: 8,
+              title: Text(
+                ucWord(dataResponse.serviceType!),
+                maxLines: 1,
+                style: const TextStyle(
+                  fontSize: 17,
+                  fontWeight: FontWeight.w500,
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ),
+              subtitle: Text(
+                DateFormat('hh:mm a')
+                    .format(DateTime.parse(dataResponse.createdAt!)),
+                style: const TextStyle(fontSize: 14),
+              ),
+              trailing: Text(
+                formatMoney(dataResponse.amount),
+                style: const TextStyle(
                   fontSize: 18,
-                  fontWeight: FontWeight.w600,
-                  color: Colors.white),
+                  fontWeight: FontWeight.w700,
+                ),
+              ),
             ),
           ),
-          isLast
-              ? const SizedBox()
-              : Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 15.0),
-                  child: Divider(
-                    height: 2,
-                    color: const Color(0xFF605F5F).withOpacity(0.66),
-                    thickness: 2,
-                  ),
-                ),
-          const SizedBox(height: 10)
+          const SizedBox(height: 8)
         ],
       );
     }
@@ -618,8 +624,7 @@ class RecentTransactionSection extends StatelessWidget {
       children: [
         Container(
           decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(15),
-              color: const Color(0xFF605F5F).withOpacity(.60).withOpacity(.3)),
+              borderRadius: BorderRadius.circular(15)),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: transactionList!.map((dataResponse) {
@@ -824,12 +829,10 @@ class BuildBillerDropDown extends StatelessWidget {
               list.isNotEmpty
                   ? Expanded(
                       child: DropdownButton<DataBillers>(
-                        value: value ?? DataBillers(),
+                        value: value,
                         isExpanded: true,
-                        dropdownColor: Colors.black87,
                         hint: Text(
-                          "Select $title",
-                          style: const TextStyle(color: Colors.white),
+                          "Select $title"
                         ),
                         underline: const SizedBox(),
                         items: list
@@ -844,7 +847,7 @@ class BuildBillerDropDown extends StatelessWidget {
                                           height: 20, width: 20),
                                     ),
                                     const SizedBox(width: 4),
-                                    Text(e.name!),
+                                    Text(e.name!.split(' ').first),
                                   ],
                                 ),
                               ),
@@ -857,6 +860,86 @@ class BuildBillerDropDown extends StatelessWidget {
                       padding: EdgeInsets.symmetric(vertical: 15.0),
                       child: Text("Loading..."),
                     ),
+            ],
+          ),
+        ),
+        SizedBox(
+          height: bottomSpacing,
+        )
+      ],
+    );
+  }
+}
+
+class BuildAirtimeBillerDropDown extends StatelessWidget {
+  final String title;
+  final AirtimeBillers? value;
+  final List<AirtimeBillers> list;
+  final double bottomSpacing;
+  final Function(AirtimeBillers?)? onChanged;
+
+  const BuildAirtimeBillerDropDown({
+    Key? key,
+    this.value,
+    required this.list,
+    this.onChanged,
+    required this.title,
+    this.bottomSpacing = 20,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          title,
+          style: const TextStyle(),
+        ),
+        const SizedBox(
+          height: 6,
+        ),
+        Container(
+          padding: const EdgeInsets.only(right: 6, left: 6, top: 6, bottom: 6),
+          decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(10),
+              color: const Color(0xFF605F5F).withOpacity(.1)),
+          child: Row(
+            children: [
+              list.isNotEmpty
+                  ? Expanded(
+                child: DropdownButton<AirtimeBillers>(
+                  value: value,
+                  isExpanded: true,
+                  hint: Text(
+                    "Select $title"
+                  ),
+                  underline: const SizedBox(),
+                  items: list
+                      .map<DropdownMenuItem<AirtimeBillers>>(
+                        (e) => DropdownMenuItem(
+                      value: e,
+                      child: Row(
+                        children: [
+                          ClipRRect(
+                            borderRadius: BorderRadius.circular(10),
+                            child: Image.network(e.image!,
+                                height: 20, width: 20),
+                          ),
+                          const SizedBox(width: 4),
+                          Text(e.name!.split(' ').first),
+                        ],
+                      ),
+                    ),
+                  )
+                      .toList(),
+                  onChanged: onChanged,
+                ),
+              )
+                  : const Padding(
+                padding: EdgeInsets.symmetric(vertical: 15.0),
+                child: Text("Loading..."),
+              ),
             ],
           ),
         ),

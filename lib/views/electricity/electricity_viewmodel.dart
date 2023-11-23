@@ -31,6 +31,8 @@ class ElectricityViewModel extends ReactiveViewModel {
   String? accountName;
   String? minimumAmount;
 
+  String selectedType = "prepaid";
+
   bool loadingName = false;
   bool verified = false;
 
@@ -84,7 +86,6 @@ class ElectricityViewModel extends ReactiveViewModel {
       int? statusCode = response.statusCode;
 
       Map<String, dynamic> json = jsonDecode(response.toString());
-      log(jsonEncode(json));
       String? success = json['status'];
 
       if (statusCode == 200) {
@@ -115,7 +116,7 @@ class ElectricityViewModel extends ReactiveViewModel {
     Map<String, dynamic> payload = {
       'billers_code': meterNoController.text,
       'service_id': selectedBiller!.serviceID,
-      'type': 'prepaid'
+      'type': selectedType
     };
 
     try {
@@ -124,12 +125,12 @@ class ElectricityViewModel extends ReactiveViewModel {
       int? statusCode = response.statusCode;
 
       Map<String, dynamic> json = jsonDecode(response.toString());
+      log(jsonEncode(json));
       String? success = json['status'];
 
       if (statusCode == 200) {
         if (success == 'success') {
-          accountName = json['data']['customerName'];
-          minimumAmount = json['data']['minimumAmount'].toString();
+          accountName = json['data']['Customer_Name'];
 
           setLoading(false);
           _dialogService.completeDialog(DialogResponse());
@@ -164,21 +165,17 @@ class ElectricityViewModel extends ReactiveViewModel {
             'Purchasing ${selectedBiller!.name} of ${amountController.text}');
 
     Map<String, dynamic> payload = {
-      'account_number': meterNoController.text,
-      'type': selectedBiller!.productType,
+      'service_id': selectedBiller!.serviceID,
+      'billers_code': meterNoController.text,
+      'variation_code': selectedType,
       'amount': amountController.text,
     };
 
     try {
       final response = await dio().post('/electricity/purchase', data: payload);
-
-      int? statusCode = response.statusCode;
       String? success = jsonDecode(response.toString())['status'];
-
       Map<String, dynamic> json = jsonDecode(response.toString());
-      print(json);
 
-      if (statusCode == 200) {
         if (success == 'success') {
           await _authService.getWalletDetails();
           await _authService.getWalletTransactions(page: 1);
@@ -188,17 +185,10 @@ class ElectricityViewModel extends ReactiveViewModel {
         } else {
           _dialogService.completeDialog(DialogResponse());
           print(json);
-          flusher(json['message'] ?? 'Error Fetching data', context,
-              color: Colors.red);
+          flusher(json['message'] ?? 'Error Fetching data', context, color: Colors.red);
         }
-      } else {
-        _dialogService.completeDialog(DialogResponse());
-        flusher(json['message'] ?? 'Error Fetching data', context,
-            color: Colors.red);
-      }
     } on DioError catch (e) {
       _dialogService.completeDialog(DialogResponse());
-      print(e);
       flusher(DioExceptions.fromDioError(e).toString(), context,
           color: Colors.red);
     }

@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:fluttercontactpicker/fluttercontactpicker.dart';
+import 'package:no_name/core/models/airtime_billers.dart';
 import 'package:no_name/core/utils/tools.dart';
 import 'package:no_name/widgets/utility_widgets.dart';
 import 'package:stacked/stacked.dart';
 
 import '../../core/models/airtime_beneficiaries.dart';
-import '../../core/models/data_billers.dart';
 import 'airtime_viewmodel.dart';
 
 class AirtimeView extends StatelessWidget {
@@ -15,7 +15,7 @@ class AirtimeView extends StatelessWidget {
   Widget build(BuildContext context) {
     return ViewModelBuilder<AirtimeViewModel>.reactive(
       viewModelBuilder: () => AirtimeViewModel(),
-      onModelReady: (model) => model.setup(context),
+      onViewModelReady: (model) => model.setup(context),
       builder: (context, model, child) {
         return CustomScaffoldWidget(
           appBar: const CustomAppBar(title: "Airtime"),
@@ -44,11 +44,11 @@ class AirtimeView extends StatelessWidget {
                       children: [
                         SizedBox(
                           width: 130,
-                          child: BuildBillerDropDown(
+                          child: BuildAirtimeBillerDropDown(
                             list: model.billers,
                             title: "Provider",
                             value: model.selectedBiller,
-                            onChanged: (DataBillers? value) {
+                            onChanged: (AirtimeBillers? value) {
                               model.selectedBiller = value;
                               model.notifyListeners();
                             },
@@ -117,12 +117,17 @@ class AirtimeView extends StatelessWidget {
                   title: "Buy Now",
                   onPressed: () {
                     if (model.formKey.currentState!.validate()) {
-                      validateTransactionDetails({
-                        "Phone Number": model.phoneController.text,
-                        "Network": model.selectedBiller?.name ?? "MTN",
-                      }, model.amountController.text, context, func: () async {
-                        await model.purchaseAirtime(context);
-                      });
+                      if (model.selectedBiller != null){
+                        validateTransactionDetails({
+                          "Phone Number": model.phoneController.text,
+                          "Network": model.selectedBiller?.name,
+                        }, model.amountController.text, context, func: () async {
+                          await model.purchaseAirtime(context);
+                        });
+                      } else {
+                        flusher("Pls select a provider", context, color: Colors.red);
+                      }
+
                     }
                   },
                 ),

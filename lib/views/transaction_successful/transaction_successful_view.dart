@@ -12,7 +12,7 @@ class TransactionSuccessfulView extends StatelessWidget {
       body: Column(
         children: [
           Expanded(
-            flex: 6,
+            flex: 8,
             child: Center(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,

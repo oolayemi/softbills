@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:no_name/core/enums/wallet_types.dart';
 import 'package:no_name/core/utils/tools.dart';
 import 'package:no_name/styles/brand_color.dart';
 import 'package:no_name/views/cabletv/cable_tv_viewmodel.dart';
@@ -47,7 +46,13 @@ class CableTvView extends StatelessWidget {
                         alignment: Alignment.centerRight,
                         child: Container(
                           child: model.customerName != null
-                              ? Text(model.customerName!)
+                              ? Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                                  const Text("Customer's Name"),
+                                  Text(model.customerName!),
+                                ],
+                              )
                               : const SizedBox(height: 20),
                         ),
                       ),

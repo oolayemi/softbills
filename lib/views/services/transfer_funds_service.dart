@@ -1,4 +1,5 @@
 
+import 'package:no_name/core/models/airtime_billers.dart';
 import 'package:stacked/stacked.dart';
 
 import '../../core/models/airtime_data_model.dart';
@@ -29,6 +30,8 @@ class TransferFundsService with ReactiveServiceMixin {
   List<DataBillers> _dataBillers = [];
   List<DataBillers> get dataBillers => _dataBillers;
 
+  List<AirtimeBillers> _airtimeBillers = [];
+  List<AirtimeBillers> get airtimeBillers => _airtimeBillers;
 
   List<SMEDataBillers>? _smeBillers = [];
   List<SMEDataBillers>? get smeBillers => _smeBillers;
@@ -62,7 +65,7 @@ class TransferFundsService with ReactiveServiceMixin {
 
   TransferFundsService() {
     listenToReactiveValues([_banks, _airtimePlan, _cableBillers,
-      _electricityBillers, url, _dataBillers, _packages, _bettingList, _planBillers]);
+      _electricityBillers, url, _dataBillers, _airtimeBillers, _packages, _bettingList, _planBillers]);
   }
 
   void setBanks(List<Banks>? data) {
@@ -81,8 +84,16 @@ class TransferFundsService with ReactiveServiceMixin {
     _dataBillers = [];
   }
 
+  void clearAirtimeBillers() {
+    _airtimeBillers = [];
+  }
+
   void setDataBillers(DataBillers data) {
     _dataBillers.add(data);
+  }
+
+  void setAirtimeBillers(List<AirtimeBillers> data) {
+    _airtimeBillers = data;
   }
 
   void clearSMEBillers() {

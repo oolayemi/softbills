@@ -150,7 +150,7 @@ class CableTvViewModel extends ReactiveViewModel {
       if (statusCode == 200) {
         if (success == 'success') {
           verified = true;
-          customerName = json['data']['fullName'];
+          customerName = json['data']['Customer_Name'];
           flusher('Verified Successfully', context, color: Colors.green);
           notifyListeners();
         } else {

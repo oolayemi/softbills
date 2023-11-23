@@ -88,8 +88,8 @@ class HomePageView extends StatelessWidget {
           borderRadius: BorderRadius.circular(20)),
       child: Column(
         children: [
-          Row(
-            children: const [
+          const Row(
+            children: [
               Text("Balance",
                   style: TextStyle(fontSize: 16, color: Colors.white)),
             ],
@@ -159,7 +159,7 @@ class HomePageView extends StatelessWidget {
                     InkWell(
                       onTap: () {
                         Clipboard.setData(
-                            ClipboardData(text: model.wallet?.number));
+                            ClipboardData(text: model.wallet!.number!));
                         Fluttertoast.showToast(
                             msg: "Account number copied",
                             backgroundColor: Colors.green);
@@ -280,65 +280,9 @@ class HomePageView extends StatelessWidget {
           ],
         ),
         const SizedBox(height: 20),
-        eachTransaction(context),
-        eachTransaction(context),
-        eachTransaction(context),
-        eachTransaction(context),
-        // RecentTransactionSection(
-        //     transactionList: model.transactions!.take(5).toList(),
-        // )
-      ],
-    );
-  }
-
-  Widget eachTransaction(context, {bool isLast = false}) {
-    return Column(
-      children: [
-        Container(
-          decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(10),
-              border: Border.all(
-                  color: BrandColors.secondary.withOpacity(.3), width: 1)),
-          child: ListTile(
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => TransactionHistory()),
-              );
-            },
-            leading: Container(
-              height: 40,
-              width: 40,
-              decoration: const BoxDecoration(
-                  shape: BoxShape.circle, color: BrandColors.secondary),
-              child: const Center(
-                child: Icon(Icons.outbound_outlined, color: Colors.white,),
-              ),
-            ),
-            horizontalTitleGap: 8,
-            title: const Text(
-              "Airtime worth of 300k and 200k",
-              maxLines: 1,
-              style: TextStyle(
-                fontSize: 17,
-                fontWeight: FontWeight.w500,
-                overflow: TextOverflow.ellipsis,
-              ),
-            ),
-            subtitle: Text(
-              DateFormat('hh:mm a').format(DateTime.now()),
-              style: const TextStyle(fontSize: 14),
-            ),
-            trailing: Text(
-              formatMoney("123.32"),
-              style: const TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.w700,
-              ),
-            ),
-          ),
-        ),
-        const SizedBox(height: 8)
+        RecentTransactionSection(
+            transactionList: model.transactions!.take(5).toList(),
+        )
       ],
     );
   }
@@ -402,9 +346,9 @@ class HomePageView extends StatelessWidget {
                   Center(
                     child: SizedBox(
                       width: MediaQuery.of(context).size.width * .8,
-                      child: Column(
+                      child: const Column(
                         mainAxisAlignment: MainAxisAlignment.center,
-                        children: const [
+                        children: [
                           Text(
                               "Add funds to your account by making a bank transfer from your Nigerian bank account.",
                               textAlign: TextAlign.center)
@@ -708,7 +652,7 @@ class HomePageView extends StatelessWidget {
                     ],
                   ),
                   const SizedBox(height: 25),
-                  Column(
+                  const Column(
                       //     children: model.walletTypes!.map((e) {
                       //   return InkWell(
                       //     onTap: () {

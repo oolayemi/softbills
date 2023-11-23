@@ -8,9 +8,7 @@ import 'package:stacked_services/stacked_services.dart';
 
 import 'app/locator.dart';
 import 'app/router.dart';
-import 'core/constants/setup_dialog.dart';
 import 'core/managers/life_cycle_manager.dart';
-import 'core/utils/logger.dart';
 import 'views/splash_screen/splash_screen.dart';
 import 'widgets/utility_widgets.dart';
 
@@ -27,8 +25,6 @@ void main() async {
   await dotenv.load(fileName: ".env");
   await setupLocator();
 
-  setupLogger();
-  setupDialog();
   runApp(const MyApp());
 }
 

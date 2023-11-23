@@ -27,21 +27,29 @@ class AuthService with ReactiveServiceMixin {
   final StorageService _storageService = locator<StorageService>();
 
   final RxValue<ProfileData?> _profileResponse = RxValue<ProfileData?>(null);
+
   ProfileData? get profileResponse => _profileResponse.value;
 
   final RxValue<NokData?> _nokResponse = RxValue<NokData?>(null);
+
   NokData? get nokResponse => _nokResponse.value;
 
   final RxValue<WalletData?> _walletResponse = RxValue<WalletData?>(null);
+
   WalletData? get walletResponse => _walletResponse.value;
 
   final RxValue<List<Rates>?> _ratesList = RxValue<List<Rates>?>(null);
+
   List<Rates>? get ratesList => _ratesList.value;
 
-  final RxValue<List<VirtualAccountData>?> _virtualAccountResponse = RxValue<List<VirtualAccountData>?>(null);
-  List<VirtualAccountData>? get virtualAccountData => _virtualAccountResponse.value;
+  final RxValue<List<VirtualAccountData>?> _virtualAccountResponse =
+      RxValue<List<VirtualAccountData>?>(null);
+
+  List<VirtualAccountData>? get virtualAccountData =>
+      _virtualAccountResponse.value;
 
   bool _isBiometricsAvailable = false;
+
   bool get isBiometricsAvailable => _isBiometricsAvailable;
 
   var localAuth = LocalAuthentication();
@@ -50,19 +58,25 @@ class AuthService with ReactiveServiceMixin {
 
   List<BiometricType> get biometricOptions => _biometricOptions;
 
-  final RxValue<List<AirtimeBeneficiary>?> _airtimeBeneficiaries = RxValue<List<AirtimeBeneficiary>?>([]);
+  final RxValue<List<AirtimeBeneficiary>?> _airtimeBeneficiaries =
+      RxValue<List<AirtimeBeneficiary>?>([]);
 
-  List<AirtimeBeneficiary>? get airtimeBeneficiaries => _airtimeBeneficiaries.value;
+  List<AirtimeBeneficiary>? get airtimeBeneficiaries =>
+      _airtimeBeneficiaries.value;
 
-  final RxValue<List<DataBeneficiary>?> _dataBeneficiaries = RxValue<List<DataBeneficiary>?>([]);
+  final RxValue<List<DataBeneficiary>?> _dataBeneficiaries =
+      RxValue<List<DataBeneficiary>?>([]);
 
   List<DataBeneficiary>? get dataBeneficiaries => _dataBeneficiaries.value;
 
-  final RxValue<TransactionHistoryResponse?> _walletTransactionResponse = RxValue<TransactionHistoryResponse?>(null);
+  final RxValue<TransactionHistoryResponse?> _walletTransactionResponse =
+      RxValue<TransactionHistoryResponse?>(null);
 
-  TransactionHistoryResponse? get walletTransactionResponse => _walletTransactionResponse.value;
+  TransactionHistoryResponse? get walletTransactionResponse =>
+      _walletTransactionResponse.value;
 
-  final RxValue<List<DataResponse>?> _walletTransactions = RxValue<List<DataResponse>?>([]);
+  final RxValue<List<DataResponse>?> _walletTransactions =
+      RxValue<List<DataResponse>?>([]);
 
   List<DataResponse>? get walletTransactions => _walletTransactions.value;
 
@@ -95,9 +109,7 @@ class AuthService with ReactiveServiceMixin {
   }
 
   dynamic encryptData(dynamic data) {
-    return crypt()
-        .encrypt(data, iv: iv)
-        .base64;
+    return crypt().encrypt(data, iv: iv).base64;
   }
 
   dynamic decryptData(dynamic data) {
@@ -128,26 +140,29 @@ class AuthService with ReactiveServiceMixin {
         int? statusCode = value.statusCode;
         Map<String, dynamic> responseData = value.data!;
 
-
         if (statusCode == 200) {
           if (responseData['status'] == 'success') {
             ProfileResponse temp = ProfileResponse.fromJson(responseData);
             _profileResponse.value = temp.data;
-            StorageService().addString('transactionPin', temp.data!.transactionPin);
+            StorageService()
+                .addString('transactionPin', temp.data!.transactionPin);
             response = ApiResponse(showMessage: false, message: null);
             notifyListeners();
             return;
           } else {
-            response = ApiResponse(showMessage: true, message: responseData['message']);
+            response = ApiResponse(
+                showMessage: true, message: responseData['message']);
             return;
           }
         } else {
-          response = ApiResponse(showMessage: true, message: responseData['message']);
+          response =
+              ApiResponse(showMessage: true, message: responseData['message']);
         }
       });
     } on DioError catch (e) {
       print(e.response!.data);
-      response = ApiResponse(showMessage: true, message: 'Error Processing Request');
+      response =
+          ApiResponse(showMessage: true, message: 'Error Processing Request');
     }
     return response;
   }
@@ -170,16 +185,19 @@ class AuthService with ReactiveServiceMixin {
             notifyListeners();
             return;
           } else {
-            response = ApiResponse(showMessage: true, message: responseData['message']);
+            response = ApiResponse(
+                showMessage: true, message: responseData['message']);
             return;
           }
         } else {
-          response = ApiResponse(showMessage: true, message: responseData['message']);
+          response =
+              ApiResponse(showMessage: true, message: responseData['message']);
         }
       });
     } on DioError catch (e) {
       print(e.response!.data);
-      response = ApiResponse(showMessage: true, message: 'Error Processing Request');
+      response =
+          ApiResponse(showMessage: true, message: 'Error Processing Request');
     }
     return response;
   }
@@ -202,20 +220,22 @@ class AuthService with ReactiveServiceMixin {
             notifyListeners();
             return;
           } else {
-            response = ApiResponse(showMessage: true, message: responseData['message']);
+            response = ApiResponse(
+                showMessage: true, message: responseData['message']);
             return;
           }
         } else {
-          response = ApiResponse(showMessage: true, message: responseData['message']);
+          response =
+              ApiResponse(showMessage: true, message: responseData['message']);
         }
       });
     } on DioError catch (e) {
       print(e.response!.data);
-      response = ApiResponse(showMessage: true, message: 'Error Processing Request');
+      response =
+          ApiResponse(showMessage: true, message: 'Error Processing Request');
     }
     return response;
   }
-
 
   Future<ApiResponse> getWalletDetails() async {
     ApiResponse response = ApiResponse(showMessage: false);
@@ -235,16 +255,19 @@ class AuthService with ReactiveServiceMixin {
             notifyListeners();
             return;
           } else {
-            response = ApiResponse(showMessage: true, message: responseData['message']);
+            response = ApiResponse(
+                showMessage: true, message: responseData['message']);
             return;
           }
         } else {
-          response = ApiResponse(showMessage: true, message: responseData['message']);
+          response =
+              ApiResponse(showMessage: true, message: responseData['message']);
         }
       });
     } on DioError catch (e) {
       print(e.response!.data);
-      response = ApiResponse(showMessage: true, message: 'Error Processing Request');
+      response =
+          ApiResponse(showMessage: true, message: 'Error Processing Request');
     }
     return response;
   }
@@ -261,22 +284,26 @@ class AuthService with ReactiveServiceMixin {
 
         if (statusCode == 200) {
           if (responseData['status'] == 'success') {
-            VirtualAccountResponse temp = VirtualAccountResponse.fromJson(responseData);
+            VirtualAccountResponse temp =
+                VirtualAccountResponse.fromJson(responseData);
             _virtualAccountResponse.value = temp.data;
             response = ApiResponse(showMessage: false, message: null);
             notifyListeners();
             return;
           } else {
-            response = ApiResponse(showMessage: true, message: responseData['message']);
+            response = ApiResponse(
+                showMessage: true, message: responseData['message']);
             return;
           }
         } else {
-          response = ApiResponse(showMessage: true, message: responseData['message']);
+          response =
+              ApiResponse(showMessage: true, message: responseData['message']);
         }
       });
     } on DioError catch (e) {
       print(e.response!.data);
-      response = ApiResponse(showMessage: true, message: 'Error Processing Request');
+      response =
+          ApiResponse(showMessage: true, message: 'Error Processing Request');
     }
     return response;
   }
@@ -296,12 +323,14 @@ class AuthService with ReactiveServiceMixin {
 
       if (statusCode == 200) {
         if (success == 'success') {
-          AirtimeBeneficiaryResponse temp = AirtimeBeneficiaryResponse.fromJson(json);
+          AirtimeBeneficiaryResponse temp =
+              AirtimeBeneficiaryResponse.fromJson(json);
           _airtimeBeneficiaries.value = temp.data;
           apiResponse = ApiResponse(showMessage: false, message: null);
           return apiResponse;
         } else {
-          apiResponse = ApiResponse(showMessage: true, message: json['message']);
+          apiResponse =
+              ApiResponse(showMessage: true, message: json['message']);
           return apiResponse;
         }
       } else {
@@ -310,7 +339,8 @@ class AuthService with ReactiveServiceMixin {
       }
     } on DioError catch (e) {
       print(e.response!.data);
-      apiResponse = ApiResponse(showMessage: true, message: 'Error Processing Request');
+      apiResponse =
+          ApiResponse(showMessage: true, message: 'Error Processing Request');
     }
     return apiResponse;
   }
@@ -335,7 +365,8 @@ class AuthService with ReactiveServiceMixin {
           apiResponse = ApiResponse(showMessage: false, message: null);
           return apiResponse;
         } else {
-          apiResponse = ApiResponse(showMessage: true, message: json['message']);
+          apiResponse =
+              ApiResponse(showMessage: true, message: json['message']);
           return apiResponse;
         }
       } else {
@@ -344,7 +375,8 @@ class AuthService with ReactiveServiceMixin {
       }
     } on DioError catch (e) {
       print(e.response!.data);
-      apiResponse = ApiResponse(showMessage: true, message: 'Error Processing Request');
+      apiResponse =
+          ApiResponse(showMessage: true, message: 'Error Processing Request');
     }
     return apiResponse;
   }
@@ -355,35 +387,28 @@ class AuthService with ReactiveServiceMixin {
     try {
       final response2 = await dio().get('/user/wallet-transactions?page=$page');
 
-      int? statusCode = response2.statusCode;
-      print('statusCode: $statusCode');
 
-      String? success = json.decode(response2.toString())['status'];
+      Map<String, dynamic> json = jsonDecode(response2.toString());
 
-      if (statusCode == 200) {
-        if (success == 'success') {
-          Map<String, dynamic> json = jsonDecode(response2.toString());
+      TransactionHistoryResponse temp =
+          TransactionHistoryResponse.fromJson(json);
+      _walletTransactionResponse.value = temp;
+      _walletTransactions.value = page == 1
+          ? temp.data!.data
+          : [
+              ..._walletTransactions.value!,
+              ...temp.data!.data!
+            ];
+      notifyListeners();
 
-          TransactionHistoryResponse temp = TransactionHistoryResponse.fromJson(json);
-          _walletTransactionResponse.value = temp;
-          _walletTransactions.value =
-          page == 1 ? temp.transactionHistoryData!.data : [..._walletTransactions.value!, ...temp.transactionHistoryData!.data!];
-          notifyListeners();
+      response =
+          ApiResponse(showMessage: false, message: 'Wallet Trans gotten');
 
-          response = ApiResponse(showMessage: false, message: 'Wallet Trans gotten');
-
-          print('Auth user transactions gotten::: ');
-        } else {
-          print('message::: ${json.decode(response2.toString())['message']}');
-          response = ApiResponse(showMessage: true, message: 'Error Processing Request');
-        }
-      } else {
-        print("error status code: $statusCode ... :(");
-        response = ApiResponse(showMessage: true, message: 'Error Processing Request');
-      }
+      print('Auth user transactions gotten::: ');
     } on DioError catch (e) {
       print('Request error: ${e.response}');
-      response = ApiResponse(showMessage: true, message: 'Error Processing Request, Try Again');
+      response = ApiResponse(
+          showMessage: true, message: 'Error Processing Request, Try Again');
     }
 
     return response;

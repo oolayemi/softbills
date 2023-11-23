@@ -83,6 +83,8 @@ class DataView extends StatelessWidget {
                       ],
                     ),
                     const SizedBox(height: 20),
+                    _selectDataPlan(context, model),
+                    const SizedBox(height: 30),
                     AmountTextField(
                       title: "Amount",
                       controller: model.amountController,
@@ -93,15 +95,7 @@ class DataView extends StatelessWidget {
                         ),
                       ),
                       validator: (String? val) => val!.isEmpty ? "Amount field cannot be empty" : null,
-                    ),const SizedBox(height: 3),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        Text(model.buildText ?? ""),
-                      ],
                     ),
-                    const SizedBox(height: 10),
-                    _selectDataPlan(context, model),
                   ],
                 ),
               ),
@@ -112,14 +106,21 @@ class DataView extends StatelessWidget {
                 child: RoundedButton(
                   title: "Buy Now",
                   onPressed: () {
-                    if(model.formKey.currentState!.validate()) {
-                      validateTransactionDetails({
-                        "Phone Number": model.phoneController.text,
-                        "Network": model.selectedBiller!.name,
-                        "Data Plan": "${model.selectedPlan!.description} @ ${model.selectedPlan!.duration}",
-                      }, model.amountController.text, context, func: () async {
-                        await model.purchaseData(context);
-                      });
+                    if(model.amountController.text.isNotEmpty && model.formKey.currentState!.validate()) {
+                      if(model.selectedPlan != null){
+                        validateTransactionDetails({
+                          "Phone Number": model.phoneController.text,
+                          "Network": model.selectedBiller!.name,
+                          "Data Plan": "${model.selectedPlan!.name} @ ${model.selectedPlan!.variationAmount}",
+                        }, model.amountController.text, context, func: () async {
+                          await model.purchaseData(context);
+                        });
+                      } else {
+                        flusher("Please select a plan to continue", context, color: Colors.red);
+                      }
+
+                    } else{
+                      flusher("Please select a plan to continue", context, color: Colors.red);
                     }
                   },
                 ),
@@ -208,7 +209,7 @@ class DataView extends StatelessWidget {
                                 padding: EdgeInsets.symmetric(
                                     vertical: SizeConfig.yMargin(context, 2), horizontal: SizeConfig.xMargin(context, 4)),
                                 decoration: BoxDecoration(border: Border(bottom: BorderSide(color: Colors.grey[200]!))),
-                                child: Text('${item.duration} @ ${item.amount}',
+                                child: Text('${item.name} @ ${item.variationAmount}',
                                     style: Theme.of(context).textTheme.headline3!.copyWith(fontSize: SizeConfig.textSize(context, 2))),
                               ),
                             )
@@ -245,7 +246,7 @@ class DataView extends StatelessWidget {
               children: [
                 Text(model.plans != null
                     ? model.selectedPlan != null
-                        ? '${model.selectedPlan!.duration} @ ${model.selectedPlan!.amount}'
+                        ? '${model.selectedPlan!.name} @ ${model.selectedPlan!.variationAmount}'
                         : "Select Plan"
                     : "Loading..."),
                 const Icon(Icons.keyboard_arrow_down_rounded)

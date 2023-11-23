@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
@@ -10,7 +11,6 @@ import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
 
 import '../../core/constants/loading_dialog.dart';
-import '../../core/enums/wallet_types.dart';
 import '../../core/exceptions/error_handling.dart';
 import '../../core/models/airtime_data_model.dart';
 import '../../core/models/currency_rates.dart';
@@ -69,7 +69,7 @@ class DataViewModel extends ReactiveViewModel {
       if (statusCode == 200) {
         if (success == 'success') {
           DataBillersData temp = DataBillersData.fromJson(json);
-          tempBillers = temp.billers;
+          tempBillers = temp.data;
           // fetched = true;
           notifyListeners();
         } else {
@@ -91,23 +91,18 @@ class DataViewModel extends ReactiveViewModel {
 
     try {
 
-      final response = await dio().get('/data/${biller.type}/bundles');
+      final response = await dio().get('/data/${biller.serviceID}/bundles');
 
       int? statusCode = response.statusCode;
 
-      String? success = jsonDecode(response.toString())['status'];
       Map<String, dynamic> json = jsonDecode(response.toString());
 
       if (statusCode == 200) {
-        if (success == 'success') {
           PlanResponse temp = PlanResponse.fromJson(json);
           fetched = true;
           errorFetching = false;
-          _transferFundsService.setDataBillers(biller..plans = temp.plans);
-        } else {
-          flusher(json['message'] ?? 'Error Fetching data', context, color: Colors.red);
-          errorFetching = true;
-        }
+          _transferFundsService.setDataBillers(biller..plans = temp.data);
+          notifyListeners();
       } else {
         flusher(json['message'] ?? 'Error Fetching data', context, color: Colors.red);
         errorFetching = true;
@@ -162,11 +157,13 @@ class DataViewModel extends ReactiveViewModel {
     LoaderDialog.showLoadingDialog(context, message: "Purchasing Data...");
 
     Map<String, dynamic> payload = {
-      'mobile': phoneController.text,
-      'amount': selectedPlan!.amount,
-      'operator': selectedBiller!.name!.toLowerCase(),
-      'bundle': selectedPlan!.code.toString(),
+      'phone': phoneController.text,
+      'amount': selectedPlan!.variationAmount,
+      'service_id': selectedBiller!.serviceID,
+      'variation_code': selectedPlan!.variationCode,
     };
+
+    print(payload);
 
     try {
       final response = await dio().post('/data/purchase', data: payload);
@@ -184,61 +181,7 @@ class DataViewModel extends ReactiveViewModel {
           _dialogService.completeDialog(DialogResponse());
           _navigationService.popRepeated(2);
           _navigationService.navigateToView(
-            TransactionSuccessfulView(
-              bottomWidgets: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Container(
-                        height: 85,
-                        width: 85,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(15),
-                          color: const Color(0xFF605F5F).withOpacity(.5),
-                        ),
-                        child: const Center(
-                            child: Icon(
-                              Icons.schedule_rounded,
-                              size: 40,
-                            )),
-                      ),
-                      const SizedBox(height: 10),
-                      const Text(
-                        "Schedule Data",
-                        style: TextStyle(fontSize: 15),
-                      )
-                    ],
-                  ),
-                  const SizedBox(width: 80),
-                  InkWell(
-                    onTap: () => saveDataBeneficiary(context),
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Container(
-                          height: 85,
-                          width: 85,
-                          decoration:
-                          BoxDecoration(borderRadius: BorderRadius.circular(15), color: const Color(0xFF605F5F).withOpacity(.5)),
-                          child: const Center(
-                              child: Icon(
-                                Icons.save_as,
-                                size: 40,
-                              )),
-                        ),
-                        const SizedBox(height: 10),
-                        const Text(
-                          "Save Beneficiary",
-                          style: TextStyle(fontSize: 15),
-                        )
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-            ),
+            const TransactionSuccessfulView(),
           );
         } else {
           _dialogService.completeDialog(DialogResponse());
@@ -287,7 +230,7 @@ class DataViewModel extends ReactiveViewModel {
 
   void setPlan(Plans val) {
     selectedPlan = val;
-    amountController.text = val.amount.toString();
+    amountController.text = val.variationAmount.toString();
     notifyListeners();
   }
 

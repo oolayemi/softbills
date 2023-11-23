@@ -5,17 +5,16 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:no_name/app/locator.dart';
 import 'package:no_name/core/models/airtime_beneficiaries.dart';
+import 'package:no_name/core/models/airtime_billers.dart';
 import 'package:no_name/core/services/auth_service.dart';
 import 'package:no_name/views/services/transfer_funds_service.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
 
 import '../../core/constants/loading_dialog.dart';
-import '../../core/enums/wallet_types.dart';
 import '../../core/exceptions/error_handling.dart';
 import '../../core/models/airtime_data_model.dart';
 import '../../core/models/currency_rates.dart';
-import '../../core/models/data_billers.dart';
 import '../../core/models/wallet_response.dart';
 import '../../core/utils/tools.dart';
 import '../../widgets/utility_widgets.dart';
@@ -36,16 +35,16 @@ class AirtimeViewModel extends ReactiveViewModel {
 
   WalletData? get wallet => _authService.walletResponse;
 
-  List<DataBillers>? tempBillers = [];
+  List<AirtimeBillers> tempBillers = [];
 
   bool fetched = false;
   bool errorFetching = false;
 
-  List<Plans>? plans;
-  Plans? selectedPlan;
+  List<AirtimePlans>? plans;
+  AirtimePlans? selectedPlan;
 
-  List<DataBillers> get billers => _transferFundsService.dataBillers;
-  DataBillers? selectedBiller;
+  List<AirtimeBillers> get billers => _transferFundsService.airtimeBillers;
+  AirtimeBillers? selectedBiller;
 
   TextEditingController phoneController = TextEditingController();
   TextEditingController amountController = TextEditingController();
@@ -63,18 +62,9 @@ class AirtimeViewModel extends ReactiveViewModel {
       await getBillers(context);
       // print('loadOperators::::: ');
     }
-    if (billers.isEmpty) {
-      for (DataBillers item in tempBillers!) {
-        if (!errorFetching) {
-          await getPlans(context, item);
-        }
-      }
-    } else {
-      fetched = true;
-    }
     if (!errorFetching && fetched) {
       setProvider(data[0]);
-      setDataBiller(billers[0]);
+      setAirtimeBiller(billers[0]);
     }
     notifyListeners();
   }
@@ -84,7 +74,7 @@ class AirtimeViewModel extends ReactiveViewModel {
     notifyListeners();
   }
 
-  void setDataBiller(DataBillers val) {
+  void setAirtimeBiller(AirtimeBillers val) {
     selectedBiller = val;
     plans = val.plans;
     selectedPlan = null;
@@ -94,7 +84,7 @@ class AirtimeViewModel extends ReactiveViewModel {
 
   Future getBillers(context) async {
     try {
-      final response = await dio().get('/data/providers');
+      final response = await dio().get('/airtime/providers');
 
       int? statusCode = response.statusCode;
 
@@ -103,41 +93,11 @@ class AirtimeViewModel extends ReactiveViewModel {
 
       if (statusCode == 200) {
         if (success == 'success') {
-          DataBillersData temp = DataBillersData.fromJson(json);
-          tempBillers = temp.billers;
+          AirtimeBillersData temp = AirtimeBillersData.fromJson(json);
+          tempBillers = temp.data ?? [];
+          _transferFundsService.setAirtimeBillers(temp.data!);
           // fetched = true;
           notifyListeners();
-        } else {
-          flusher(json['message'] ?? 'Error Fetching data', context, color: Colors.red);
-          errorFetching = true;
-        }
-      } else {
-        flusher(json['message'] ?? 'Error Fetching data', context, color: Colors.red);
-        errorFetching = true;
-        fetched = false;
-      }
-    } on DioError catch (e) {
-      errorFetching = true;
-      print(e.response);
-      flusher(DioExceptions.fromDioError(e).toString(), context, color: Colors.red);
-    }
-  }
-
-  Future getPlans(context, DataBillers biller) async {
-    try {
-      final response = await dio().get('/data/${biller.type}/bundles');
-
-      int? statusCode = response.statusCode;
-
-      String? success = jsonDecode(response.toString())['status'];
-      Map<String, dynamic> json = jsonDecode(response.toString());
-
-      if (statusCode == 200) {
-        if (success == 'success') {
-          PlanResponse temp = PlanResponse.fromJson(json);
-          fetched = true;
-          errorFetching = false;
-          _transferFundsService.setDataBillers(biller..plans = temp.plans);
         } else {
           flusher(json['message'] ?? 'Error Fetching data', context, color: Colors.red);
           errorFetching = true;
@@ -159,8 +119,8 @@ class AirtimeViewModel extends ReactiveViewModel {
 
     Map<String, dynamic> payload = {
       'amount': amountController.text,
-      'mobile': phoneController.text,
-      'operator': selectedBiller!.name!.toLowerCase(),
+      'phone': phoneController.text,
+      'service_id': selectedBiller!.serviceID,
     };
 
     try {
@@ -179,61 +139,7 @@ class AirtimeViewModel extends ReactiveViewModel {
           _dialogService.completeDialog(DialogResponse());
           _navigationService.popRepeated(2);
           _navigationService.navigateToView(
-            TransactionSuccessfulView(
-              bottomWidgets: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Container(
-                        height: 85,
-                        width: 85,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(15),
-                          color: const Color(0xFF605F5F).withOpacity(.5),
-                        ),
-                        child: const Center(
-                            child: Icon(
-                          Icons.schedule_rounded,
-                          size: 40,
-                        )),
-                      ),
-                      const SizedBox(height: 10),
-                      const Text(
-                        "Schedule Airtime",
-                        style: TextStyle(fontSize: 15),
-                      )
-                    ],
-                  ),
-                  const SizedBox(width: 80),
-                  InkWell(
-                    onTap: () => saveAirtimeBeneficiary(context),
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Container(
-                          height: 85,
-                          width: 85,
-                          decoration:
-                              BoxDecoration(borderRadius: BorderRadius.circular(15), color: const Color(0xFF605F5F).withOpacity(.5)),
-                          child: const Center(
-                              child: Icon(
-                            Icons.save_as,
-                            size: 40,
-                          )),
-                        ),
-                        const SizedBox(height: 10),
-                        const Text(
-                          "Save Beneficiary",
-                          style: TextStyle(fontSize: 15),
-                        )
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-            ),
+            const TransactionSuccessfulView(),
           );
         } else {
           _dialogService.completeDialog(DialogResponse());

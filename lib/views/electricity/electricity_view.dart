@@ -42,13 +42,19 @@ class ElectricityView extends StatelessWidget {
                         child: model.loadingName
                             ? const Text("...")
                             : model.accountName != null
-                                ? Text(model.accountName!)
+                                ? Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    const Text("Customer's Name: "),
+                                    Text(model.accountName!),
+                                  ],
+                                )
                                 : const SizedBox(height: 10),
                       ),
                     ),
                     const SizedBox(height: 20),
                     _selectDataPlan(context, model),
-                    const SizedBox(height: 30),
+                    const SizedBox(height: 20),
                     AmountTextField(
                       title: "Amount",
                       controller: model.amountController,
@@ -76,6 +82,9 @@ class ElectricityView extends StatelessWidget {
                                 ),
                               )
                             : const SizedBox(),
+                    const SizedBox(height: 20),
+                    _selectType(context, model),
+
                   ],
                 ),
               ),
@@ -92,7 +101,8 @@ class ElectricityView extends StatelessWidget {
                           : validateTransactionDetails({
                               "Meter Number": model.meterNoController.text,
                               "Name": model.accountName,
-                              "Provider": model.selectedBiller!.name
+                              "Provider": model.selectedBiller!.name,
+                              "Type": ucWord(model.selectedType)
                             }, model.amountController.text, context, func: () async {
                               await model.purchaseElectricity(context);
                             });
@@ -132,7 +142,7 @@ class ElectricityView extends StatelessWidget {
             width: double.maxFinite,
             padding: const EdgeInsets.symmetric(horizontal: 10),
             decoration: BoxDecoration(
-                color: const Color(0xFF605F5F).withOpacity(.32), borderRadius: BorderRadius.circular(10), border: Border.all()),
+                color: const Color(0xFF605F5F).withOpacity(.1), borderRadius: BorderRadius.circular(10)),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
@@ -186,6 +196,52 @@ class ElectricityView extends StatelessWidget {
             ),
           ),
         )
+      ],
+    );
+  }
+
+  Widget _selectType(context, ElectricityViewModel model){
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        const Text(
+          "Type",
+          style: TextStyle(fontSize: 16),
+        ),
+        const SizedBox(height: 5),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: <Widget>[
+            SizedBox(
+              width: MediaQuery.of(context).size.width / 2.5,
+              child: RadioListTile<String>(
+                title: const Text("Prepaid"),
+                value: "prepaid",
+                groupValue: model.selectedType,
+                contentPadding: EdgeInsets.zero,
+                visualDensity: const VisualDensity(horizontal: -4, vertical: -4),
+                onChanged: (value) {
+                  model.selectedType = value!;
+                  model.notifyListeners();
+                },
+              ),
+            ),
+            SizedBox(
+              width: MediaQuery.of(context).size.width / 2.5,
+              child: RadioListTile(
+                title: const Text('Postpaid'),
+                value: "postpaid",
+                groupValue: model.selectedType,
+                contentPadding: EdgeInsets.zero,
+                visualDensity: const VisualDensity(horizontal: -4, vertical: -4),
+                onChanged: (value) {
+                  model.selectedType = value!;
+                  model.notifyListeners();
+                },
+              ),
+            ),
+          ],
+        ),
       ],
     );
   }

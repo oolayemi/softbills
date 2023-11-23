@@ -6,9 +6,9 @@ import 'package:no_name/widgets/utility_widgets.dart';
 import '../core/models/transaction_history_data.dart';
 
 class TransactionHistory extends StatelessWidget {
-  final DataResponse? dataResponse;
+  final DataResponse dataResponse;
 
-  const TransactionHistory({Key? key, this.dataResponse}) : super(key: key);
+  const TransactionHistory({Key? key, required this.dataResponse}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -20,11 +20,11 @@ class TransactionHistory extends StatelessWidget {
         children: [
           Center(
               child: Text(
-            dataResponse?.transactionType == 'credit' ? "Credit" : "Debit",
+            ucWord(dataResponse.transactionType!),
             style: const TextStyle(fontSize: 15),
           )),
           Text(
-            formatMoney(dataResponse?.amount ?? "123.32"),
+            formatMoney(dataResponse.amount ?? "123.32"),
             style: const TextStyle(fontSize: 28, fontWeight: FontWeight.w700),
           ),
           const Text(
@@ -49,12 +49,12 @@ class TransactionHistory extends StatelessWidget {
                   children: [
                     Text(
                       DateFormat('dd MMMM, yyyy').format(DateTime.parse(
-                          dataResponse?.createdAt ?? "2023-08-12")),
+                          dataResponse.createdAt ?? "2023-08-12")),
                       style: const TextStyle(),
                     ),
                     Text(
                       DateFormat('kk:mm a').format(DateTime.parse(
-                          dataResponse?.createdAt ?? "2023-08-12")),
+                          dataResponse.createdAt ?? "2023-08-12")),
                       style: const TextStyle(),
                     ),
                   ],
@@ -82,7 +82,7 @@ class TransactionHistory extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
                     Text(
-                      dataResponse?.type ?? "credit",
+                      ucWord(dataResponse.serviceType!),
                       style: const TextStyle(),
                     )
                   ],
@@ -110,7 +110,7 @@ class TransactionHistory extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
                     Text(
-                      formatMoney(dataResponse?.prevBalance ?? "123.22"),
+                      formatMoney(dataResponse.prevBalance ?? "123.22"),
                       style: const TextStyle(),
                     )
                   ],
@@ -138,7 +138,7 @@ class TransactionHistory extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
                     Text(
-                      formatMoney(dataResponse?.newBalance ?? "213.22"),
+                      formatMoney(dataResponse.newBalance ?? "213.22"),
                       style: const TextStyle(),
                     )
                   ],
@@ -166,7 +166,7 @@ class TransactionHistory extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
                     Text(
-                      dataResponse?.reference ?? "89dftys89",
+                      dataResponse.reference ?? "89dftys89",
                       style: const TextStyle(),
                     )
                   ],
@@ -194,7 +194,7 @@ class TransactionHistory extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
                     Text(
-                      dataResponse?.narration ?? "dlkjfsd8f9sd89b iud89sbdyds",
+                      dataResponse.narration ?? "dlkjfsd8f9sd89b iud89sbdyds",
                       textAlign: TextAlign.end,
                       style: const TextStyle(),
                     )

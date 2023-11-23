@@ -1,22 +1,19 @@
-
-import 'airtime_data_model.dart';
-
-class DataBillersData {
+class AirtimeBillersData {
   bool? success;
   String? status;
   String? message;
-  List<DataBillers>? data;
+  List<AirtimeBillers>? data;
 
-  DataBillersData({this.success, this.status, this.message, this.data});
+  AirtimeBillersData({this.success, this.status, this.message, this.data});
 
-  DataBillersData.fromJson(Map<String, dynamic> json) {
+  AirtimeBillersData.fromJson(Map<String, dynamic> json) {
     success = json['success'];
     status = json['status'];
     message = json['message'];
     if (json['data'] != null) {
-      data = <DataBillers>[];
+      data = <AirtimeBillers>[];
       json['data'].forEach((v) {
-        data!.add(DataBillers.fromJson(v));
+        data!.add(AirtimeBillers.fromJson(v));
       });
     }
   }
@@ -33,7 +30,7 @@ class DataBillersData {
   }
 }
 
-class DataBillers {
+class AirtimeBillers {
   String? serviceID;
   String? name;
   String? minimiumAmount;
@@ -41,9 +38,9 @@ class DataBillers {
   String? convinienceFee;
   String? productType;
   String? image;
-  List<Plans>? plans;
+  List<AirtimePlans>? plans;
 
-  DataBillers(
+  AirtimeBillers(
       {this.serviceID,
         this.name,
         this.minimiumAmount,
@@ -51,10 +48,9 @@ class DataBillers {
         this.convinienceFee,
         this.productType,
         this.image,
-        this.plans
-      });
+        this.plans});
 
-  DataBillers.fromJson(Map<String, dynamic> json) {
+  AirtimeBillers.fromJson(Map<String, dynamic> json) {
     serviceID = json['serviceID'];
     name = json['name'];
     minimiumAmount = json['minimium_amount'];
@@ -77,57 +73,47 @@ class DataBillers {
   }
 }
 
-class SMEDataBillersData {
-  bool? success;
-  String? status;
-  String? message;
-  List<SMEDataBillers>? billers;
-
-
-  SMEDataBillersData({this.success, this.status, this.message, this.billers});
-
-  SMEDataBillersData.fromJson(Map<String, dynamic> json) {
-    success = json['success'];
-    status = json['status'];
-    message = json['message'];
-    if (json['billers'] != null) {
-      billers = <SMEDataBillers>[];
-      json['billers'].forEach((v) {
-        billers!.add(SMEDataBillers.fromJson(v));
-      });
-    }
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = <String, dynamic>{};
-    data['success'] = success;
-    data['status'] = status;
-    data['message'] = message;
-    if (billers != null) {
-      data['billers'] = billers!.map((v) => v.toJson()).toList();
-    }
-    return data;
-  }
-}
-
-class SMEDataBillers {
-  String? description;
+class AirtimePlans {
+  int? id;
+  String? type;
   String? code;
+  String? description;
+  String? amount;
   String? price;
+  String? value;
+  String? duration;
 
-  SMEDataBillers({this.description, this.code});
+  AirtimePlans(
+      {this.id,
+        this.type,
+        this.code,
+        this.description,
+        this.amount,
+        this.price,
+        this.value,
+        this.duration});
 
-  SMEDataBillers.fromJson(Map<String, dynamic> json) {
-    description = json['description'];
+  AirtimePlans.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    type = json['type'];
     code = json['code'];
+    description = json['description'];
+    amount =  json['amount'];
     price = json['price'];
+    value = json['value'];
+    duration = json['duration'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
-    data['description'] = description;
+    data['id'] = id;
+    data['type'] = type;
     data['code'] = code;
+    data['description'] = description;
+    data['amount'] = amount;
     data['price'] = price;
+    data['value'] = value;
+    data['duration'] = duration;
     return data;
   }
 }

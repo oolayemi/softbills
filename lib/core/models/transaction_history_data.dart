@@ -1,22 +1,26 @@
 class TransactionHistoryResponse {
+  bool? success;
   String? status;
   String? message;
-  TransactionHistoryData? transactionHistoryData;
+  TransactionHistoryData? data;
 
-  TransactionHistoryResponse({this.status, this.message, this.transactionHistoryData});
+  TransactionHistoryResponse(
+      {this.success, this.status, this.message, this.data});
 
   TransactionHistoryResponse.fromJson(Map<String, dynamic> json) {
+    success = json['success'];
     status = json['status'];
     message = json['message'];
-    transactionHistoryData = json['result'] != null ? TransactionHistoryData.fromJson(json['result']) : null;
+    data = json['data'] != null ? TransactionHistoryData.fromJson(json['data']) : null;
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
+    data['success'] = success;
     data['status'] = status;
     data['message'] = message;
-    if (transactionHistoryData != null) {
-      data['result'] = transactionHistoryData!.toJson();
+    if (this.data != null) {
+      data['data'] = this.data!.toJson();
     }
     return data;
   }
@@ -39,18 +43,18 @@ class TransactionHistoryData {
 
   TransactionHistoryData(
       {this.currentPage,
-      this.data,
-      this.firstPageUrl,
-      this.from,
-      this.lastPage,
-      this.lastPageUrl,
-      this.links,
-      this.nextPageUrl,
-      this.path,
-      this.perPage,
-      this.prevPageUrl,
-      this.to,
-      this.total});
+        this.data,
+        this.firstPageUrl,
+        this.from,
+        this.lastPage,
+        this.lastPageUrl,
+        this.links,
+        this.nextPageUrl,
+        this.path,
+        this.perPage,
+        this.prevPageUrl,
+        this.to,
+        this.total});
 
   TransactionHistoryData.fromJson(Map<String, dynamic> json) {
     currentPage = json['current_page'];
@@ -102,75 +106,78 @@ class TransactionHistoryData {
 }
 
 class DataResponse {
-  int? id;
-  int? btcWalletId;
-  int? nairaWalletId;
-  int? userId;
+  String? id;
+  String? walletId;
+  String? userId;
   String? reference;
   String? amount;
-  String? charges;
-  String? walletSource;
+  int? charges;
   String? prevBalance;
   String? newBalance;
-  String? status;
-  String? type;
+  String? serviceType;
   String? transactionType;
+  String? status;
+  String? channel;
+  bool? isCommission;
   String? narration;
   String? createdAt;
+  String? updatedAt;
 
-  DataResponse({
-    this.id,
-    this.btcWalletId,
-    this.nairaWalletId,
-    this.userId,
-    this.reference,
-    this.amount,
-    this.charges,
-    this.walletSource,
-    this.prevBalance,
-    this.newBalance,
-    this.status,
-    this.type,
-    this.transactionType,
-    this.narration,
-    this.createdAt,
-  });
+  DataResponse(
+      {this.id,
+        this.walletId,
+        this.userId,
+        this.reference,
+        this.amount,
+        this.charges,
+        this.prevBalance,
+        this.newBalance,
+        this.serviceType,
+        this.transactionType,
+        this.status,
+        this.channel,
+        this.isCommission,
+        this.narration,
+        this.createdAt,
+        this.updatedAt});
 
   DataResponse.fromJson(Map<String, dynamic> json) {
     id = json['id'];
-    btcWalletId = json['btc_wallet_id'];
-    nairaWalletId = json['naira_wallet_id'];
+    walletId = json['wallet_id'];
     userId = json['user_id'];
     reference = json['reference'];
     amount = json['amount'];
-    charges = json['charges'].toString();
-    walletSource = json['wallet_source'];
+    charges = json['charges'];
     prevBalance = json['prev_balance'];
     newBalance = json['new_balance'];
-    status = json['status'];
-    type = json['type'];
+    serviceType = json['service_type'];
     transactionType = json['transaction_type'];
+    status = json['status'];
+    channel = json['channel'];
+    isCommission = json['is_commission'];
     narration = json['narration'];
     createdAt = json['created_at'];
+    updatedAt = json['updated_at'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
     data['id'] = id;
-    data['btc_wallet_id'] = btcWalletId;
-    data['naira_wallet_id'] = nairaWalletId;
+    data['wallet_id'] = walletId;
     data['user_id'] = userId;
     data['reference'] = reference;
     data['amount'] = amount;
     data['charges'] = charges;
-    data['wallet_source'] = walletSource;
     data['prev_balance'] = prevBalance;
     data['new_balance'] = newBalance;
-    data['status'] = status;
-    data['type'] = type;
+    data['service_type'] = serviceType;
     data['transaction_type'] = transactionType;
+    data['status'] = status;
+    data['channel'] = channel;
+    data['is_commission'] = isCommission;
     data['narration'] = narration;
     data['created_at'] = createdAt;
+    data['updated_at'] = updatedAt;
     return data;
   }
 }

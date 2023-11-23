@@ -66,7 +66,7 @@ class SignInViewModel extends ReactiveViewModel {
     // await _authService.getVirtualAccounts();
     // await _authService.getAirtimeBeneficiaries();
     // await _authService.getDataBeneficiaries();
-    // await _authService.getWalletTransactions(page: 1);
+    await _authService.getWalletTransactions(page: 1);
     // await _authService.getCurrentRate();
     //save pin, then otp verification
     gotoDashboard ? _navigationService.clearStackAndShowView(const DashboardView()) : null;
