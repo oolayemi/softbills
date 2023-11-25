@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:fluttercontactpicker/fluttercontactpicker.dart';
-import 'package:no_name/core/enums/wallet_types.dart';
 import 'package:no_name/styles/brand_color.dart';
 import 'package:no_name/widgets/utility_widgets.dart';
 import 'package:stacked/stacked.dart';
@@ -19,7 +18,7 @@ class DataView extends StatelessWidget {
   Widget build(BuildContext context) {
     return ViewModelBuilder<DataViewModel>.reactive(
       viewModelBuilder: () => DataViewModel(),
-      onModelReady: (model) => model.setup(context),
+      onViewModelReady: (model) => model.setup(context),
       builder: (context, model, child) {
         return CustomScaffoldWidget(
           appBar: const CustomAppBar(title: "Data"),
@@ -210,7 +209,7 @@ class DataView extends StatelessWidget {
                                     vertical: SizeConfig.yMargin(context, 2), horizontal: SizeConfig.xMargin(context, 4)),
                                 decoration: BoxDecoration(border: Border(bottom: BorderSide(color: Colors.grey[200]!))),
                                 child: Text('${item.name} @ ${item.variationAmount}',
-                                    style: Theme.of(context).textTheme.headline3!.copyWith(fontSize: SizeConfig.textSize(context, 2))),
+                                    style: Theme.of(context).textTheme.displaySmall!.copyWith(fontSize: SizeConfig.textSize(context, 2))),
                               ),
                             )
                         ],

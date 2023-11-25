@@ -13,7 +13,7 @@ class AllTransactionsView extends StatelessWidget {
         builder: (context, model, child) {
           return CustomScaffoldWidget(
             appBar: const CustomAppBar(title: "See All Transaction"),
-            body: SingleChildScrollView(
+            body: model.transactions!.isNotEmpty ? SingleChildScrollView(
               child: Column(
                 children: [
                   // const AmountTextField(),
@@ -21,7 +21,7 @@ class AllTransactionsView extends StatelessWidget {
                   RecentTransactionSection(transactionList: model.transactions,),
                 ],
               ),
-            ),
+            ) : const Center(child: Text("There are no transactions yet"),),
           );
         });
   }
