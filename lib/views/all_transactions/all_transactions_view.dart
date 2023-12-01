@@ -16,8 +16,6 @@ class AllTransactionsView extends StatelessWidget {
             body: model.transactions!.isNotEmpty ? SingleChildScrollView(
               child: Column(
                 children: [
-                  // const AmountTextField(),
-                  // const SizedBox(height: 30),
                   RecentTransactionSection(transactionList: model.transactions,),
                 ],
               ),

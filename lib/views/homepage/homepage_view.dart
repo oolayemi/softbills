@@ -280,9 +280,10 @@ class HomePageView extends StatelessWidget {
           ],
         ),
         const SizedBox(height: 20),
-        RecentTransactionSection(
+
+        model.transactions != null || model.transactions!.isNotEmpty ? RecentTransactionSection(
             transactionList: model.transactions!.take(5).toList(),
-        )
+        ) : const Center(child: Text("There are no transactions yet"),)
       ],
     );
   }
