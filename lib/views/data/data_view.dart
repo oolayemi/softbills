@@ -44,7 +44,7 @@ class DataView extends StatelessWidget {
                         SizedBox(
                           width: 130,
                           child: BuildBillerDropDown(
-                            list: model.billers,
+                            list: model.billers.take(5).toList(),
                             title: "Provider",
                             value: model.selectedBiller,
                             onChanged: (DataBillers? value) {

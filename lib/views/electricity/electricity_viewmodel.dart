@@ -15,6 +15,7 @@ import '../../core/models/wallet_response.dart';
 import '../../core/utils/tools.dart';
 import '../../widgets/utility_widgets.dart';
 import '../services/transfer_funds_service.dart';
+import '../transaction_successful/transaction_successful_view.dart';
 
 class ElectricityViewModel extends ReactiveViewModel {
   final AuthService _authService = locator<AuthService>();
@@ -182,6 +183,9 @@ class ElectricityViewModel extends ReactiveViewModel {
           notifyListeners();
           _dialogService.completeDialog(DialogResponse());
           _navigationService.back();
+          _navigationService.navigateToView(
+            const TransactionSuccessfulView(),
+          );
         } else {
           _dialogService.completeDialog(DialogResponse());
           print(json);

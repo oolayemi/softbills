@@ -45,7 +45,7 @@ class AirtimeView extends StatelessWidget {
                         SizedBox(
                           width: 130,
                           child: BuildAirtimeBillerDropDown(
-                            list: model.billers,
+                            list: model.billers.take(4).toList(),
                             title: "Provider",
                             value: model.selectedBiller,
                             onChanged: (AirtimeBillers? value) {

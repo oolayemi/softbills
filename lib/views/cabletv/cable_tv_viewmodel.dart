@@ -16,6 +16,7 @@ import '../../core/services/auth_service.dart';
 import '../../core/utils/tools.dart';
 import '../../widgets/utility_widgets.dart';
 import '../services/transfer_funds_service.dart';
+import '../transaction_successful/transaction_successful_view.dart';
 
 class CableTvViewModel extends ReactiveViewModel {
   final TransferFundsService _transferFundsService = locator<TransferFundsService>();
@@ -192,6 +193,9 @@ class CableTvViewModel extends ReactiveViewModel {
           notifyListeners();
           _dialogService.completeDialog(DialogResponse());
           _navigationService.back();
+          _navigationService.navigateToView(
+            const TransactionSuccessfulView(),
+          );
         } else {
           _dialogService.completeDialog(DialogResponse());
           flusher(json['message'] ?? 'Error Fetching data', context, color: Colors.red);
