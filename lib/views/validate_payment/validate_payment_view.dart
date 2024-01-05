@@ -34,11 +34,11 @@ class ValidatePaymentView extends StatelessWidget {
                   style: TextStyle(color: Colors.white),
                 ),
               ),
-              Expanded(
+              const Expanded(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.end,
                   crossAxisAlignment: CrossAxisAlignment.end,
-                  children: const [
+                  children: [
                     Text(
                       "Olayemi Olaomo Olamilekan",
                       style: TextStyle(color: Colors.white),
@@ -66,11 +66,11 @@ class ValidatePaymentView extends StatelessWidget {
                   style: TextStyle(color: Colors.white),
                 ),
               ),
-              Expanded(
+              const Expanded(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.end,
                   crossAxisAlignment: CrossAxisAlignment.end,
-                  children: const [
+                  children: [
                     Text(
                       "000000232475916382913640162835",
                       style: TextStyle(color: Colors.white),
@@ -94,11 +94,11 @@ class ValidatePaymentView extends StatelessWidget {
                   style: TextStyle(color: Colors.white),
                 ),
               ),
-              Expanded(
+              const Expanded(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.end,
                   crossAxisAlignment: CrossAxisAlignment.end,
-                  children: const [
+                  children: [
                     Text(
                       "Salary for June",
                       style: TextStyle(color: Colors.white),

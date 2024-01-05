@@ -46,12 +46,14 @@ class ElectricityViewModel extends ReactiveViewModel {
   void setup(BuildContext context) async {
     if (electricityBillers!.isEmpty) {
       await getData(context);
-      if (electricityBillers!.isNotEmpty)
+      if (electricityBillers!.isNotEmpty) {
         setElectricityBiller(electricityBillers![0]);
+      }
     }
     if (electricityBillers!.isNotEmpty) {
-      if (electricityBillers!.isNotEmpty)
+      if (electricityBillers!.isNotEmpty) {
         setElectricityBiller(electricityBillers![0]);
+      }
     }
     notifyListeners();
   }

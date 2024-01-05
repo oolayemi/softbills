@@ -13,18 +13,18 @@ class JambData {
     if (json['billers'] != null) {
       billers = <JambBillers>[];
       json['billers'].forEach((v) {
-        billers!.add(new JambBillers.fromJson(v));
+        billers!.add(JambBillers.fromJson(v));
       });
     }
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['success'] = this.success;
-    data['status'] = this.status;
-    data['message'] = this.message;
-    if (this.billers != null) {
-      data['billers'] = this.billers!.map((v) => v.toJson()).toList();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['success'] = success;
+    data['status'] = status;
+    data['message'] = message;
+    if (billers != null) {
+      data['billers'] = billers!.map((v) => v.toJson()).toList();
     }
     return data;
   }
@@ -42,9 +42,9 @@ class JambBillers {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['type'] = this.type;
-    data['price'] = this.price;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['type'] = type;
+    data['price'] = price;
     return data;
   }
 }

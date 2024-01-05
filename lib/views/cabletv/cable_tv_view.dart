@@ -349,7 +349,7 @@ class CableTvView extends StatelessWidget {
                               child: Text('${item.name}',
                                   style: Theme.of(context)
                                       .textTheme
-                                      .headline3!
+                                      .displaySmall!
                                       .copyWith(
                                       fontSize: SizeConfig.textSize(
                                           context, 2))),
@@ -419,7 +419,7 @@ class CableTvView extends StatelessWidget {
                                     '${item.name}',
                                     style: Theme.of(context)
                                         .textTheme
-                                        .headline3!
+                                        .displaySmall!
                                         .copyWith(
                                             fontSize: SizeConfig.textSize(
                                                 context, 2))),

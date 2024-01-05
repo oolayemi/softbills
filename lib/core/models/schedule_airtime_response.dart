@@ -8,15 +8,15 @@ class ScheduleAirtimeResponse {
   ScheduleAirtimeResponse.fromJson(Map<String, dynamic> json) {
     status = json['status'];
     message = json['message'];
-    result = json['data'] != null ? new ScheduleAirtime.fromJson(json['data']) : null;
+    result = json['data'] != null ? ScheduleAirtime.fromJson(json['data']) : null;
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['status'] = this.status;
-    data['message'] = this.message;
-    if (this.result != null) {
-      data['data'] = this.result!.toJson();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['status'] = status;
+    data['message'] = message;
+    if (result != null) {
+      data['data'] = result!.toJson();
     }
     return data;
   }
@@ -30,10 +30,10 @@ class ScheduleAirtime {
   int? lastPage;
   String? lastPageUrl;
   List<Links>? links;
-  Null nextPageUrl;
+  String? nextPageUrl;
   String? path;
   int? perPage;
-  Null prevPageUrl;
+  String? prevPageUrl;
   int? to;
   int? total;
 
@@ -57,7 +57,7 @@ class ScheduleAirtime {
     if (json['data'] != null) {
       data = <AirtimeList>[];
       json['data'].forEach((v) {
-        data!.add(new AirtimeList.fromJson(v));
+        data!.add(AirtimeList.fromJson(v));
       });
     }
     firstPageUrl = json['first_page_url'];
@@ -67,7 +67,7 @@ class ScheduleAirtime {
     if (json['links'] != null) {
       links = <Links>[];
       json['links'].forEach((v) {
-        links!.add(new Links.fromJson(v));
+        links!.add(Links.fromJson(v));
       });
     }
     nextPageUrl = json['next_page_url'];
@@ -79,24 +79,24 @@ class ScheduleAirtime {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['current_page'] = this.currentPage;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['current_page'] = currentPage;
     if (this.data != null) {
       data['data'] = this.data!.map((v) => v.toJson()).toList();
     }
-    data['first_page_url'] = this.firstPageUrl;
-    data['from'] = this.from;
-    data['last_page'] = this.lastPage;
-    data['last_page_url'] = this.lastPageUrl;
-    if (this.links != null) {
-      data['links'] = this.links!.map((v) => v.toJson()).toList();
+    data['first_page_url'] = firstPageUrl;
+    data['from'] = from;
+    data['last_page'] = lastPage;
+    data['last_page_url'] = lastPageUrl;
+    if (links != null) {
+      data['links'] = links!.map((v) => v.toJson()).toList();
     }
-    data['next_page_url'] = this.nextPageUrl;
-    data['path'] = this.path;
-    data['per_page'] = this.perPage;
-    data['prev_page_url'] = this.prevPageUrl;
-    data['to'] = this.to;
-    data['total'] = this.total;
+    data['next_page_url'] = nextPageUrl;
+    data['path'] = path;
+    data['per_page'] = perPage;
+    data['prev_page_url'] = prevPageUrl;
+    data['to'] = to;
+    data['total'] = total;
     return data;
   }
 }
@@ -142,18 +142,18 @@ class AirtimeList {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['user_id'] = this.userId;
-    data['amount'] = this.amount;
-    data['service_number'] = this.serviceNumber;
-    data['service_provider'] = this.serviceProvider;
-    data['frequency'] = this.frequency;
-    data['frequency_value'] = this.frequencyValue;
-    data['is_processed'] = this.isProcessed;
-    data['is_enabled'] = this.isEnabled;
-    data['created_at'] = this.createdAt;
-    data['updated_at'] = this.updatedAt;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['user_id'] = userId;
+    data['amount'] = amount;
+    data['service_number'] = serviceNumber;
+    data['service_provider'] = serviceProvider;
+    data['frequency'] = frequency;
+    data['frequency_value'] = frequencyValue;
+    data['is_processed'] = isProcessed;
+    data['is_enabled'] = isEnabled;
+    data['created_at'] = createdAt;
+    data['updated_at'] = updatedAt;
     return data;
   }
 }
@@ -172,10 +172,10 @@ class Links {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['url'] = this.url;
-    data['label'] = this.label;
-    data['active'] = this.active;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['url'] = url;
+    data['label'] = label;
+    data['active'] = active;
     return data;
   }
 }

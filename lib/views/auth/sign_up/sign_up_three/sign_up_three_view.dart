@@ -16,11 +16,11 @@ class SignUpThreeView extends StatelessWidget {
         onModelReady: (model) => model.setUp(details),
         builder: (context, model, child) {
           return CustomScaffoldWidget(
-            appBar: CustomAppBar(
+            appBar: const CustomAppBar(
               title: "",
               actions: [
                 Row(
-                  children: const [
+                  children: [
                     Text("3/3"),
                     SizedBox(width: 10),
                     TabButton(selectedPage: 3, pageNumber: 1, width: 25, height: 8),

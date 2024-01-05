@@ -22,10 +22,10 @@ class Welcome extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 70),
-              SizedBox(
+              const SizedBox(
                 width: 200,
                 child: Column(
-                  children: const [
+                  children: [
                     Text(
                       "Weli-done, Champ!",
                       style: TextStyle(fontSize: 28, fontWeight: FontWeight.w700),

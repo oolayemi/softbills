@@ -92,8 +92,8 @@ class AccountView extends StatelessWidget {
                       style: const TextStyle(fontSize: 18)),
                   InkWell(
                     onTap: () => model.gotoUpgrade(),
-                    child: Row(
-                      children: const [
+                    child: const Row(
+                      children: [
                         Text(
                           "Upgrade",
                           style: TextStyle(fontSize: 18),

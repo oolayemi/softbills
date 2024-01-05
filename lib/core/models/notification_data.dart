@@ -7,14 +7,14 @@ class NotificationDataResponse {
   NotificationDataResponse.fromJson(Map<String, dynamic> json) {
     status = json['status'];
     result =
-    json['result'] != null ? new NotificationResult.fromJson(json['result']) : null;
+    json['result'] != null ? NotificationResult.fromJson(json['result']) : null;
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['status'] = this.status;
-    if (this.result != null) {
-      data['result'] = this.result!.toJson();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['status'] = status;
+    if (result != null) {
+      data['result'] = result!.toJson();
     }
     return data;
   }
@@ -55,7 +55,7 @@ class NotificationResult {
     if (json['data'] != null) {
       data = <NotificationData>[];
       json['data'].forEach((v) {
-        data!.add(new NotificationData.fromJson(v));
+        data!.add(NotificationData.fromJson(v));
       });
     }
     firstPageUrl = json['first_page_url'];
@@ -65,7 +65,7 @@ class NotificationResult {
     if (json['links'] != null) {
       links = <Links>[];
       json['links'].forEach((v) {
-        links!.add(new Links.fromJson(v));
+        links!.add(Links.fromJson(v));
       });
     }
     nextPageUrl = json['next_page_url'];
@@ -77,24 +77,24 @@ class NotificationResult {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['current_page'] = this.currentPage;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['current_page'] = currentPage;
     if (this.data != null) {
       data['data'] = this.data!.map((v) => v.toJson()).toList();
     }
-    data['first_page_url'] = this.firstPageUrl;
-    data['from'] = this.from;
-    data['last_page'] = this.lastPage;
-    data['last_page_url'] = this.lastPageUrl;
-    if (this.links != null) {
-      data['links'] = this.links!.map((v) => v.toJson()).toList();
+    data['first_page_url'] = firstPageUrl;
+    data['from'] = from;
+    data['last_page'] = lastPage;
+    data['last_page_url'] = lastPageUrl;
+    if (links != null) {
+      data['links'] = links!.map((v) => v.toJson()).toList();
     }
-    data['next_page_url'] = this.nextPageUrl;
-    data['path'] = this.path;
-    data['per_page'] = this.perPage;
-    data['prev_page_url'] = this.prevPageUrl;
-    data['to'] = this.to;
-    data['total'] = this.total;
+    data['next_page_url'] = nextPageUrl;
+    data['path'] = path;
+    data['per_page'] = perPage;
+    data['prev_page_url'] = prevPageUrl;
+    data['to'] = to;
+    data['total'] = total;
     return data;
   }
 }
@@ -125,13 +125,13 @@ class NotificationData {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['title'] = this.title;
-    data['message'] = this.message;
-    data['type'] = this.type;
-    data['created_at'] = this.createdAt;
-    data['updated_at'] = this.updatedAt;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['title'] = title;
+    data['message'] = message;
+    data['type'] = type;
+    data['created_at'] = createdAt;
+    data['updated_at'] = updatedAt;
     return data;
   }
 }
@@ -150,10 +150,10 @@ class Links {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['url'] = this.url;
-    data['label'] = this.label;
-    data['active'] = this.active;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['url'] = url;
+    data['label'] = label;
+    data['active'] = active;
     return data;
   }
 }

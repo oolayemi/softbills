@@ -1,14 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:intl/intl.dart';
 import 'package:no_name/core/utils/tools.dart';
 import 'package:no_name/styles/brand_color.dart';
 import 'package:no_name/views/homepage/homepage_viewmodel.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:stacked/stacked.dart';
 
-import '../../widgets/transaction_history.dart';
 import '../../widgets/utility_widgets.dart';
 
 class HomePageView extends StatelessWidget {

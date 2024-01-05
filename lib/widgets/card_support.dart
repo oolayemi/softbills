@@ -6,8 +6,8 @@ class CardSupport extends StatelessWidget {
   final String? category;
   final String? image;
 
-  CardSupport(
-      {this.category,
+  const CardSupport(
+      {super.key, this.category,
         this.image,});
 
   static const whatappURL = "https://wa.me/2348132515543";
@@ -51,7 +51,7 @@ class CardSupport extends StatelessWidget {
         RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
         child: Center(
           child: ConstrainedBox(
-            constraints: BoxConstraints(),
+            constraints: const BoxConstraints(),
             child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
@@ -59,10 +59,10 @@ class CardSupport extends StatelessWidget {
                   SvgPicture.asset(
                     image!,
                   ),
-                  SizedBox(height: 30.0),
+                  const SizedBox(height: 30.0),
                   Text(
                     category!,
-                    style: new TextStyle(
+                    style: const TextStyle(
                         fontFamily: 'Pop',
                         fontSize: 14.0,
                         fontWeight: FontWeight.w500,

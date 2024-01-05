@@ -13,18 +13,18 @@ class WaecData {
     if (json['billers'] != null) {
       billers = <WaecBillers>[];
       json['billers'].forEach((v) {
-        billers!.add(new WaecBillers.fromJson(v));
+        billers!.add(WaecBillers.fromJson(v));
       });
     }
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['success'] = this.success;
-    data['status'] = this.status;
-    data['message'] = this.message;
-    if (this.billers != null) {
-      data['billers'] = this.billers!.map((v) => v.toJson()).toList();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['success'] = success;
+    data['status'] = status;
+    data['message'] = message;
+    if (billers != null) {
+      data['billers'] = billers!.map((v) => v.toJson()).toList();
     }
     return data;
   }
@@ -42,9 +42,9 @@ class WaecBillers {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['price'] = this.price;
-    data['available_count'] = this.availableCount;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['price'] = price;
+    data['available_count'] = availableCount;
     return data;
   }
 }

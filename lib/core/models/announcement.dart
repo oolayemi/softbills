@@ -11,16 +11,16 @@ class Announcement {
     if (json['data'] != null) {
       announcementData = <AnnouncementData>[];
       json['data'].forEach((v) {
-        announcementData!.add(new AnnouncementData.fromJson(v));
+        announcementData!.add(AnnouncementData.fromJson(v));
       });
     }
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['status'] = this.status;
-    data['message'] = this.message;
-    data['announcementData'] = this.announcementData;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['status'] = status;
+    data['message'] = message;
+    data['announcementData'] = announcementData;
     return data;
   }
 }

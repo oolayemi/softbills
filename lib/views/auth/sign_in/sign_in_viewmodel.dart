@@ -1,8 +1,6 @@
 import 'dart:convert';
-import 'dart:math';
 
 import 'package:crypto/crypto.dart';
-import 'package:device_information/device_information.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:local_auth/local_auth.dart';

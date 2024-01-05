@@ -14,18 +14,18 @@ class CorporateBillersData {
     if (json['billers'] != null) {
       billers = <CorporateBillers>[];
       json['billers'].forEach((v) {
-        billers!.add(new CorporateBillers.fromJson(v));
+        billers!.add(CorporateBillers.fromJson(v));
       });
     }
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['success'] = this.success;
-    data['status'] = this.status;
-    data['message'] = this.message;
-    if (this.billers != null) {
-      data['billers'] = this.billers!.map((v) => v.toJson()).toList();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['success'] = success;
+    data['status'] = status;
+    data['message'] = message;
+    if (billers != null) {
+      data['billers'] = billers!.map((v) => v.toJson()).toList();
     }
     return data;
   }
@@ -45,10 +45,10 @@ class CorporateBillers {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['description'] = this.description;
-    data['code'] = this.code;
-    data['price'] = this.price;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['description'] = description;
+    data['code'] = code;
+    data['price'] = price;
     return data;
   }
 }

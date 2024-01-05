@@ -9,7 +9,6 @@ import 'package:stacked_services/stacked_services.dart';
 import '../../app/locator.dart';
 import '../../core/constants/loading_dialog.dart';
 import '../../core/exceptions/error_handling.dart';
-import '../../core/models/nok_response.dart';
 import '../../core/utils/tools.dart';
 import '../../widgets/utility_widgets.dart';
 

@@ -18,10 +18,10 @@ class SignUpOneView extends StatelessWidget {
         viewModelBuilder: () => SignUpOneViewModel(),
         builder: (context, model, child) {
           return CustomScaffoldWidget(
-            appBar: CustomAppBar(
+            appBar: const CustomAppBar(
               actions: [
                 Row(
-                  children: const [
+                  children: [
                     Text("1/3"),
                     SizedBox(width: 10),
                     TabButton(

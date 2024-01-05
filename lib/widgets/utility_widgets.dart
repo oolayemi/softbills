@@ -14,7 +14,6 @@ import 'package:pinput/pinput.dart';
 
 import '../core/models/data_billers.dart';
 import '../core/models/transaction_history_data.dart';
-import '../core/models/wallet_response.dart';
 import '../core/utils/size_config.dart';
 import '../styles/brand_color.dart';
 import 'bottom_pad.dart';

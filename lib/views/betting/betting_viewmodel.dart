@@ -3,7 +3,6 @@ import 'dart:convert';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:no_name/app/locator.dart';
-import 'package:no_name/core/enums/wallet_types.dart';
 import 'package:no_name/core/services/auth_service.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';

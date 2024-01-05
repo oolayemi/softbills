@@ -9,16 +9,16 @@ class BankData {
     if (json['banks'] != null) {
       banks = <Banks>[];
       json['banks'].forEach((v) {
-        banks!.add(new Banks.fromJson(v));
+        banks!.add(Banks.fromJson(v));
       });
     }
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['status'] = this.status;
-    if (this.banks != null) {
-      data['banks'] = this.banks!.map((v) => v.toJson()).toList();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['status'] = status;
+    if (banks != null) {
+      data['banks'] = banks!.map((v) => v.toJson()).toList();
     }
     return data;
   }
@@ -36,9 +36,9 @@ class Banks {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['cbn_code'] = this.cbnCode;
-    data['bank_name'] = this.bankName;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['cbn_code'] = cbnCode;
+    data['bank_name'] = bankName;
     return data;
   }
 }

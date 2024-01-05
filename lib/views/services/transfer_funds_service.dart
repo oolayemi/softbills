@@ -45,7 +45,7 @@ class TransferFundsService with ReactiveServiceMixin {
   List<WaecBillers>? _waecBillers = [];
   List<WaecBillers>? get waecBillers => _waecBillers;
 
-  Map<String?, List<CableTvPackage>?> _packages = {};
+  final Map<String?, List<CableTvPackage>?> _packages = {};
   Map<String?, List<CableTvPackage>?> get packages => _packages;
 
   List<BettingData> _bettingList = [];

@@ -58,7 +58,7 @@ class _BottomPadState extends State<BottomPad> {
                 children: [
                   Text(
                     'Enter Pin',
-                    style: Theme.of(context).textTheme.headline3!.copyWith(
+                    style: Theme.of(context).textTheme.displaySmall!.copyWith(
                       fontSize: SizeConfig.textSize(context, 2),
                       color: Colors.black
                     ),
@@ -251,7 +251,7 @@ class _BottomPadState extends State<BottomPad> {
         child: Center(
           child: Text(
             text,
-            style: Theme.of(context).textTheme.headline3!.copyWith(
+            style: Theme.of(context).textTheme.displaySmall!.copyWith(
               fontSize: SizeConfig.textSize(context, 2.5),
               // color: BrandColors.primary
             ),

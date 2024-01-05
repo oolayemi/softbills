@@ -12,19 +12,19 @@ class IDVerificationView extends StatelessWidget {
     return ViewModelBuilder<IDVerificationViewModel>.reactive(
         viewModelBuilder: () => IDVerificationViewModel(),
         builder: (context, model, child) {
-          return CustomScaffoldWidget(
-            appBar: const CustomAppBar(
+          return const CustomScaffoldWidget(
+            appBar: CustomAppBar(
               title: "ID Verification",
               withBackButton: false,
             ),
             body: Stack(
               children: [
                 Column(
-                  children: const [
+                  children: [
                     BuildTextField(title: "ID", hintText: "Choose an ID")
                   ],
                 ),
-                const Positioned(
+                Positioned(
                   bottom: 10,
                   right: 0,
                   left: 0,

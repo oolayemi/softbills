@@ -1,12 +1,10 @@
 import 'dart:convert';
 
-import 'package:device_information/device_information.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:no_name/core/services/auth_service.dart';
 import 'package:no_name/core/services/utility_storage_service.dart';
 import 'package:no_name/core/utils/tools.dart';
-import 'package:no_name/views/dashboard/dashboard_view.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
 

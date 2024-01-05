@@ -5,7 +5,6 @@ import 'package:no_name/styles/brand_color.dart';
 import 'package:no_name/widgets/utility_widgets.dart';
 import 'package:stacked/stacked.dart';
 
-import '../../core/enums/wallet_types.dart';
 import '../../core/models/data_billers.dart';
 import '../../core/utils/size_config.dart';
 import '../../core/utils/tools.dart';
@@ -196,7 +195,7 @@ class SmeDataView extends StatelessWidget {
                               : model.package!.description!,
                           style: Theme.of(context)
                               .textTheme
-                              .headline5!
+                              .headlineSmall!
                               .copyWith(
                                   fontSize: SizeConfig.textSize(context, 1.8)),
                         )
@@ -291,7 +290,7 @@ void planSelection(
                                   // '${item.description} @ ${item.code}',
                                   style: Theme.of(context)
                                       .textTheme
-                                      .headline3!
+                                      .displaySmall!
                                       .copyWith(
                                           fontSize:
                                               SizeConfig.textSize(context, 2))),

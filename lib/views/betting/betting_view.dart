@@ -3,7 +3,6 @@ import 'package:no_name/styles/brand_color.dart';
 import 'package:no_name/widgets/utility_widgets.dart';
 import 'package:stacked/stacked.dart';
 
-import '../../core/enums/wallet_types.dart';
 import '../../core/utils/size_config.dart';
 import '../../core/utils/tools.dart';
 import 'betting_viewmodel.dart';
@@ -52,7 +51,7 @@ class BettingView extends StatelessWidget {
                                   'Customer Name: ${model.customerName!}',
                                   style: Theme.of(context)
                                       .textTheme
-                                      .headline5!
+                                      .headlineSmall!
                                       .copyWith(
                                           color: BrandColors.colorGreen,
                                           fontSize: SizeConfig.textSize(
@@ -244,7 +243,7 @@ void betDropDown({required BuildContext ctx, check, Function? selectPlan}) {
                                     child: Text(item,
                                         style: Theme.of(context)
                                             .textTheme
-                                            .headline3!
+                                            .displaySmall!
                                             .copyWith(
                                                 fontSize: SizeConfig.textSize(
                                                     context, 2))),

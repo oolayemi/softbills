@@ -32,7 +32,7 @@ showSuccessDialog(context, {String title = 'Transaction Successful', required St
                         title,
                         style: Theme.of(context)
                             .textTheme
-                            .headline4!
+                            .headlineMedium!
                             .copyWith(fontSize: SizeConfig.textSize(context, 2), color: Colors.white),
                       ),
                     ),
@@ -46,9 +46,9 @@ showSuccessDialog(context, {String title = 'Transaction Successful', required St
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         Text(
-                          "$successMessage",
+                          successMessage,
                           textAlign: TextAlign.center,
-                          style: TextStyle(fontSize: 18),
+                          style: const TextStyle(fontSize: 18),
                         ),
 
                         const SizedBox(height: 10),
@@ -67,7 +67,7 @@ showSuccessDialog(context, {String title = 'Transaction Successful', required St
                                 'Close',
                                 style: Theme.of(context)
                                     .textTheme
-                                    .headline4!
+                                    .headlineMedium!
                                     .copyWith(fontSize: SizeConfig.textSize(context, 2), color: Colors.white),
                               ),
                             ),

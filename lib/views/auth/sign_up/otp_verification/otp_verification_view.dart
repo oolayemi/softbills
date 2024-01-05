@@ -5,7 +5,6 @@ import 'package:pinput/pinput.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
 
-import '../welcome.dart';
 import 'otp_verification_viewmodel.dart';
 
 class OtpVerificationView extends StatelessWidget {
@@ -35,7 +34,7 @@ class OtpVerificationView extends StatelessWidget {
                     const SizedBox(height: 10),
                     Text(
                       "We will send you a verification code to your Phone number: +234${phone.substring(1, 11)}",
-                      style: TextStyle(
+                      style: const TextStyle(
                         fontSize: 19
                       ),
                     ),

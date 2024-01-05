@@ -29,18 +29,18 @@ class PlanResponse {
     if (json['billers'] != null) {
       plans = <SMEPlans>[];
       json['billers'].forEach((v) {
-        plans!.add(new SMEPlans.fromJson(v));
+        plans!.add(SMEPlans.fromJson(v));
       });
     }
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['success'] = this.success;
-    data['status'] = this.status;
-    data['message'] = this.message;
-    if (this.plans != null) {
-      data['billers'] = this.plans!.map((v) => v.toJson()).toList();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['success'] = success;
+    data['status'] = status;
+    data['message'] = message;
+    if (plans != null) {
+      data['billers'] = plans!.map((v) => v.toJson()).toList();
     }
     return data;
   }
@@ -58,9 +58,9 @@ class SMEPlans {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['description'] = this.description;
-    data['code'] = this.code;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['description'] = description;
+    data['code'] = code;
     return data;
   }
 }

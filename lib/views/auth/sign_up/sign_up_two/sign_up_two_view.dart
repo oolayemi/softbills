@@ -17,11 +17,11 @@ class SignUpTwoView extends StatelessWidget {
         onModelReady: (model) => model.setUp(details),
         builder: (context, model, child) {
           return CustomScaffoldWidget(
-            appBar: CustomAppBar(
+            appBar: const CustomAppBar(
               title: "",
               actions: [
                 Row(
-                  children: const [
+                  children: [
                     Text("2/3"),
                     SizedBox(width: 10),
                     TabButton(

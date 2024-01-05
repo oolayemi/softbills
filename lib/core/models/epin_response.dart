@@ -11,17 +11,17 @@ class EPinResponse {
     if (json['data'] != null) {
       billers = <EPinData>[];
       json['data'].forEach((v) {
-        billers!.add(new EPinData.fromJson(v));
+        billers!.add(EPinData.fromJson(v));
       });
     }
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['status'] = this.status;
-    data['message'] = this.message;
-    if (this.billers != null) {
-      data['data'] = this.billers!.map((v) => v.toJson()).toList();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['status'] = status;
+    data['message'] = message;
+    if (billers != null) {
+      data['data'] = billers!.map((v) => v.toJson()).toList();
     }
     return data;
   }
@@ -43,11 +43,11 @@ class EPinData {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['Amount'] = this.amount;
-    data['pin'] = this.pin;
-    data['serial_number'] = this.serialNumber;
-    data['instruction'] = this.instruction;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['Amount'] = amount;
+    data['pin'] = pin;
+    data['serial_number'] = serialNumber;
+    data['instruction'] = instruction;
     return data;
   }
 }
