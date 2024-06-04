@@ -133,58 +133,54 @@ class SignUpOneView extends StatelessWidget {
                             ),
                           ],
                         ),
+                        const SizedBox(height: 30),
+                        Column(
+                          children: [
+                            SizedBox(
+                              width: double.infinity,
+                              child: RoundedButton(
+                                title: "Proceed",
+                                onPressed: () {
+                                  if (model.formKey.currentState!.validate()) {
+                                    if (model.gender != null) {
+                                      model.gotoSignUpTwo();
+                                    } else {
+                                      Fluttertoast.showToast(
+                                          msg: "Please select a gender to continue");
+                                    }
+                                  }
+                                },
+                              ),
+                            ),
+                            const SizedBox(height: 10),
+                            InkWell(
+                              onTap: () {
+                                NavigationService navigatorService = locator<NavigationService>();
+                                navigatorService.clearStackAndShowView(const SignInView());
+                              },
+                              child: RichText(
+                                text: const TextSpan(
+                                  text: "Already an account? ",
+                                  style: TextStyle(color: Colors.grey, fontFamily: "BaiJamjuree"),
+                                  children: [
+                                    TextSpan(
+                                      text: "Sign In",
+                                      style: TextStyle(
+                                        color: Colors.black,
+                                        fontWeight: FontWeight.bold,
+                                        fontFamily: "BaiJamjuree",
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
                       ],
                     ),
                   ),
                 ),
-                Positioned(
-                  bottom: 10,
-                  right: 0,
-                  left: 0,
-                  child: Column(
-                    children: [
-                      SizedBox(
-                        width: double.infinity,
-                        child: RoundedButton(
-                          title: "Proceed",
-                          onPressed: () {
-                            if (model.formKey.currentState!.validate()) {
-                              if (model.gender != null) {
-                                model.gotoSignUpTwo();
-                              } else {
-                                Fluttertoast.showToast(
-                                    msg: "Please select a gender to continue");
-                              }
-                            }
-                          },
-                        ),
-                      ),
-                      const SizedBox(height: 10),
-                      InkWell(
-                        onTap: () {
-                          NavigationService navigatorService = locator<NavigationService>();
-                          navigatorService.clearStackAndShowView(const SignInView());
-                        },
-                        child: RichText(
-                          text: const TextSpan(
-                            text: "Already an account? ",
-                            style: TextStyle(color: Colors.grey, fontFamily: "BaiJamjuree"),
-                            children: [
-                              TextSpan(
-                                text: "Sign In",
-                                style: TextStyle(
-                                  color: Colors.black,
-                                  fontWeight: FontWeight.bold,
-                                  fontFamily: "BaiJamjuree",
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                )
               ],
             ),
           );

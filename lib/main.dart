@@ -43,7 +43,7 @@ class MyApp extends StatelessWidget {
             primaryColor: BrandColors.primary,
             primarySwatch: createMaterialColor(BrandColors.primary),
             visualDensity: VisualDensity.adaptivePlatformDensity,
-            // brightness: Brightness.dark,
+            brightness: Brightness.light,
             fontFamily: "BaiJamjuree",
           ),
           home: const SplashScreen()),

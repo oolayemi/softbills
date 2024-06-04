@@ -148,7 +148,7 @@ class HomePageView extends StatelessWidget {
                   children: [
                     Expanded(
                       child: Text(
-                        model.wallet!.number!,
+                        model.wallet?.number ?? "N/A",
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                         style: const TextStyle(color: Colors.white),
@@ -157,7 +157,7 @@ class HomePageView extends StatelessWidget {
                     InkWell(
                       onTap: () {
                         Clipboard.setData(
-                            ClipboardData(text: model.wallet!.number!));
+                            ClipboardData(text: model.wallet?.number ?? "N/A"));
                         Fluttertoast.showToast(
                             msg: "Account number copied",
                             backgroundColor: Colors.green);
@@ -257,6 +257,7 @@ class HomePageView extends StatelessWidget {
 
   _recentTransactions(context) {
     HomePageViewModel model = HomePageViewModel();
+    print(model.transactions);
     return Column(
       children: [
         Row(
@@ -279,9 +280,9 @@ class HomePageView extends StatelessWidget {
         ),
         const SizedBox(height: 20),
 
-        model.transactions != null || model.transactions!.isNotEmpty ? RecentTransactionSection(
-            transactionList: model.transactions!.take(5).toList(),
-        ) : const Center(child: Text("There are no transactions yet"),)
+        model.transactions == null || model.transactions!.isEmpty ?
+        const Center(child: Text("There are no transactions yet", style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),),)
+            : RecentTransactionSection(transactionList: model.transactions!.take(5).toList())
       ],
     );
   }

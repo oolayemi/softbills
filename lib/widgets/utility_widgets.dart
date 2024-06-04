@@ -506,7 +506,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
       : super(key: key);
 
   @override
-  Size get preferredSize => const Size.fromHeight(kToolbarHeight + 12);
+  Size get preferredSize => const Size.fromHeight(kToolbarHeight + 2);
 
   @override
   Widget build(BuildContext context) {
@@ -1046,7 +1046,7 @@ class RoundedButton extends StatelessWidget {
           padding: const EdgeInsets.symmetric(vertical: 20)),
       child: Text(
         title,
-        style: const TextStyle(fontSize: 16),
+        style: const TextStyle(fontSize: 16, color: Colors.white),
       ),
     );
   }

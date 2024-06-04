@@ -14,7 +14,9 @@ import 'package:no_name/core/services/utility_storage_service.dart';
 import 'package:observable_ish/value/value.dart';
 import 'package:stacked/stacked.dart';
 import 'package:crypto/crypto.dart';
+import 'package:stacked_services/stacked_services.dart';
 
+import '../../views/auth/sign_in/sign_in_view.dart';
 import '../models/airtime_beneficiaries.dart';
 import '../models/api_response.dart';
 import '../models/data_beneficiaries.dart';
@@ -24,6 +26,7 @@ import '../utils/tools.dart';
 
 class AuthService with ReactiveServiceMixin {
   final StorageService _storageService = locator<StorageService>();
+  final NavigationService _navigationService = locator<NavigationService>();
 
   final RxValue<ProfileData?> _profileResponse = RxValue<ProfileData?>(null);
 
@@ -138,6 +141,7 @@ class AuthService with ReactiveServiceMixin {
 
         int? statusCode = value.statusCode;
         Map<String, dynamic> responseData = value.data!;
+        print(responseData);
 
         if (statusCode == 200) {
           if (responseData['status'] == 'success') {
@@ -411,6 +415,13 @@ class AuthService with ReactiveServiceMixin {
     }
 
     return response;
+  }
+
+  void signOut() {
+    _storageService.removeString("token");
+    _storageService.removeString('email');
+    _storageService.removeBool('isLoggedIn');
+    _navigationService.clearStackAndShowView(const SignInView());
   }
 }
 

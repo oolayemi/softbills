@@ -90,7 +90,7 @@ class SignUpTwoView extends StatelessWidget {
                             uppercaseCharCount: 1,
                             numericCharCount: 1,
                             width: 400,
-                            height: 130,
+                            height: 150,
                             onSuccess: () {
                               model.isPasswordValid = true;
                               model.notifyListeners();

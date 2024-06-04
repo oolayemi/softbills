@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:no_name/app/locator.dart';
+import 'package:no_name/core/services/auth_service.dart';
 import 'package:no_name/styles/brand_color.dart';
-import 'package:no_name/views/auth/sign_in/sign_in_view.dart';
 import 'package:no_name/widgets/utility_widgets.dart';
 import 'package:stacked/stacked.dart';
-import 'package:stacked_services/stacked_services.dart';
 
-import '../../core/services/utility_storage_service.dart';
 import 'account_viewmodel.dart';
 
 class AccountView extends StatelessWidget {
@@ -41,11 +40,7 @@ class AccountView extends StatelessWidget {
                   child: RoundedButton(
                     title: "Sign Out",
                     onPressed: () {
-                      StorageService().removeString("token");
-                      StorageService().removeString('email');
-                      StorageService().removeBool('isLoggedIn');
-                      NavigationService()
-                          .clearStackAndShowView(const SignInView());
+                      locator<AuthService>().signOut();
                     },
                   ),
                 )
