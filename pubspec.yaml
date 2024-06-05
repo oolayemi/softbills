@@ -82,6 +82,7 @@ dependencies:
   flutter_pw_validator: ^1.5.0
 
   crypto: any
+  google_fonts: ^6.2.1
 dev_dependencies:
   flutter_test:
     sdk: flutter

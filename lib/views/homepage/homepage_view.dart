@@ -4,6 +4,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:no_name/core/utils/tools.dart';
 import 'package:no_name/styles/brand_color.dart';
 import 'package:no_name/views/homepage/homepage_viewmodel.dart';
+import 'package:no_name/views/profile/profile_view.dart';
 import 'package:stacked/stacked.dart';
 
 import '../../widgets/utility_widgets.dart';
@@ -36,12 +37,12 @@ class HomePageView extends StatelessWidget {
                                   children: [
                                     GestureDetector(
                                       onTap: () {
-                                        // Navigator.push(
-                                        //   context,
-                                        //   MaterialPageRoute(
-                                        //     builder: (context) => const ProfileScreen(),
-                                        //   ),
-                                        // );
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) => const ProfileView(),
+                                          ),
+                                        );
                                       },
                                       child: const Padding(
                                         padding: EdgeInsets.only(left: 15.0, top: 10),

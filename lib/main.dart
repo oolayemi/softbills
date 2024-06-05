@@ -5,6 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:no_name/styles/brand_color.dart';
 import 'package:stacked_services/stacked_services.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 import 'app/locator.dart';
 import 'app/router.dart';
@@ -44,7 +45,7 @@ class MyApp extends StatelessWidget {
             primarySwatch: createMaterialColor(BrandColors.primary),
             visualDensity: VisualDensity.adaptivePlatformDensity,
             brightness: Brightness.light,
-            fontFamily: "BaiJamjuree",
+            textTheme: GoogleFonts.montserratTextTheme()
           ),
           home: const SplashScreen()),
     );
