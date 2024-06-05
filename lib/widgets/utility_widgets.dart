@@ -19,8 +19,7 @@ import '../styles/brand_color.dart';
 import 'bottom_pad.dart';
 import 'transaction_history.dart';
 
-flusher(String? message, BuildContext context,
-    {int sec = 3, Color? color, String? title}) {
+flusher(String? message, BuildContext context, {int sec = 3, Color? color, String? title}) {
   return Flushbar(
     backgroundColor: color ?? BrandColors.primary,
     duration: Duration(seconds: sec),
@@ -81,10 +80,7 @@ Widget customTextField(
               margin: EdgeInsets.only(bottom: SizeConfig.yMargin(context, .5)),
               child: Text(
                 label,
-                style: Theme.of(context)
-                    .textTheme
-                    .headlineSmall!
-                    .copyWith(fontSize: SizeConfig.textSize(context, 1.8)),
+                style: Theme.of(context).textTheme.headlineSmall!.copyWith(fontSize: SizeConfig.textSize(context, 1.8)),
               ),
             ),
       Row(
@@ -114,30 +110,22 @@ Widget customTextField(
                 helperStyle: helperStyle,
                 enabledBorder: const OutlineInputBorder(
                   // width: 0.0 produces a thin "hairline" border
-                  borderSide:
-                      BorderSide(color: BrandColors.outlineText, width: 0.0),
+                  borderSide: BorderSide(color: BrandColors.outlineText, width: 0.0),
                 ),
                 border: OutlineInputBorder(
                     // borderSide: BorderSide.none,
-                    borderRadius:
-                        BorderRadius.circular(SizeConfig.yMargin(context, 1))),
+                    borderRadius: BorderRadius.circular(SizeConfig.yMargin(context, 1))),
                 errorBorder: OutlineInputBorder(
-                    borderSide: const BorderSide(color: Colors.red),
-                    borderRadius:
-                        BorderRadius.circular(SizeConfig.yMargin(context, 1))),
+                    borderSide: const BorderSide(color: Colors.red), borderRadius: BorderRadius.circular(SizeConfig.yMargin(context, 1))),
                 focusedBorder: OutlineInputBorder(
                     borderSide: const BorderSide(color: BrandColors.secondary),
-                    borderRadius:
-                        BorderRadius.circular(SizeConfig.yMargin(context, 1))),
+                    borderRadius: BorderRadius.circular(SizeConfig.yMargin(context, 1))),
                 errorText: errorText,
-                contentPadding: EdgeInsets.symmetric(
-                    vertical: SizeConfig.yMargin(context, 2),
-                    horizontal: SizeConfig.xMargin(context, 4)),
+                contentPadding: EdgeInsets.symmetric(vertical: SizeConfig.yMargin(context, 2), horizontal: SizeConfig.xMargin(context, 4)),
                 prefixIcon: prefixImage == null
                     ? null
                     : Container(
-                        margin: EdgeInsets.symmetric(
-                            horizontal: SizeConfig.xMargin(context, 4)),
+                        margin: EdgeInsets.symmetric(horizontal: SizeConfig.xMargin(context, 4)),
                         child: Column(
                           mainAxisSize: MainAxisSize.min,
                           mainAxisAlignment: MainAxisAlignment.center,
@@ -153,20 +141,17 @@ Widget customTextField(
           suffixImage == null
               ? const SizedBox()
               : Container(
-                  margin: EdgeInsets.symmetric(
-                      horizontal: SizeConfig.xMargin(context, 1)),
+                  margin: EdgeInsets.symmetric(horizontal: SizeConfig.xMargin(context, 1)),
                   child: InkWell(
                     enableFeedback: true,
                     // excludeFromSemantics: true,
-                    borderRadius:
-                        BorderRadius.circular(SizeConfig.yMargin(context, 1)),
+                    borderRadius: BorderRadius.circular(SizeConfig.yMargin(context, 1)),
 
                     onTap: suffixFunc as void Function()?,
                     child: Container(
                       height: SizeConfig.yMargin(context, 6),
-                      padding: EdgeInsets.symmetric(
-                          vertical: SizeConfig.yMargin(context, 0.5),
-                          horizontal: SizeConfig.xMargin(context, 3.8)),
+                      padding:
+                          EdgeInsets.symmetric(vertical: SizeConfig.yMargin(context, 0.5), horizontal: SizeConfig.xMargin(context, 3.8)),
                       decoration: BoxDecoration(
                         color: Colors.transparent,
                         border: Border.all(
@@ -197,12 +182,7 @@ Widget customTextField(
   );
 }
 
-Widget customDropdown<T>(
-    {String? label,
-    T? value,
-    List<DropdownMenuItem<T>>? items,
-    Function? onChanged,
-    required BuildContext context}) {
+Widget customDropdown<T>({String? label, T? value, List<DropdownMenuItem<T>>? items, Function? onChanged, required BuildContext context}) {
   return Column(
     mainAxisAlignment: MainAxisAlignment.start,
     crossAxisAlignment: CrossAxisAlignment.start,
@@ -213,20 +193,13 @@ Widget customDropdown<T>(
               margin: EdgeInsets.only(bottom: SizeConfig.yMargin(context, .5)),
               child: Text(
                 label,
-                style: Theme.of(context)
-                    .textTheme
-                    .headlineSmall!
-                    .copyWith(fontSize: SizeConfig.textSize(context, 2)),
+                style: Theme.of(context).textTheme.headlineSmall!.copyWith(fontSize: SizeConfig.textSize(context, 2)),
               ),
             ),
       Container(
-        padding: EdgeInsets.symmetric(
-            vertical: SizeConfig.yMargin(context, 2.2),
-            horizontal: SizeConfig.xMargin(context, 4)),
+        padding: EdgeInsets.symmetric(vertical: SizeConfig.yMargin(context, 2.2), horizontal: SizeConfig.xMargin(context, 4)),
         decoration: BoxDecoration(
-            color: const Color(0xFFB9B9B9).withOpacity(0.12),
-            borderRadius:
-                BorderRadius.circular(SizeConfig.yMargin(context, 1))),
+            color: const Color(0xFFB9B9B9).withOpacity(0.12), borderRadius: BorderRadius.circular(SizeConfig.yMargin(context, 1))),
         child: DropdownButton(
             // focusColor: Color(0xFFB9B9B9).withOpacity(0.12),
             dropdownColor: Colors.white,
@@ -247,27 +220,19 @@ Widget customDropdown<T>(
 }
 
 Widget serviceMode(
-    {required BuildContext context,
-    required String title,
-    required bool isSelected,
-    Function? onClick,
-    required String icon}) {
+    {required BuildContext context, required String title, required bool isSelected, Function? onClick, required String icon}) {
   return Container(
     margin: EdgeInsets.symmetric(horizontal: SizeConfig.xMargin(context, 2)),
     child: InkWell(
       borderRadius: BorderRadius.circular(SizeConfig.yMargin(context, 1.4)),
       onTap: onClick as void Function()?,
       child: Container(
-        padding: EdgeInsets.symmetric(
-            vertical: SizeConfig.yMargin(context, 1),
-            horizontal: SizeConfig.xMargin(context, 2)),
+        padding: EdgeInsets.symmetric(vertical: SizeConfig.yMargin(context, 1), horizontal: SizeConfig.xMargin(context, 2)),
         width: SizeConfig.xMargin(context, 40),
         height: SizeConfig.yMargin(context, 10),
         decoration: BoxDecoration(
-            border: Border.all(
-                color: isSelected ? BrandColors.mainBlack : Colors.grey[500]!),
-            borderRadius:
-                BorderRadius.circular(SizeConfig.yMargin(context, 1.4)),
+            border: Border.all(color: isSelected ? BrandColors.mainBlack : Colors.grey[500]!),
+            borderRadius: BorderRadius.circular(SizeConfig.yMargin(context, 1.4)),
             color: isSelected ? BrandColors.mainBlack : Colors.transparent),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.start,
@@ -282,8 +247,7 @@ Widget serviceMode(
                     padding: const EdgeInsets.only(bottom: 10.0, left: 10.0),
                     child: SvgPicture.asset(
                       icon,
-                      color:
-                          isSelected ? BrandColors.secondary : Colors.grey[500],
+                      color: isSelected ? BrandColors.secondary : Colors.grey[500],
                     ),
                   ),
                   Expanded(
@@ -291,9 +255,7 @@ Widget serviceMode(
                       fit: BoxFit.scaleDown,
                       child: Text(
                         title,
-                        style: TextStyle(
-                            color: isSelected ? Colors.white : Colors.black,
-                            fontSize: 14),
+                        style: TextStyle(color: isSelected ? Colors.white : Colors.black, fontSize: 14),
                       ),
                     ),
                   ),
@@ -326,30 +288,18 @@ void pinPad({required BuildContext ctx, Function? function}) {
       });
 }
 
-Widget walletDetailItem(
-    BuildContext context, String item, String? value, bool showBorder) {
+Widget walletDetailItem(BuildContext context, String item, String? value, bool showBorder) {
   return Container(
     padding: EdgeInsets.symmetric(vertical: SizeConfig.yMargin(context, 2)),
     decoration: BoxDecoration(
-        border: Border(
-            bottom: BorderSide(
-                color: showBorder
-                    ? const Color(0xFF8A8A8A).withOpacity(0.26)
-                    : Colors.transparent))),
+        border: Border(bottom: BorderSide(color: showBorder ? const Color(0xFF8A8A8A).withOpacity(0.26) : Colors.transparent))),
     child: Row(
       children: [
-        Text(item,
-            style: Theme.of(context)
-                .textTheme
-                .headlineSmall!
-                .copyWith(fontSize: SizeConfig.textSize(context, 2))),
+        Text(item, style: Theme.of(context).textTheme.headlineSmall!.copyWith(fontSize: SizeConfig.textSize(context, 2))),
         Flexible(
           child: SelectableText(
             '$value',
-            style: Theme.of(context)
-                .textTheme
-                .displaySmall!
-                .copyWith(fontSize: SizeConfig.textSize(context, 2)),
+            style: Theme.of(context).textTheme.displaySmall!.copyWith(fontSize: SizeConfig.textSize(context, 2)),
           ),
         ),
       ],
@@ -365,14 +315,7 @@ class AmountTextField extends StatelessWidget {
   final Function(String)? onChanged;
   final String? Function(String?)? validator;
 
-  const AmountTextField(
-      {Key? key,
-      this.title,
-      this.suffixTitle,
-      this.validator,
-      this.controller,
-      this.enabled = true,
-      this.onChanged})
+  const AmountTextField({Key? key, this.title, this.suffixTitle, this.validator, this.controller, this.enabled = true, this.onChanged})
       : super(key: key);
 
   @override
@@ -471,20 +414,32 @@ class BuildTextField extends StatelessWidget {
           obscureText: obscure,
           style: const TextStyle(color: Colors.black),
           decoration: InputDecoration(
-              filled: true,
-              counterText: '',
-              hintText: hintText,
-              suffixIcon: suffixIcon,
-              //contentPadding: const EdgeInsets.symmetric(horizontal: 10),
-              fillColor: const Color(0xFF605F5F).withOpacity(.1),
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(10),
-                borderSide: const BorderSide(color: Colors.grey, width: .5),
+            filled: false,
+            counterText: '',
+            hintText: hintText,
+            suffixIcon: suffixIcon,
+            //contentPadding: const EdgeInsets.symmetric(horizontal: 10),
+            fillColor: const Color(0xFF605F5F).withOpacity(.1),
+            enabledBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(12),
+              borderSide: const BorderSide(
+                color: Color(0xFFC4C4C4),
               ),
-              enabledBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(10),
-                borderSide: BorderSide.none,
-              )),
+            ),
+            focusedBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(12),
+              borderSide: const BorderSide(
+                color: Color(0xFF0991CC),
+              ),
+            ),
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(12),
+              borderSide: const BorderSide(
+                width: 1,
+                color: Color(0xFFC4C4C4),
+              ),
+            ),
+          ),
           onChanged: onChanged,
           textInputAction: isLast ? TextInputAction.done : TextInputAction.next,
         ),
@@ -501,9 +456,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   final bool withBackButton;
   final List<Widget>? actions;
 
-  const CustomAppBar(
-      {Key? key, this.title, this.withBackButton = false, this.actions})
-      : super(key: key);
+  const CustomAppBar({Key? key, this.title, this.withBackButton = false, this.actions}) : super(key: key);
 
   @override
   Size get preferredSize => const Size.fromHeight(kToolbarHeight + 2);
@@ -533,15 +486,22 @@ class CustomScaffoldWidget extends StatelessWidget {
   final Widget body;
   final PreferredSizeWidget? appBar;
   final double padding;
+  final Widget? bottomNavBar;
+  final Color? bgColor;
 
-  const CustomScaffoldWidget(
-      {Key? key, this.appBar, required this.body, this.padding = 15.0})
-      : super(key: key);
+  const CustomScaffoldWidget({
+    Key? key,
+    this.appBar,
+    required this.body,
+    this.padding = 15.0,
+    this.bottomNavBar,
+    this.bgColor,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: BrandColors.mainBackground,
+      backgroundColor: bgColor,
       resizeToAvoidBottomInset: false,
       appBar: appBar,
       body: GestureDetector(
@@ -553,6 +513,7 @@ class CustomScaffoldWidget extends StatelessWidget {
           child: body,
         ),
       ),
+      bottomNavigationBar: bottomNavBar,
     );
   }
 }
@@ -560,8 +521,7 @@ class CustomScaffoldWidget extends StatelessWidget {
 class RecentTransactionSection extends StatelessWidget {
   final List<DataResponse>? transactionList;
 
-  const RecentTransactionSection({Key? key, this.transactionList})
-      : super(key: key);
+  const RecentTransactionSection({Key? key, this.transactionList}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -570,9 +530,7 @@ class RecentTransactionSection extends StatelessWidget {
         children: [
           Container(
             decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(10),
-                border: Border.all(
-                    color: BrandColors.secondary.withOpacity(.3), width: 1)),
+                borderRadius: BorderRadius.circular(10), border: Border.all(color: BrandColors.secondary.withOpacity(.3), width: 1)),
             child: ListTile(
               onTap: () {
                 Navigator.push(
@@ -583,10 +541,12 @@ class RecentTransactionSection extends StatelessWidget {
               leading: Container(
                 height: 40,
                 width: 40,
-                decoration: const BoxDecoration(
-                    shape: BoxShape.circle, color: BrandColors.secondary),
+                decoration: const BoxDecoration(shape: BoxShape.circle, color: BrandColors.secondary),
                 child: const Center(
-                  child: Icon(Icons.outbound_outlined, color: Colors.white,),
+                  child: Icon(
+                    Icons.outbound_outlined,
+                    color: Colors.white,
+                  ),
                 ),
               ),
               horizontalTitleGap: 8,
@@ -600,8 +560,7 @@ class RecentTransactionSection extends StatelessWidget {
                 ),
               ),
               subtitle: Text(
-                DateFormat('hh:mm a')
-                    .format(DateTime.parse(dataResponse.createdAt!)),
+                DateFormat('hh:mm a').format(DateTime.parse(dataResponse.createdAt!)),
                 style: const TextStyle(fontSize: 14),
               ),
               trailing: Text(
@@ -622,13 +581,11 @@ class RecentTransactionSection extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Container(
-          decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(15)),
+          decoration: BoxDecoration(borderRadius: BorderRadius.circular(15)),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: transactionList!.map((dataResponse) {
-              return eachTransaction(context, dataResponse,
-                  isLast: transactionList!.last == dataResponse);
+              return eachTransaction(context, dataResponse, isLast: transactionList!.last == dataResponse);
             }).toList(),
           ),
         )
@@ -653,8 +610,7 @@ class ExchangeTextField extends StatelessWidget {
         children: [
           Container(
             width: 120,
-            padding:
-                const EdgeInsets.only(right: 6, left: 6, top: 6, bottom: 6),
+            padding: const EdgeInsets.only(right: 6, left: 6, top: 6, bottom: 6),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(10),
               color: const Color(0xFF605F5F).withOpacity(.32),
@@ -671,12 +627,7 @@ class ExchangeTextField extends StatelessWidget {
                       style: TextStyle(color: Colors.white),
                     ),
                     underline: const SizedBox(),
-                    items: <String>[
-                      'kitchen',
-                      'kitchen1',
-                      'kitchen2',
-                      'kitchen3'
-                    ]
+                    items: <String>['kitchen', 'kitchen1', 'kitchen2', 'kitchen3']
                         .map<DropdownMenuItem<String>>(
                           (e) => DropdownMenuItem(
                             value: e,
@@ -684,8 +635,7 @@ class ExchangeTextField extends StatelessWidget {
                               children: [
                                 ClipRRect(
                                   borderRadius: BorderRadius.circular(10),
-                                  child: Image.asset('assets/images/mtn.png',
-                                      height: 20, width: 20),
+                                  child: Image.asset('assets/images/mtn.png', height: 20, width: 20),
                                 ),
                                 const SizedBox(width: 4),
                                 Text(e),
@@ -745,10 +695,7 @@ class BuildDropDown extends StatelessWidget {
         ),
         Container(
           padding: const EdgeInsets.only(right: 6, left: 6, top: 6, bottom: 6),
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(10),
-            color: const Color(0xFF605F5F).withOpacity(.1),
-          ),
+          decoration: BoxDecoration(borderRadius: BorderRadius.circular(10), border: Border.all(width: .5, color: Colors.grey)),
           child: Row(
             children: [
               iconUrl != null
@@ -757,7 +704,6 @@ class BuildDropDown extends StatelessWidget {
                       padding: const EdgeInsets.all(6),
                       decoration: const BoxDecoration(
                         shape: BoxShape.circle,
-                        color: Color(0xFF403C3C),
                       ),
                       child: Image.asset(iconUrl!, height: 20, width: 20),
                     )
@@ -772,10 +718,7 @@ class BuildDropDown extends StatelessWidget {
                     style: const TextStyle(color: Colors.black),
                   ),
                   underline: const SizedBox(),
-                  items: list
-                      .map<DropdownMenuItem<String>>(
-                          (e) => DropdownMenuItem(value: e, child: Text(e)))
-                      .toList(),
+                  items: list.map<DropdownMenuItem<String>>((e) => DropdownMenuItem(value: e, child: Text(e))).toList(),
                   onChanged: onChanged,
                 ),
               ),
@@ -820,9 +763,7 @@ class BuildBillerDropDown extends StatelessWidget {
         ),
         Container(
           padding: const EdgeInsets.only(right: 6, left: 6, top: 6, bottom: 6),
-          decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(10),
-              color: const Color(0xFF605F5F).withOpacity(.1)),
+          decoration: BoxDecoration(borderRadius: BorderRadius.circular(10), color: const Color(0xFF605F5F).withOpacity(.1)),
           child: Row(
             children: [
               list.isNotEmpty
@@ -830,9 +771,7 @@ class BuildBillerDropDown extends StatelessWidget {
                       child: DropdownButton<DataBillers>(
                         value: value,
                         isExpanded: true,
-                        hint: Text(
-                          "Select $title"
-                        ),
+                        hint: Text("Select $title"),
                         underline: const SizedBox(),
                         items: list
                             .map<DropdownMenuItem<DataBillers>>(
@@ -842,8 +781,7 @@ class BuildBillerDropDown extends StatelessWidget {
                                   children: [
                                     ClipRRect(
                                       borderRadius: BorderRadius.circular(10),
-                                      child: Image.network(e.image!,
-                                          height: 20, width: 20),
+                                      child: Image.network(e.image!, height: 20, width: 20),
                                     ),
                                     const SizedBox(width: 4),
                                     Text(e.name!.split(' ').first),
@@ -900,45 +838,40 @@ class BuildAirtimeBillerDropDown extends StatelessWidget {
         ),
         Container(
           padding: const EdgeInsets.only(right: 6, left: 6, top: 6, bottom: 6),
-          decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(10),
-              color: const Color(0xFF605F5F).withOpacity(.1)),
+          decoration: BoxDecoration(borderRadius: BorderRadius.circular(10), color: const Color(0xFF605F5F).withOpacity(.1)),
           child: Row(
             children: [
               list.isNotEmpty
                   ? Expanded(
-                child: DropdownButton<AirtimeBillers>(
-                  value: value,
-                  isExpanded: true,
-                  hint: Text(
-                    "Select $title"
-                  ),
-                  underline: const SizedBox(),
-                  items: list
-                      .map<DropdownMenuItem<AirtimeBillers>>(
-                        (e) => DropdownMenuItem(
-                      value: e,
-                      child: Row(
-                        children: [
-                          ClipRRect(
-                            borderRadius: BorderRadius.circular(10),
-                            child: Image.network(e.image!,
-                                height: 20, width: 20),
-                          ),
-                          const SizedBox(width: 4),
-                          Text(e.name!.split(' ').first),
-                        ],
+                      child: DropdownButton<AirtimeBillers>(
+                        value: value,
+                        isExpanded: true,
+                        hint: Text("Select $title"),
+                        underline: const SizedBox(),
+                        items: list
+                            .map<DropdownMenuItem<AirtimeBillers>>(
+                              (e) => DropdownMenuItem(
+                                value: e,
+                                child: Row(
+                                  children: [
+                                    ClipRRect(
+                                      borderRadius: BorderRadius.circular(10),
+                                      child: Image.network(e.image!, height: 20, width: 20),
+                                    ),
+                                    const SizedBox(width: 4),
+                                    Text(e.name!.split(' ').first),
+                                  ],
+                                ),
+                              ),
+                            )
+                            .toList(),
+                        onChanged: onChanged,
                       ),
-                    ),
-                  )
-                      .toList(),
-                  onChanged: onChanged,
-                ),
-              )
+                    )
                   : const Padding(
-                padding: EdgeInsets.symmetric(vertical: 15.0),
-                child: Text("Loading..."),
-              ),
+                      padding: EdgeInsets.symmetric(vertical: 15.0),
+                      child: Text("Loading..."),
+                    ),
             ],
           ),
         ),
@@ -955,9 +888,7 @@ class EachLink extends StatelessWidget {
   final String title;
   final dynamic onTap;
 
-  const EachLink(
-      {Key? key, required this.icon, required this.title, this.onTap})
-      : super(key: key);
+  const EachLink({Key? key, required this.icon, required this.title, this.onTap}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -991,9 +922,7 @@ class EachRoundLink extends StatelessWidget {
   final String title;
   final dynamic onTap;
 
-  const EachRoundLink(
-      {Key? key, required this.icon, required this.title, this.onTap})
-      : super(key: key);
+  const EachRoundLink({Key? key, required this.icon, required this.title, this.onTap}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -1031,22 +960,21 @@ class EachRoundLink extends StatelessWidget {
 class RoundedButton extends StatelessWidget {
   final String title;
   final Function()? onPressed;
+  final Color? bgColor;
 
-  const RoundedButton({Key? key, required this.title, this.onPressed})
-      : super(key: key);
+  const RoundedButton({Key? key, required this.title, this.onPressed, this.bgColor}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return ElevatedButton(
       onPressed: onPressed,
       style: ElevatedButton.styleFrom(
-          backgroundColor: BrandColors.primary,
-          shape:
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+          backgroundColor: bgColor ?? BrandColors.primary,
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
           padding: const EdgeInsets.symmetric(vertical: 20)),
       child: Text(
         title,
-        style: const TextStyle(fontSize: 16, color: Colors.white),
+        style: TextStyle(fontSize: 16, color: bgColor == Colors.white ? Colors.black : Colors.white),
       ),
     );
   }
@@ -1058,13 +986,7 @@ class TabButton extends StatelessWidget {
   final double? width;
   final double? height;
 
-  const TabButton(
-      {Key? key,
-      required this.selectedPage,
-      required this.pageNumber,
-      this.width,
-      this.height})
-      : super(key: key);
+  const TabButton({Key? key, required this.selectedPage, required this.pageNumber, this.width, this.height}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -1077,9 +999,7 @@ class TabButton extends StatelessWidget {
       height: height ?? 8,
       width: width ?? MediaQuery.of(context).size.width * 0.25,
       decoration: BoxDecoration(
-        color: selectedPage >= pageNumber
-            ? Colors.white
-            : const Color(0xFFE1D7C0).withOpacity(.2),
+        color: selectedPage >= pageNumber ? Colors.white : const Color(0xFFE1D7C0).withOpacity(.2),
         borderRadius: BorderRadius.circular(40),
       ),
     );
@@ -1164,8 +1084,7 @@ void validateTransactionDetails(
                   defaultPinTheme: PinTheme(
                     width: 80,
                     height: 80,
-                    textStyle: const TextStyle(
-                        fontSize: 28, fontWeight: FontWeight.w600, color: Colors.white),
+                    textStyle: const TextStyle(fontSize: 28, fontWeight: FontWeight.w600, color: Colors.white),
                     decoration: BoxDecoration(
                       color: Colors.grey,
                       border: Border.all(color: const Color(0xFFE1D7C0).withOpacity(.2)),
@@ -1174,8 +1093,7 @@ void validateTransactionDetails(
                   ),
                   obscureText: true,
                   onCompleted: (String pin) {
-                    if (StorageService().getString('transactionPin') ==
-                        sha1.convert(utf8.encode(pin)).toString()) {
+                    if (StorageService().getString('transactionPin') == sha1.convert(utf8.encode(pin)).toString()) {
                       func!.call();
                     } else {
                       flusher("PIN is not correct", context, color: Colors.red);
@@ -1189,4 +1107,27 @@ void validateTransactionDetails(
       );
     },
   );
+}
+
+class TextBoxText extends StatelessWidget {
+  final String text;
+
+  const TextBoxText({super.key, required this.text});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: 400,
+      padding: const EdgeInsets.symmetric(horizontal: 15),
+      child: Text(
+        text,
+        textAlign: TextAlign.left,
+        style: const TextStyle(
+          fontSize: 13,
+          fontWeight: FontWeight.w400,
+          color: Color(0xFF333333),
+        ),
+      ),
+    );
+  }
 }

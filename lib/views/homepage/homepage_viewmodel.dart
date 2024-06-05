@@ -24,6 +24,8 @@ class HomePageViewModel extends ReactiveViewModel {
 
   ProfileData? get profileData => _authService.profileResponse;
 
+  bool isSwitchedOn = false;
+
   WalletData? get wallet => _authService.walletResponse;
   List<VirtualAccountData>? get virtualAccounts => _authService.virtualAccountData;
 

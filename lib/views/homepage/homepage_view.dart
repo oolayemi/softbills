@@ -4,7 +4,6 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:no_name/core/utils/tools.dart';
 import 'package:no_name/styles/brand_color.dart';
 import 'package:no_name/views/homepage/homepage_viewmodel.dart';
-import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:stacked/stacked.dart';
 
 import '../../widgets/utility_widgets.dart';
@@ -18,55 +17,344 @@ class HomePageView extends StatelessWidget {
         viewModelBuilder: () => HomePageViewModel(),
         onModelReady: (model) => model.setUp(),
         builder: (context, model, child) {
-          return Scaffold(
-            backgroundColor: const Color(0xFFEEF0F2),
-            body: SafeArea(
-              child: SmartRefresher(
-                enablePullDown: true,
-                header: const WaterDropHeader(),
-                controller: model.refreshController,
-                onRefresh: model.onRefresh,
-                onLoading: model.onLoading,
-                child: Container(
-                  padding: const EdgeInsets.fromLTRB(20, 20, 20, 0),
+          return SingleChildScrollView(
+            child: Column(
+              children: [
+                Container(
+                  color: Colors.white,
                   child: Column(
                     children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      Column(
                         children: [
                           Row(
                             children: [
-                              Text(
-                                "Hello ${model.profileData?.firstname},",
-                                style: const TextStyle(
-                                    fontSize: 20, fontWeight: FontWeight.w500),
-                              )
+                              SizedBox(
+                                width: 80,
+                                height: 80,
+                                child: Stack(
+                                  clipBehavior: Clip.none,
+                                  children: [
+                                    GestureDetector(
+                                      onTap: () {
+                                        // Navigator.push(
+                                        //   context,
+                                        //   MaterialPageRoute(
+                                        //     builder: (context) => const ProfileScreen(),
+                                        //   ),
+                                        // );
+                                      },
+                                      child: const Padding(
+                                        padding: EdgeInsets.only(left: 15.0, top: 10),
+                                        child: CircleAvatar(
+                                          radius: 30,
+                                          backgroundImage: AssetImage('assets/images/image 128.png'),
+                                        ),
+                                      ),
+                                    ),
+                                    Positioned(
+                                      top: 8,
+                                      right: 8,
+                                      child: Container(
+                                        width: 12,
+                                        height: 12,
+                                        decoration: const BoxDecoration(
+                                          shape: BoxShape.circle,
+                                          color: Color(0xFFE73726),
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              const SizedBox(width: 10),
+                              const Text(
+                                'Hi, Yusuf',
+                                style: TextStyle(fontSize: 17, fontWeight: FontWeight.w300),
+                              ),
                             ],
                           ),
-                          // SvgPicture.asset("assets/icons/qr_code.svg", height: 35),
+                          const SizedBox(height: 10),
+                          Padding(
+                            padding: const EdgeInsets.only(left: 15.0, right: 15),
+                            child: SizedBox(
+                              child: Card(
+                                color: const Color(0xFF0991CC),
+                                elevation: 4.0,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(15.0),
+                                ),
+                                child: Padding(
+                                  padding: const EdgeInsets.all(16.0),
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Row(
+                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Row(
+                                            children: [
+                                              const Text(
+                                                'Balance',
+                                                style: TextStyle(
+                                                  fontSize: 16,
+                                                  fontWeight: FontWeight.w800,
+                                                  color: Colors.white,
+                                                ),
+                                              ),
+                                              const SizedBox(width: 15),
+                                              GestureDetector(
+                                                onTap: () {
+                                                  model.isSwitchedOn = !model.isSwitchedOn;
+                                                  model.notifyListeners();
+                                                },
+                                                child: AnimatedContainer(
+                                                  duration: const Duration(milliseconds: 300),
+                                                  width: 40,
+                                                  height: 20,
+                                                  decoration: BoxDecoration(
+                                                    borderRadius: BorderRadius.circular(15.0),
+                                                    color: model.isSwitchedOn ? const Color(0xFFF58634) : const Color(0xFFF58634),
+                                                  ),
+                                                  child: Stack(
+                                                    children: [
+                                                      AnimatedPositioned(
+                                                        duration: const Duration(milliseconds: 300),
+                                                        curve: Curves.easeIn,
+                                                        left: model.isSwitchedOn ? 20.0 : 0.0,
+                                                        right: model.isSwitchedOn ? 0.0 : 20.0,
+                                                        child: AnimatedSwitcher(
+                                                          duration: const Duration(milliseconds: 300),
+                                                          transitionBuilder: (Widget child, Animation<double> animation) {
+                                                            return ScaleTransition(scale: animation, child: child);
+                                                          },
+                                                          child: model.isSwitchedOn
+                                                              ? Icon(Icons.circle, color: Colors.white, size: 20, key: UniqueKey())
+                                                              : Icon(Icons.circle, color: Colors.white, size: 20, key: UniqueKey()),
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                          const Text(
+                                            'Transaction History >',
+                                            style: TextStyle(
+                                              fontWeight: FontWeight.w500,
+                                              color: Colors.white,
+                                              fontSize: 15,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                      const Padding(
+                                        padding: EdgeInsets.only(top: 0),
+                                        child: Text(
+                                          '\u20A6250,000,000',
+                                          style: TextStyle(
+                                            fontSize: 25,
+                                            color: Colors.white,
+                                            fontWeight: FontWeight.w700,
+                                          ),
+                                        ),
+                                      ),
+                                      Padding(
+                                        padding: const EdgeInsets.only(top: 10),
+                                        child: Row(
+                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            Container(
+                                              padding: const EdgeInsets.all(3),
+                                              decoration: BoxDecoration(
+                                                  color: const Color(0xFFC4C4C4).withOpacity(.4), borderRadius: BorderRadius.circular(10)),
+                                              child: Row(
+                                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                children: [
+                                                  const Text(
+                                                    '0156275348',
+                                                    style: TextStyle(
+                                                      color: Colors.white,
+                                                      fontSize: 16,
+                                                      fontWeight: FontWeight.w600,
+                                                    ),
+                                                  ),
+                                                  const SizedBox(width: 13),
+                                                  GestureDetector(
+                                                    child: const Icon(
+                                                      Icons.copy_rounded,
+                                                      size: 20,
+                                                      color: Colors.white,
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                            Container(
+                                              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 5),
+                                              decoration: BoxDecoration(
+                                                color: const Color(0xFFC4C4C4).withOpacity(.4),
+                                                borderRadius: BorderRadius.circular(10),
+                                              ),
+                                              child: const Row(
+                                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                children: [
+                                                  Icon(
+                                                    Icons.add_circle_outline_outlined,
+                                                    size: 24,
+                                                    color: Colors.white,
+                                                  ),
+                                                  SizedBox(width: 4),
+                                                  Text(
+                                                    'Fund account',
+                                                    style: TextStyle(
+                                                      color: Colors.white,
+                                                      fontSize: 18,
+                                                      fontWeight: FontWeight.w400,
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
                         ],
                       ),
                       const SizedBox(height: 15),
-                      Expanded(
-                        child: SingleChildScrollView(
+                      Container(
+                        padding: const EdgeInsets.all(25),
+                        decoration: const BoxDecoration(
+                          color: Color(0xFFD9D9D9), // Grey color for the remaining background
+                          borderRadius: BorderRadius.only(
+                            topLeft: Radius.circular(50.0),
+                            topRight: Radius.circular(50.0),
+                          ),
+                        ),
+                        child: Center(
                           child: Column(
                             children: [
-                              _walletCard(context, model),
-                              const SizedBox(height: 30),
-                              _quickLinks(),
-                              // const SizedBox(height: 30),
-                              // Image.asset("assets/images/intro.png", fit: BoxFit.fitWidth),
-                              const SizedBox(height: 30),
-                              _recentTransactions(context),
-                              const SizedBox(height: 15),
+                              Container(
+                                padding: const EdgeInsets.symmetric(vertical: 10),
+                                decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.circular(15.0),
+                                ),
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                    children: [
+                                      Row(
+                                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                        children: [
+                                          Column(
+                                            children: [
+                                              Image.asset('assets/images/Frame 308 (3).png', width: 48, height: 48),
+                                              const SizedBox(height: 5),
+                                              const Text('Internet',
+                                                  textAlign: TextAlign.center, style: TextStyle(fontSize: 13, fontWeight: FontWeight.w600)),
+                                              const Text('Recharge',
+                                                  textAlign: TextAlign.center, style: TextStyle(fontSize: 13, fontWeight: FontWeight.w600)),
+                                            ],
+                                          ),
+                                          InkWell(
+                                            onTap: () {
+                                              // Navigator.push(
+                                              //   context,
+                                              //   MaterialPageRoute(
+                                              //     builder: (context) => const AirtimeViewScreen(),
+                                              //   ),
+                                              // );
+                                            },
+                                            child: Column(
+                                              children: [
+                                                Image.asset('assets/images/Frame 308 (4).png', width: 48, height: 48),
+                                                const SizedBox(height: 5),
+                                                const Text('Mobile',
+                                                    textAlign: TextAlign.center,
+                                                    style: TextStyle(fontSize: 13, fontWeight: FontWeight.w600)),
+                                                const Text('Recharge',
+                                                    textAlign: TextAlign.center,
+                                                    style: TextStyle(fontSize: 13, fontWeight: FontWeight.w600)),
+                                              ],
+                                            ),
+                                          ),
+                                          Column(
+                                            children: [
+                                              Image.asset('assets/images/Frame 308 (5).png', width: 48, height: 48),
+                                              const SizedBox(height: 5),
+                                              const Text('Transfer',
+                                                  textAlign: TextAlign.center, style: TextStyle(fontSize: 13, fontWeight: FontWeight.w600)),
+                                              const Text('',
+                                                  textAlign: TextAlign.center, style: TextStyle(fontSize: 13, fontWeight: FontWeight.w600)),
+                                            ],
+                                          ),
+                                        ],
+                                      ),
+                                      const SizedBox(height: 15),
+                                      Row(
+                                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                        children: [
+                                          Column(
+                                            children: [
+                                              Image.asset('assets/images/Frame 308 (2).png', width: 48, height: 48),
+                                              const SizedBox(height: 3),
+                                              const Text('Electricity',
+                                                  textAlign: TextAlign.center, style: TextStyle(fontSize: 13, fontWeight: FontWeight.w600)),
+                                              const Text('Bill',
+                                                  textAlign: TextAlign.center, style: TextStyle(fontSize: 13, fontWeight: FontWeight.w600)),
+                                            ],
+                                          ),
+                                          Column(
+                                            children: [
+                                              Image.asset('assets/images/Frame 308 (1).png', width: 48, height: 48),
+                                              const SizedBox(height: 5),
+                                              const Text('Store',
+                                                  textAlign: TextAlign.center, style: TextStyle(fontSize: 13, fontWeight: FontWeight.w600)),
+                                              const Text('',
+                                                  textAlign: TextAlign.center, style: TextStyle(fontSize: 13, fontWeight: FontWeight.w600)),
+                                            ],
+                                          ),
+                                          Column(
+                                            children: [
+                                              Image.asset('assets/images/Frame 308.png', width: 48, height: 48),
+                                              const SizedBox(height: 5),
+                                              const Text('More',
+                                                  textAlign: TextAlign.center, style: TextStyle(fontSize: 13, fontWeight: FontWeight.w600)),
+                                              const Text('',
+                                                  textAlign: TextAlign.center, style: TextStyle(fontSize: 13, fontWeight: FontWeight.w600)),
+                                            ],
+                                          ),
+                                        ],
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                              const SizedBox(height: 20), // Add spacing between the card and the picture
+                              ClipRRect(
+                                borderRadius: BorderRadius.circular(20.0),
+                                child: Image.asset(
+                                  'assets/images/banner_image.png',
+                                  fit: BoxFit.fill,
+                                ),
+                              ),
+                              const SizedBox(height: 60),
                             ],
                           ),
                         ),
-                      )
+                      ),
                     ],
                   ),
                 ),
-              ),
+              ],
             ),
           );
         });
@@ -88,8 +376,7 @@ class HomePageView extends StatelessWidget {
         children: [
           const Row(
             children: [
-              Text("Balance",
-                  style: TextStyle(fontSize: 16, color: Colors.white)),
+              Text("Balance", style: TextStyle(fontSize: 16, color: Colors.white)),
             ],
           ),
           const SizedBox(height: 5),
@@ -97,13 +384,8 @@ class HomePageView extends StatelessWidget {
             children: [
               Text.rich(
                 TextSpan(
-                  text: model.viewBalance
-                      ? formatMoney(model.wallet?.balance.toString() ?? "0")
-                      : "*****",
-                  style: const TextStyle(
-                      fontSize: 26,
-                      fontWeight: FontWeight.w900,
-                      color: Colors.white),
+                  text: model.viewBalance ? formatMoney(model.wallet?.balance.toString() ?? "0") : "*****",
+                  style: const TextStyle(fontSize: 26, fontWeight: FontWeight.w900, color: Colors.white),
                   children: const <TextSpan>[
                     TextSpan(
                       text: "",
@@ -118,9 +400,7 @@ class HomePageView extends StatelessWidget {
                 child: Row(
                   children: [
                     Icon(
-                      !model.viewBalance
-                          ? Icons.visibility_outlined
-                          : Icons.visibility_off_outlined,
+                      !model.viewBalance ? Icons.visibility_outlined : Icons.visibility_off_outlined,
                       color: Colors.white,
                     ),
                     const SizedBox(width: 5),
@@ -141,9 +421,7 @@ class HomePageView extends StatelessWidget {
                 width: 140,
                 height: 38,
                 padding: const EdgeInsets.all(6),
-                decoration: BoxDecoration(
-                    color: Colors.white.withOpacity(.2),
-                    borderRadius: BorderRadius.circular(35)),
+                decoration: BoxDecoration(color: Colors.white.withOpacity(.2), borderRadius: BorderRadius.circular(35)),
                 child: Row(
                   children: [
                     Expanded(
@@ -156,11 +434,8 @@ class HomePageView extends StatelessWidget {
                     ),
                     InkWell(
                       onTap: () {
-                        Clipboard.setData(
-                            ClipboardData(text: model.wallet?.number ?? "N/A"));
-                        Fluttertoast.showToast(
-                            msg: "Account number copied",
-                            backgroundColor: Colors.green);
+                        Clipboard.setData(ClipboardData(text: model.wallet?.number ?? "N/A"));
+                        Fluttertoast.showToast(msg: "Account number copied", backgroundColor: Colors.green);
                       },
                       child: const Icon(Icons.copy, color: Colors.white),
                     )
@@ -173,9 +448,7 @@ class HomePageView extends StatelessWidget {
                   width: 100,
                   height: 38,
                   //padding: const EdgeInsets.all(15),
-                  decoration: BoxDecoration(
-                      color: Colors.white.withOpacity(.2),
-                      borderRadius: BorderRadius.circular(35)),
+                  decoration: BoxDecoration(color: Colors.white.withOpacity(.2), borderRadius: BorderRadius.circular(35)),
                   child: Row(
                     children: [
                       CircleAvatar(
@@ -279,9 +552,13 @@ class HomePageView extends StatelessWidget {
           ],
         ),
         const SizedBox(height: 20),
-
-        model.transactions == null || model.transactions!.isEmpty ?
-        const Center(child: Text("There are no transactions yet", style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),),)
+        model.transactions == null || model.transactions!.isEmpty
+            ? const Center(
+                child: Text(
+                  "There are no transactions yet",
+                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+                ),
+              )
             : RecentTransactionSection(transactionList: model.transactions!.take(5).toList())
       ],
     );
@@ -293,8 +570,7 @@ class HomePageView extends StatelessWidget {
       isScrollControlled: true,
       backgroundColor: Colors.transparent,
       builder: (context) {
-        return StatefulBuilder(
-            builder: (BuildContext context, StateSetter setModalState) {
+        return StatefulBuilder(builder: (BuildContext context, StateSetter setModalState) {
           return ClipRRect(
             borderRadius: const BorderRadius.only(
               topRight: Radius.circular(24),
@@ -335,8 +611,7 @@ class HomePageView extends StatelessWidget {
                         child: Center(
                           child: Text(
                             "Fund your account",
-                            style: TextStyle(
-                                fontSize: 20, fontWeight: FontWeight.w600),
+                            style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
                           ),
                         ),
                       )
@@ -349,8 +624,7 @@ class HomePageView extends StatelessWidget {
                       child: const Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Text(
-                              "Add funds to your account by making a bank transfer from your Nigerian bank account.",
+                          Text("Add funds to your account by making a bank transfer from your Nigerian bank account.",
                               textAlign: TextAlign.center)
                         ],
                       ),
@@ -358,9 +632,7 @@ class HomePageView extends StatelessWidget {
                   ),
                   const SizedBox(height: 18),
                   Container(
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
-                        color: Colors.white),
+                    decoration: BoxDecoration(borderRadius: BorderRadius.circular(10), color: Colors.white),
                     child: Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: Column(
@@ -371,15 +643,9 @@ class HomePageView extends StatelessWidget {
                               Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  const Text("Account Name",
-                                      style: TextStyle(fontSize: 14)),
-                                  Text(
-                                      model.wallet?.virtualAccount
-                                              ?.accountName ??
-                                          "N/A",
-                                      style: const TextStyle(
-                                          fontSize: 14,
-                                          fontWeight: FontWeight.bold)),
+                                  const Text("Account Name", style: TextStyle(fontSize: 14)),
+                                  Text(model.wallet?.virtualAccount?.accountName ?? "N/A",
+                                      style: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold)),
                                 ],
                               )
                             ],
@@ -391,14 +657,9 @@ class HomePageView extends StatelessWidget {
                               Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  const Text("Bank Name",
-                                      style: TextStyle(fontSize: 14)),
-                                  Text(
-                                      model.wallet?.virtualAccount?.bankName ??
-                                          "N/A",
-                                      style: const TextStyle(
-                                          fontSize: 14,
-                                          fontWeight: FontWeight.bold)),
+                                  const Text("Bank Name", style: TextStyle(fontSize: 14)),
+                                  Text(model.wallet?.virtualAccount?.bankName ?? "N/A",
+                                      style: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold)),
                                 ],
                               )
                             ],
@@ -410,15 +671,9 @@ class HomePageView extends StatelessWidget {
                               Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  const Text("Account Number",
-                                      style: TextStyle(fontSize: 14)),
-                                  Text(
-                                      model.wallet?.virtualAccount
-                                              ?.accountNumber ??
-                                          "N/A",
-                                      style: const TextStyle(
-                                          fontSize: 14,
-                                          fontWeight: FontWeight.bold)),
+                                  const Text("Account Number", style: TextStyle(fontSize: 14)),
+                                  Text(model.wallet?.virtualAccount?.accountNumber ?? "N/A",
+                                      style: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold)),
                                 ],
                               )
                             ],
@@ -433,14 +688,11 @@ class HomePageView extends StatelessWidget {
                     child: RoundedButton(
                         title: "Share Details",
                         onPressed: () {
-                          String data =
-                              "Account name: ${model.wallet?.virtualAccount?.accountName ?? "N/A"}\n"
+                          String data = "Account name: ${model.wallet?.virtualAccount?.accountName ?? "N/A"}\n"
                               "Account number: ${model.wallet?.virtualAccount?.accountNumber ?? "N/A"}\n"
                               "Bank name: ${model.wallet?.virtualAccount?.bankName ?? "N/A"}";
                           Clipboard.setData(ClipboardData(text: data));
-                          Fluttertoast.showToast(
-                              msg: "Account details copied",
-                              backgroundColor: Colors.green);
+                          Fluttertoast.showToast(msg: "Account details copied", backgroundColor: Colors.green);
                         }),
                   ),
                   const SizedBox(height: 30)
@@ -612,8 +864,7 @@ class HomePageView extends StatelessWidget {
       isScrollControlled: true,
       backgroundColor: Colors.transparent,
       builder: (context) {
-        return StatefulBuilder(
-            builder: (BuildContext context, StateSetter setModalState) {
+        return StatefulBuilder(builder: (BuildContext context, StateSetter setModalState) {
           return ClipRRect(
             borderRadius: const BorderRadius.only(
               topRight: Radius.circular(24),
@@ -631,9 +882,7 @@ class HomePageView extends StatelessWidget {
                       Container(
                         height: 30,
                         width: 30,
-                        decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                            border: Border.all(width: 1.2)),
+                        decoration: BoxDecoration(shape: BoxShape.circle, border: Border.all(width: 1.2)),
                         child: InkWell(
                           onTap: () => Navigator.pop(context),
                           child: const Center(
@@ -742,8 +991,7 @@ class HomePageView extends StatelessWidget {
                     width: MediaQuery.of(context).size.width * .65,
                     child: Text(
                       "Your balances and transactions reflects in whatever currency you select",
-                      style: TextStyle(
-                          fontSize: 14, color: Colors.white.withOpacity(.66)),
+                      style: TextStyle(fontSize: 14, color: Colors.white.withOpacity(.66)),
                     ),
                   ),
                   const SizedBox(height: 25),

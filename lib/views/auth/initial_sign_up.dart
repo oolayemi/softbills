@@ -1,95 +1,173 @@
 import 'package:flutter/material.dart';
-import 'package:no_name/app/locator.dart';
-import 'package:no_name/views/auth/sign_up/sign_up_one/sign_up_one_view.dart';
-import 'package:no_name/widgets/utility_widgets.dart';
-import 'package:stacked_services/stacked_services.dart';
+import 'package:no_name/views/auth/sign_in/sign_in_view.dart';
+import 'package:no_name/views/auth/sign_up/validate_phone/validate_phone_view.dart';
 import 'package:timeline_tile/timeline_tile.dart';
 
-class InitialSignUpView extends StatelessWidget {
+class InitialSignUpView extends StatefulWidget {
   const InitialSignUpView({Key? key}) : super(key: key);
 
   @override
+  State<InitialSignUpView> createState() => _InitialSignUpViewState();
+}
+
+class _InitialSignUpViewState extends State<InitialSignUpView> {
+  int currentPage = 0;
+  final PageController _pageController = PageController(initialPage: 0);
+
+  List<Widget> buildIndicators(currentPage) {
+    List<Widget> indicators = [];
+    for (int i = 0; i < pages.length; i++) {
+      indicators.add(
+        Container(
+          width: 23,
+          height: 4,
+          margin: const EdgeInsets.symmetric(horizontal: 2),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(3),
+            shape: BoxShape.rectangle,
+            color: currentPage == i ? const Color(0xFF0991CC) : const Color(0xFFC4C4C4),
+          ),
+        ),
+      );
+    }
+    return indicators;
+  }
+
+  final List<Widget> pages = [
+    const OnboardingPage(
+      title: "Payments Made Easier",
+      description: "It's all about Soft Life",
+      image: AssetImage('assets/images/surprised-african-woman-covering-her-mouth-by-hand-while-looking-smartphone-screen 1.png'),
+      image2: AssetImage('assets/images/Copy.png'),
+      buttonText: "Get Started ",
+      isFirstPage: true,
+    ),
+    const OnboardingPage(
+      title: "Get Started",
+      description: "Swipe left to see more features!",
+      image: AssetImage("assets/images/from-smartphone.png"),
+      image2: AssetImage("assets/images/Copy (1).png"),
+      buttonText: "Get started",
+      isSecondPage: true,
+    ),
+    const OnboardingPage(
+      title: "Explore",
+      description: "Discover what this app has to offer.",
+      image: AssetImage("assets/images/Asset.png"),
+      image2: AssetImage("assets/images/Copy (2).png"),
+      buttonText: "Finish",
+      isLastPage: true,
+    ),
+  ];
+
+  @override
   Widget build(BuildContext context) {
-    return CustomScaffoldWidget(
-      padding: 0.0,
-      body: SafeArea(
-        child: Stack(
-          children: [
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+    return Scaffold(
+      body: Stack(
+        children: [
+          PageView.builder(
+            controller: _pageController,
+            itemCount: pages.length,
+            onPageChanged: (index) {
+              setState(() {
+                currentPage = index;
+              });
+            },
+            itemBuilder: (context, index) {
+              return pages[index];
+            },
+          ),
+          Positioned(
+            bottom: 40.0,
+            left: 0,
+            right: 0,
+            child: Column(
               children: [
-                SizedBox(
-                  height: 260,
-                  width: double.maxFinite,
-                  // decoration: const BoxDecoration(
-                  //     borderRadius: BorderRadius.only(
-                  //   bottomLeft: Radius.circular(10),
-                  //   bottomRight: Radius.circular(10),
-                  // )),
-                  child: Image.asset(
-                    "assets/images/background/bills_payment.webp",
-                    fit: BoxFit.fill,
-                  ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: buildIndicators(currentPage),
                 ),
-                Padding(
-                  padding: const EdgeInsets.all(15.0),
-                  child: SizedBox(
-                    width: MediaQuery.of(context).size.width * .85,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        const Text(
-                          "Thank you for choosing SoftBills",
-                          textAlign: TextAlign.left,
-                          style: TextStyle(
-                            fontSize: 20,
-                            fontWeight: FontWeight.w700,
+                const SizedBox(height: 15),
+                if ((pages[currentPage] as OnboardingPage).isLastPage)
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      ElevatedButton(
+                        style: ButtonStyle(
+                          backgroundColor: MaterialStateProperty.all(const Color(0xFF0991CC)),
+                          minimumSize: MaterialStateProperty.all(const Size(157, 48)),
+                          shape: MaterialStateProperty.all(
+                            RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(12),
+                            ),
                           ),
                         ),
-                        const SizedBox(height: 10),
-                        const Text(
-                          "Below are a few steps required to get you started.",
-                          style: TextStyle(fontSize: 19),
+                        onPressed: () {
+                          // Handle login navigation
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => const ValidatePhoneView(),
+                            ), // Replace NextScreen with your desired screen
+                          );
+                        },
+                        child: const Text(
+                          'Register',
+                          style: TextStyle(color: Colors.white, fontSize: 16),
                         ),
-                        const SizedBox(height: 15),
-                        _buildTimelineTile(
-                          "Enter your Personal Information",
-                          "We request that you provide your personal information as specified.",
-                          isFirst: true,
+                      ),
+                      ElevatedButton(
+                        style: ButtonStyle(
+                          backgroundColor: MaterialStateProperty.all(const Color(0xFF0991CC)),
+                          minimumSize: MaterialStateProperty.all(const Size(157, 48)),
+                          shape: MaterialStateProperty.all(
+                            RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                          ),
                         ),
-                        _buildTimelineTile(
-                          "Verify your Phone Number",
-                          "We also require you to verify your phone number for security purposes.",
+                        onPressed: () {
+                          // Handle register navigation
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) => const SignInView()), // Replace NextScreen with your desired screen
+                          );
+                        },
+                        child: const Text(
+                          'Sign in',
+                          style: TextStyle(color: Colors.white, fontSize: 16),
                         ),
-                        _buildTimelineTile(
-                          "Set your Transaction PIN",
-                          "Create a secure transaction PIN to safeguard your transactions.",
-                          isLast: true,
+                      ),
+                    ],
+                  )
+                else
+                  ElevatedButton(
+                    style: ButtonStyle(
+                      backgroundColor: MaterialStateProperty.all(const Color(0xFF0991CC)),
+                      minimumSize: MaterialStateProperty.all(const Size(329, 49)),
+                      shape: MaterialStateProperty.all(
+                        RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12),
                         ),
-                        const SizedBox(height: 20)
-                      ],
+                      ),
+                    ),
+                    onPressed: () {
+                      if (currentPage < pages.length - 1) {
+                        _pageController.nextPage(
+                          duration: const Duration(milliseconds: 300),
+                          curve: Curves.ease,
+                        );
+                      }
+                    },
+                    child: Text(
+                      (pages[currentPage] as OnboardingPage).buttonText,
+                      style: const TextStyle(color: Colors.white, fontSize: 16),
                     ),
                   ),
-                )
               ],
             ),
-            Positioned(
-              bottom: 10,
-              right: 0,
-              left: 0,
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 18.0),
-                child: RoundedButton(
-                    title: "Alright, I'm in!",
-                    onPressed: () {
-                      NavigationService navigatorService =
-                          locator<NavigationService>();
-                      navigatorService.clearStackAndShowView(const SignUpOneView());
-                    }),
-              ),
-            )
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
@@ -136,6 +214,111 @@ class InitialSignUpView extends StatelessWidget {
         ),
       ),
       beforeLineStyle: const LineStyle(thickness: 10),
+    );
+  }
+}
+
+
+class OnboardingPage extends StatelessWidget {
+  final String title;
+  final String description;
+  final ImageProvider image;
+  final ImageProvider image2;
+  final String buttonText;
+  final bool isSecondPage;
+  final bool isFirstPage;
+  final bool isLastPage;
+
+  const OnboardingPage({
+    super.key,
+    required this.title,
+    required this.description,
+    required this.image,
+    required this.buttonText,
+    this.isSecondPage = false,
+    this.isFirstPage = false,
+    this.isLastPage = false,
+    required this.image2,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return SingleChildScrollView(
+      child: Column(
+        children: [
+          if (isFirstPage)
+            Image(
+              image: image,
+              height: MediaQuery.of(context).size.height * 0.75,
+              width: MediaQuery.of(context).size.width,
+              fit: BoxFit.cover,
+            ),
+          if (isFirstPage)
+            const SizedBox(height: 10.0),
+          if (isFirstPage)
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 14),
+              child: Image(
+                image: image2,
+                height: 59,
+                width: 329,
+                fit: BoxFit.cover,
+              ),
+            ),
+          if (isFirstPage)
+            const SizedBox(height: 30.0),
+
+          if (isSecondPage)
+            Container(
+              margin: const EdgeInsets.only(top: 94),
+              child: Image(
+                image: image,
+                height: 460,
+                width: 460,
+                fit: BoxFit.cover,
+              ),
+            ),
+          if (isSecondPage)
+            const SizedBox(height: 10.0),
+          if (isSecondPage)
+            Container(
+              margin: const EdgeInsets.only(top: 0),
+              child: Image(
+                image: image2,
+                height: 90,
+                width: 329,
+                fit: BoxFit.cover,
+              ),
+            ),
+          if (isSecondPage)
+            const SizedBox(height: 30.0),
+
+          if (isLastPage)
+            Container(
+              margin: const EdgeInsets.only(top: 189, left: 66),
+              child: Image(
+                image: image,
+                height: 216.55,
+                width: 250,
+                fit: BoxFit.cover,
+              ),
+            ),
+          if (isLastPage)
+            const SizedBox(height: 10.0),
+          if (isLastPage)
+            Container(
+              margin: const EdgeInsets.only(top: 60, left: 23),
+              child: Image(
+                image: image2,
+                height: 117,
+                width: 329,
+                fit: BoxFit.cover,
+              ),
+            ),
+          if (isLastPage)
+            const SizedBox(height: 30.0),
+        ],
+      ),
     );
   }
 }

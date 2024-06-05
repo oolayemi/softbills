@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:no_name/app/locator.dart';
+import 'package:no_name/views/auth/sign_up/otp_verification/sms_otp_verification_view.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
 
-import '../sign_up_two/sign_up_two_view.dart';
-
-class SignUpOneViewModel extends ReactiveViewModel {
+class ValidatePhoneViewModel extends ReactiveViewModel {
   final NavigationService _navigationService = locator<NavigationService>();
 
   String? gender;
@@ -26,15 +25,15 @@ class SignUpOneViewModel extends ReactiveViewModel {
     notifyListeners();
   }
 
-  void gotoSignUpTwo() {
-    var map = {
-      'firstname': firstnameController.text,
-      'lastname': lastnameController.text,
-      'email': emailController.text,
-      'gender': gender!,
-      'phone': phone!
-    };
-    _navigationService.navigateToView(SignUpTwoView(details: map));
+  void gotoSmsOtpView() {
+    // var map = {
+    //   'firstname': firstnameController.text,
+    //   'lastname': lastnameController.text,
+    //   'email': emailController.text,
+    //   'gender': gender!,
+    //   'phone': phone!
+    // };
+    _navigationService.navigateToView(SmsOtpVerificationView(phone: phone!));
   }
 
   @override

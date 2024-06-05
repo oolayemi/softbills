@@ -81,6 +81,7 @@ dependencies:
   numeric_keyboard: ^1.1.0
   flutter_pw_validator: ^1.5.0
 
+  crypto: any
 dev_dependencies:
   flutter_test:
     sdk: flutter

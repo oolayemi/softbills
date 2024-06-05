@@ -12,7 +12,7 @@ import '../../../../app/locator.dart';
 import '../../../../core/constants/loading_dialog.dart';
 import '../../../../core/exceptions/error_handling.dart';
 import '../../../../widgets/utility_widgets.dart';
-import '../otp_verification/otp_verification_view.dart';
+import '../otp_verification/sms_otp_verification_view.dart';
 
 class SignUpThreeViewModel extends ReactiveViewModel {
   final NavigationService _navigationService = locator<NavigationService>();
@@ -44,7 +44,7 @@ class SignUpThreeViewModel extends ReactiveViewModel {
     await _authService.getDataBeneficiaries();
     await _authService.getWalletTransactions(page: 1);
     //save pin, then otp verification
-    _navigationService.clearStackAndShowView(OtpVerificationView(phone: details['phone']));
+    _navigationService.clearStackAndShowView(SmsOtpVerificationView(phone: details['phone']));
   }
 
   Future<void> signUp(context) async {

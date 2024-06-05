@@ -5,7 +5,7 @@ import 'package:stacked_services/stacked_services.dart';
 import '../../../../app/locator.dart';
 import '../sign_up_three/sign_up_three_view.dart';
 
-class SignUpTwoViewModel extends ReactiveViewModel {
+class UserInfoViewModel extends ReactiveViewModel {
   final NavigationService _navigationService = locator<NavigationService>();
   TextEditingController passwordController = TextEditingController();
   bool obscurePassword = true;

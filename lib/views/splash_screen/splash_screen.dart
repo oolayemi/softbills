@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
 
-import '../../styles/brand_color.dart';
 import 'splash_screen_viewmodel.dart';
 
 class SplashScreen extends StatelessWidget {
@@ -14,18 +13,25 @@ class SplashScreen extends StatelessWidget {
       viewModelBuilder: () => SplashScreenViewModel(),
       builder: (context, model, child) {
         return Scaffold(
-          backgroundColor: Colors.white,
-          body: Scaffold(
-            backgroundColor: BrandColors.mainBackground,
-            body: Container(
-              decoration: const BoxDecoration(
-                image: DecorationImage(
-                  image: AssetImage('assets/images/background/hori_vert_line.png'),
-                  fit: BoxFit.cover,
-                ),
+          body: Container(
+            decoration: const BoxDecoration(
+              image: DecorationImage(
+                image: AssetImage('assets/images/BG.png'),
+                fit: BoxFit.cover,
               ),
-              child: Center(
-                child: Image.asset(model.imagePath, height: 200, width: 200),
+            ),
+            child: Center(
+              child: AnimatedOpacity(
+                opacity: model.opacity,
+                duration: const Duration(seconds: 2),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Image.asset('assets/images/softbills 1.png'),
+                    const SizedBox(height: 25),
+                    Image.asset('assets/images/SoftBills.png'),
+                  ],
+                ),
               ),
             ),
           ),
