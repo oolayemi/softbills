@@ -11,6 +11,7 @@ import 'package:no_name/core/models/airtime_billers.dart';
 import 'package:no_name/core/services/utility_storage_service.dart';
 import 'package:no_name/core/utils/tools.dart';
 import 'package:pinput/pinput.dart';
+import 'package:stacked_services/stacked_services.dart';
 
 import '../core/models/data_billers.dart';
 import '../core/models/transaction_history_data.dart';
@@ -331,7 +332,7 @@ class AmountTextField extends StatelessWidget {
                 children: [
                   Text(
                     title!,
-                    style: const TextStyle(fontSize: 16),
+                    style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w700),
                   ),
                   suffixTitle ?? const SizedBox()
                 ],
@@ -343,12 +344,28 @@ class AmountTextField extends StatelessWidget {
           enabled: enabled,
           onChanged: onChanged,
           decoration: InputDecoration(
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(10),
-                borderSide: BorderSide.none,
+            fillColor: const Color(0xFF605F5F).withOpacity(.1),
+            enabledBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(12),
+              borderSide: const BorderSide(
+                color: Color(0xFFC4C4C4),
               ),
-              filled: true,
-              fillColor: const Color(0xFF605F5F).withOpacity(.1)),
+            ),
+            focusedBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(12),
+              borderSide: const BorderSide(
+                color: Color(0xFF0991CC),
+              ),
+            ),
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(12),
+              borderSide: const BorderSide(
+                width: 1,
+                color: Color(0xFFC4C4C4),
+              ),
+            ),
+            filled: false,
+          ),
           inputFormatters: [FilteringTextInputFormatter.digitsOnly],
           keyboardType: TextInputType.number,
         ),
@@ -371,6 +388,7 @@ class BuildTextField extends StatelessWidget {
   final TextEditingController? controller;
   final ValueChanged<String>? onChanged;
   final int? maxLength;
+  final Widget? suffixTitle;
   final String? Function(String?)? validator;
 
   const BuildTextField(
@@ -388,6 +406,7 @@ class BuildTextField extends StatelessWidget {
       this.suffixIcon,
       this.hintText,
       this.maxLength,
+      this.suffixTitle,
       this.validator})
       : super(key: key);
 
@@ -396,9 +415,15 @@ class BuildTextField extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          title,
-          style: const TextStyle(color: Colors.black),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(
+              title,
+              style: const TextStyle(fontSize: 16, color: Colors.black, fontWeight: FontWeight.w700),
+            ),
+            suffixTitle ?? const SizedBox()
+          ],
         ),
         const SizedBox(
           height: 6,
@@ -456,7 +481,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   final bool withBackButton;
   final List<Widget>? actions;
 
-  const CustomAppBar({Key? key, this.title, this.withBackButton = false, this.actions}) : super(key: key);
+  const CustomAppBar({Key? key, this.title, this.withBackButton = true, this.actions}) : super(key: key);
 
   @override
   Size get preferredSize => const Size.fromHeight(kToolbarHeight + 2);
@@ -465,7 +490,22 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   Widget build(BuildContext context) {
     return AppBar(
       elevation: 0,
-      centerTitle: false,
+      title: title != null ? Text(title!, style: const TextStyle(fontWeight: FontWeight.w600, fontSize: 19)) : const SizedBox(),
+      leading: withBackButton
+          ? InkWell(
+              onTap: () => NavigationService().back(),
+              child: Padding(
+                padding: const EdgeInsets.only(left: 17.0),
+                child: Image.asset('assets/images/Group 7768.png'),
+              ),
+            )
+          : null,
+      centerTitle: true,
+      actions: actions,
+    );
+    return AppBar(
+      elevation: 0,
+      centerTitle: true,
       backgroundColor: BrandColors.primary,
       leading: withBackButton
           ? IconButton(
@@ -493,7 +533,7 @@ class CustomScaffoldWidget extends StatelessWidget {
     Key? key,
     this.appBar,
     required this.body,
-    this.padding = 15.0,
+    this.padding = 24.0,
     this.bottomNavBar,
     this.bgColor,
   }) : super(key: key);
@@ -756,14 +796,14 @@ class BuildBillerDropDown extends StatelessWidget {
       children: [
         Text(
           title,
-          style: const TextStyle(),
+          style: const TextStyle(fontWeight: FontWeight.w700, fontSize: 16),
         ),
         const SizedBox(
           height: 6,
         ),
         Container(
           padding: const EdgeInsets.only(right: 6, left: 6, top: 6, bottom: 6),
-          decoration: BoxDecoration(borderRadius: BorderRadius.circular(10), color: const Color(0xFF605F5F).withOpacity(.1)),
+          decoration: BoxDecoration(borderRadius: BorderRadius.circular(10), border: Border.all(color: Colors.grey, width: .5)),
           child: Row(
             children: [
               list.isNotEmpty
@@ -831,14 +871,17 @@ class BuildAirtimeBillerDropDown extends StatelessWidget {
       children: [
         Text(
           title,
-          style: const TextStyle(),
+          style: const TextStyle(fontWeight: FontWeight.w700, fontSize: 16),
         ),
         const SizedBox(
           height: 6,
         ),
         Container(
           padding: const EdgeInsets.only(right: 6, left: 6, top: 6, bottom: 6),
-          decoration: BoxDecoration(borderRadius: BorderRadius.circular(10), color: const Color(0xFF605F5F).withOpacity(.1)),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(10),
+            border: Border.all(color: const Color(0xFFC4C4C4), width: 1),
+          ),
           child: Row(
             children: [
               list.isNotEmpty

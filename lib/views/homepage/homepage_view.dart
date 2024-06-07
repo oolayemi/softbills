@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:no_name/core/utils/tools.dart';
 import 'package:no_name/styles/brand_color.dart';
 import 'package:no_name/views/homepage/homepage_viewmodel.dart';
 import 'package:no_name/views/profile/profile_view.dart';
@@ -18,6 +18,32 @@ class HomePageView extends StatelessWidget {
         viewModelBuilder: () => HomePageViewModel(),
         onModelReady: (model) => model.setUp(),
         builder: (context, model, child) {
+          Widget quickLinks(String title, String imageUrl, Color bgColor, Function()? onTap) {
+            return InkWell(
+              onTap: onTap,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Container(
+                    width: 52,
+                    height: 52,
+                    decoration: BoxDecoration(borderRadius: BorderRadius.circular(10), color: bgColor),
+                    child: Center(child: SvgPicture.asset(imageUrl)),
+                  ),
+                  const SizedBox(height: 5),
+                  SizedBox(
+                    width: MediaQuery.of(context).size.width * .20,
+                    child: Text(
+                      title,
+                      textAlign: TextAlign.center,
+                      style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w600),
+                    ),
+                  ),
+                ],
+              ),
+            );
+          }
+
           return SingleChildScrollView(
             child: Column(
               children: [
@@ -30,8 +56,8 @@ class HomePageView extends StatelessWidget {
                           Row(
                             children: [
                               SizedBox(
-                                width: 80,
-                                height: 80,
+                                width: 60,
+                                height: 60,
                                 child: Stack(
                                   clipBehavior: Clip.none,
                                   children: [
@@ -54,7 +80,7 @@ class HomePageView extends StatelessWidget {
                                     ),
                                     Positioned(
                                       top: 8,
-                                      right: 8,
+                                      right: 0,
                                       child: Container(
                                         width: 12,
                                         height: 12,
@@ -70,7 +96,10 @@ class HomePageView extends StatelessWidget {
                               const SizedBox(width: 10),
                               const Text(
                                 'Hi, Yusuf',
-                                style: TextStyle(fontSize: 17, fontWeight: FontWeight.w300),
+                                style: TextStyle(
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.w700,
+                                ),
                               ),
                             ],
                           ),
@@ -231,125 +260,63 @@ class HomePageView extends StatelessWidget {
                       const SizedBox(height: 15),
                       Container(
                         padding: const EdgeInsets.all(25),
-                        decoration: const BoxDecoration(
-                          color: Color(0xFFD9D9D9), // Grey color for the remaining background
-                          borderRadius: BorderRadius.only(
+                        decoration: BoxDecoration(
+                          color: const Color(0xFFD9D9D9).withOpacity(.5),
+                          borderRadius: const BorderRadius.only(
                             topLeft: Radius.circular(50.0),
                             topRight: Radius.circular(50.0),
                           ),
                         ),
-                        child: Center(
-                          child: Column(
-                            children: [
-                              Container(
-                                padding: const EdgeInsets.symmetric(vertical: 10),
-                                decoration: BoxDecoration(
-                                  color: Colors.white,
-                                  borderRadius: BorderRadius.circular(15.0),
-                                ),
-                                child: Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                                    children: [
-                                      Row(
-                                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                                        children: [
-                                          Column(
-                                            children: [
-                                              Image.asset('assets/images/Frame 308 (3).png', width: 48, height: 48),
-                                              const SizedBox(height: 5),
-                                              const Text('Internet',
-                                                  textAlign: TextAlign.center, style: TextStyle(fontSize: 13, fontWeight: FontWeight.w600)),
-                                              const Text('Recharge',
-                                                  textAlign: TextAlign.center, style: TextStyle(fontSize: 13, fontWeight: FontWeight.w600)),
-                                            ],
-                                          ),
-                                          InkWell(
-                                            onTap: () {
-                                              // Navigator.push(
-                                              //   context,
-                                              //   MaterialPageRoute(
-                                              //     builder: (context) => const AirtimeViewScreen(),
-                                              //   ),
-                                              // );
-                                            },
-                                            child: Column(
-                                              children: [
-                                                Image.asset('assets/images/Frame 308 (4).png', width: 48, height: 48),
-                                                const SizedBox(height: 5),
-                                                const Text('Mobile',
-                                                    textAlign: TextAlign.center,
-                                                    style: TextStyle(fontSize: 13, fontWeight: FontWeight.w600)),
-                                                const Text('Recharge',
-                                                    textAlign: TextAlign.center,
-                                                    style: TextStyle(fontSize: 13, fontWeight: FontWeight.w600)),
-                                              ],
-                                            ),
-                                          ),
-                                          Column(
-                                            children: [
-                                              Image.asset('assets/images/Frame 308 (5).png', width: 48, height: 48),
-                                              const SizedBox(height: 5),
-                                              const Text('Transfer',
-                                                  textAlign: TextAlign.center, style: TextStyle(fontSize: 13, fontWeight: FontWeight.w600)),
-                                              const Text('',
-                                                  textAlign: TextAlign.center, style: TextStyle(fontSize: 13, fontWeight: FontWeight.w600)),
-                                            ],
-                                          ),
-                                        ],
-                                      ),
-                                      const SizedBox(height: 15),
-                                      Row(
-                                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                                        children: [
-                                          Column(
-                                            children: [
-                                              Image.asset('assets/images/Frame 308 (2).png', width: 48, height: 48),
-                                              const SizedBox(height: 3),
-                                              const Text('Electricity',
-                                                  textAlign: TextAlign.center, style: TextStyle(fontSize: 13, fontWeight: FontWeight.w600)),
-                                              const Text('Bill',
-                                                  textAlign: TextAlign.center, style: TextStyle(fontSize: 13, fontWeight: FontWeight.w600)),
-                                            ],
-                                          ),
-                                          Column(
-                                            children: [
-                                              Image.asset('assets/images/Frame 308 (1).png', width: 48, height: 48),
-                                              const SizedBox(height: 5),
-                                              const Text('Store',
-                                                  textAlign: TextAlign.center, style: TextStyle(fontSize: 13, fontWeight: FontWeight.w600)),
-                                              const Text('',
-                                                  textAlign: TextAlign.center, style: TextStyle(fontSize: 13, fontWeight: FontWeight.w600)),
-                                            ],
-                                          ),
-                                          Column(
-                                            children: [
-                                              Image.asset('assets/images/Frame 308.png', width: 48, height: 48),
-                                              const SizedBox(height: 5),
-                                              const Text('More',
-                                                  textAlign: TextAlign.center, style: TextStyle(fontSize: 13, fontWeight: FontWeight.w600)),
-                                              const Text('',
-                                                  textAlign: TextAlign.center, style: TextStyle(fontSize: 13, fontWeight: FontWeight.w600)),
-                                            ],
-                                          ),
-                                        ],
-                                      ),
-                                    ],
-                                  ),
+                        child: Column(
+                          children: [
+                            Container(
+                              padding: const EdgeInsets.symmetric(vertical: 10),
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(15.0),
+                              ),
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                  children: [
+                                    Row(
+                                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        quickLinks("Internet Recharge", "assets/icons/network.svg", const Color(0xFFF58634).withOpacity(.1),
+                                            () => model.gotoData()),
+                                        quickLinks("Mobile Recharge", "assets/icons/mobile.svg", const Color(0xFF0F8CC3).withOpacity(.1),
+                                            () => model.gotoAirtime()),
+                                        quickLinks("Transfer", "assets/icons/two-way-arrow.svg", const Color(0xFF05FABF).withOpacity(.1),
+                                            () => model.gotoTransfer()),
+                                      ],
+                                    ),
+                                    const SizedBox(height: 18),
+                                    Row(
+                                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        quickLinks("Electricity Bill", "assets/icons/lightbulb.svg",
+                                            const Color(0xFF345AFA).withOpacity(.1), null),
+                                        quickLinks("Store", "assets/icons/shopping-bag.svg", const Color(0xFF9F05B8).withOpacity(.1), null),
+                                        quickLinks("More", "assets/icons/add.svg", const Color(0xFFF58634).withOpacity(.1), null),
+                                      ],
+                                    ),
+                                  ],
                                 ),
                               ),
-                              const SizedBox(height: 20), // Add spacing between the card and the picture
-                              ClipRRect(
-                                borderRadius: BorderRadius.circular(20.0),
-                                child: Image.asset(
-                                  'assets/images/banner_image.png',
-                                  fit: BoxFit.fill,
-                                ),
+                            ),
+                            const SizedBox(height: 20), // Add spacing between the card and the picture
+                            ClipRRect(
+                              borderRadius: BorderRadius.circular(20.0),
+                              child: Image.asset(
+                                'assets/images/banner_image.png',
+                                fit: BoxFit.fill,
                               ),
-                              const SizedBox(height: 60),
-                            ],
-                          ),
+                            ),
+                            const SizedBox(height: 60),
+                          ],
                         ),
                       ),
                     ],
@@ -359,210 +326,6 @@ class HomePageView extends StatelessWidget {
             ),
           );
         });
-  }
-
-  Widget _walletCard(context, HomePageViewModel model) {
-    return Container(
-      height: 170,
-      padding: const EdgeInsets.all(20),
-      decoration: BoxDecoration(
-          gradient: const LinearGradient(
-            colors: [
-              BrandColors.primary,
-              BrandColors.primary,
-            ],
-          ),
-          borderRadius: BorderRadius.circular(20)),
-      child: Column(
-        children: [
-          const Row(
-            children: [
-              Text("Balance", style: TextStyle(fontSize: 16, color: Colors.white)),
-            ],
-          ),
-          const SizedBox(height: 5),
-          Row(
-            children: [
-              Text.rich(
-                TextSpan(
-                  text: model.viewBalance ? formatMoney(model.wallet?.balance.toString() ?? "0") : "*****",
-                  style: const TextStyle(fontSize: 26, fontWeight: FontWeight.w900, color: Colors.white),
-                  children: const <TextSpan>[
-                    TextSpan(
-                      text: "",
-                      style: TextStyle(fontSize: 15),
-                    ),
-                  ],
-                ),
-              ),
-              const SizedBox(width: 15),
-              InkWell(
-                onTap: () => model.toggleViewBalance(),
-                child: Row(
-                  children: [
-                    Icon(
-                      !model.viewBalance ? Icons.visibility_outlined : Icons.visibility_off_outlined,
-                      color: Colors.white,
-                    ),
-                    const SizedBox(width: 5),
-                    Text(
-                      !model.viewBalance ? "Show" : "Hide",
-                      style: const TextStyle(color: Colors.white),
-                    ),
-                  ],
-                ),
-              )
-            ],
-          ),
-          const Expanded(child: SizedBox()),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Container(
-                width: 140,
-                height: 38,
-                padding: const EdgeInsets.all(6),
-                decoration: BoxDecoration(color: Colors.white.withOpacity(.2), borderRadius: BorderRadius.circular(35)),
-                child: Row(
-                  children: [
-                    Expanded(
-                      child: Text(
-                        model.wallet?.number ?? "N/A",
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                        style: const TextStyle(color: Colors.white),
-                      ),
-                    ),
-                    InkWell(
-                      onTap: () {
-                        Clipboard.setData(ClipboardData(text: model.wallet?.number ?? "N/A"));
-                        Fluttertoast.showToast(msg: "Account number copied", backgroundColor: Colors.green);
-                      },
-                      child: const Icon(Icons.copy, color: Colors.white),
-                    )
-                  ],
-                ),
-              ),
-              InkWell(
-                onTap: () => _fundAccountPopUp(context, model),
-                child: Container(
-                  width: 100,
-                  height: 38,
-                  //padding: const EdgeInsets.all(15),
-                  decoration: BoxDecoration(color: Colors.white.withOpacity(.2), borderRadius: BorderRadius.circular(35)),
-                  child: Row(
-                    children: [
-                      CircleAvatar(
-                        backgroundColor: Colors.white.withOpacity(.2),
-                        radius: 20,
-                        child: const Icon(
-                          Icons.add,
-                          size: 35,
-                          color: Colors.white,
-                        ),
-                      ),
-                      const SizedBox(width: 10),
-                      const Text(
-                        "Fund",
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                        style: TextStyle(color: Colors.white),
-                      ),
-                    ],
-                  ),
-                ),
-              )
-            ],
-          )
-        ],
-      ),
-    );
-  }
-
-  Widget _quickLinks() {
-    HomePageViewModel model = HomePageViewModel();
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            EachRoundLink(
-              icon: Icons.phone_android_outlined,
-              title: "Airtime",
-              onTap: () => model.gotoAirtime(),
-            ),
-            EachRoundLink(
-                icon: Icons.wifi,
-                title: "Data",
-                onTap: () {
-                  model.gotoData();
-                }),
-          ],
-        ),
-        const SizedBox(height: 10),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            EachRoundLink(
-                icon: Icons.sports_basketball_outlined,
-                title: "Betting",
-                onTap: () {
-                  model.gotoBetting();
-                }),
-            EachRoundLink(
-                icon: Icons.tv_rounded,
-                title: "Cable TV",
-                onTap: () {
-                  model.gotoCableTV();
-                }),
-          ],
-        ),
-        // const SizedBox(height: 10),
-        // EachLink(
-        //     icon: Icons.wifi_tethering,
-        //     title: "SME Data",
-        //     onTap: () {
-        //       model.gotoSmeData();
-        //     }),
-      ],
-    );
-  }
-
-  _recentTransactions(context) {
-    HomePageViewModel model = HomePageViewModel();
-    print(model.transactions);
-    return Column(
-      children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            const Text(
-              "Recent Transactions",
-              style: TextStyle(fontSize: 18),
-            ),
-            InkWell(
-              onTap: () {
-                model.gotoSeeAllTransactions();
-              },
-              child: const Text(
-                "See All",
-                style: TextStyle(fontSize: 18),
-              ),
-            ),
-          ],
-        ),
-        const SizedBox(height: 20),
-        model.transactions == null || model.transactions!.isEmpty
-            ? const Center(
-                child: Text(
-                  "There are no transactions yet",
-                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
-                ),
-              )
-            : RecentTransactionSection(transactionList: model.transactions!.take(5).toList())
-      ],
-    );
   }
 
   _fundAccountPopUp(context, HomePageViewModel model) {

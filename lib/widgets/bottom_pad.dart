@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:pinput/pinput.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
 
@@ -13,25 +14,22 @@ class BottomPad<T extends ReactiveViewModel> extends StatefulWidget {
 
   const BottomPad({Key? key, this.function}) : super(key: key);
   @override
-  State<BottomPad> createState() => _BottomPadState(function);
+  State<BottomPad> createState() => _BottomPadState();
 }
 
 class _BottomPadState extends State<BottomPad> {
-  final Function? function;
-
-  _BottomPadState(this.function);
-
-  String pin = '';
   final AuthService _authService  = locator<AuthService>();
   final StorageService _storageService  = locator<StorageService>();
   final NavigationService _navigationService = locator<NavigationService>();
 
   bool get getBiometricAvailability => _authService.isBiometricsAvailable && _storageService.getString('pin') != null;
 
+  TextEditingController pin = TextEditingController();
+
   void runProcess() {
-    if(pin.length == 4) {
+    if(pin.text.length == 5) {
       _navigationService.back();
-      function!(pin);
+      widget.function!(pin.text);
     }
   }
 
@@ -51,56 +49,33 @@ class _BottomPadState extends State<BottomPad> {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Container(
-              // margin: EdgeInsets.only(bottom: SizeConfig.yMargin(context, .5)),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    'Enter Pin',
-                    style: Theme.of(context).textTheme.displaySmall!.copyWith(
-                      fontSize: SizeConfig.textSize(context, 2),
-                      color: Colors.black
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Row(
+                  children: [
+                    Text(
+                      'Enter Your Pin',
+                      style: Theme.of(context).textTheme.displaySmall!.copyWith(
+                        fontSize: SizeConfig.textSize(context, 2),
+                        color: Colors.black
+                      ),
                     ),
-                  ),
-                  IconButton(
-                    onPressed: () => navigationService.back(),
-                    icon: const Icon(
-                      Icons.close,
-                    )
-                  )
-                ],
-              ),
-            ),
-            Container(
-              margin: EdgeInsets.symmetric(vertical: SizeConfig.yMargin(context, 1)),
-              padding: EdgeInsets.symmetric(horizontal: SizeConfig.xMargin(context, 1)),
-              width: SizeConfig.xMargin(context, 40),
-              height: SizeConfig.yMargin(context, 5),
-              decoration: BoxDecoration(
-                border: Border.all(color: Colors.black, width: 2),
-                borderRadius: BorderRadius.circular(SizeConfig.yMargin(context, 1))
-              ),
-              child: Center(
-                child: SingleChildScrollView(
-                  scrollDirection: Axis.horizontal,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: pin.split('').map((e)  {
-                      return Container(
-                        margin: EdgeInsets.symmetric(horizontal: SizeConfig.xMargin(context, 2)),
-                        width: 8,
-                        height: 8,
-                        decoration: const BoxDecoration(
-                          shape: BoxShape.circle,
-                          color: Colors.black
-                        ),
-                      );
-                    }).toList()
-                  ),
+                    const SizedBox(width: 8),
+                    SvgPicture.asset("assets/icons/shield.svg", width: 15,)
+                  ],
                 ),
-              ),
+                IconButton(
+                  onPressed: () => navigationService.back(),
+                  icon: const Icon(
+                    Icons.close,
+                  )
+                )
+              ],
+            ),
+            Pinput(
+              length: 5,
+              controller: pin,
             ),
             Column(
               mainAxisSize: MainAxisSize.min,
@@ -112,7 +87,7 @@ class _BottomPadState extends State<BottomPad> {
                       context: context,
                       text: '1',
                       func: (text) => modalstate(() {
-                        pin = '$pin$text';
+                        pin.text = '${pin.text}$text';
                         runProcess();
                       })
                     ),
@@ -120,7 +95,7 @@ class _BottomPadState extends State<BottomPad> {
                       context: context,
                       text: '2',
                       func: (text) => modalstate(() {
-                        pin = '$pin$text';
+                        pin.text = '${pin.text}$text';
                         runProcess();
                       })
                     ),
@@ -128,7 +103,7 @@ class _BottomPadState extends State<BottomPad> {
                       context: context,
                       text: '3',
                       func: (text) => modalstate(() {
-                        pin = '$pin$text';
+                        pin.text = '${pin.text}$text';
                         runProcess();
                       })
                     ),
@@ -141,7 +116,7 @@ class _BottomPadState extends State<BottomPad> {
                       context: context,
                       text: '4',
                       func: (text) => modalstate(() {
-                        pin = '$pin$text';
+                        pin.text = '${pin.text}$text';
                         runProcess();
                       })
                     ),
@@ -149,7 +124,7 @@ class _BottomPadState extends State<BottomPad> {
                       context: context,
                       text: '5',
                       func: (text) => modalstate(() {
-                        pin = '$pin$text';
+                        pin.text = '${pin.text}$text';
                         runProcess();
                       })
                     ),
@@ -157,7 +132,7 @@ class _BottomPadState extends State<BottomPad> {
                       context: context,
                       text: '6',
                       func: (text) => modalstate(() {
-                        pin = '$pin$text';
+                        pin.text = '${pin.text}$text';
                         runProcess();
                       })
                     ),
@@ -170,7 +145,7 @@ class _BottomPadState extends State<BottomPad> {
                       context: context,
                       text: '7',
                       func: (text) => modalstate(() {
-                        pin = '$pin$text';
+                        pin.text = '${pin.text}$text';
                         runProcess();
                       })
                     ),
@@ -178,7 +153,7 @@ class _BottomPadState extends State<BottomPad> {
                       context: context,
                       text: '8',
                       func: (text) => modalstate(() {
-                        pin = '$pin$text';
+                        pin.text = '${pin.text}$text';
                         runProcess();
                       })
                     ),
@@ -186,7 +161,7 @@ class _BottomPadState extends State<BottomPad> {
                       context: context,
                       text: '9',
                       func: (text) => modalstate(() {
-                        pin = '$pin$text';
+                        pin.text = '${pin.text}$text';
                         runProcess();
                       })
                     ),
@@ -212,21 +187,21 @@ class _BottomPadState extends State<BottomPad> {
                       context: context,
                       text: '0',
                       func: (text) => modalstate(() {
-                        pin = '$pin$text';
+                        pin.text = '${pin.text}$text';
                         runProcess();
                       })
                     ),
                     InkWell(
                       onTap: () {
                         modalstate(() {
-                          pin = pin.substring(0, pin.length-1);
+                          pin.text = pin.text.substring(0, pin.text.length-1);
                         });
                       },
                       child: Container(
                         padding: EdgeInsets.symmetric(vertical: SizeConfig.yMargin(context, 2)),
                         width: SizeConfig.xMargin(context, 30),
                         child: Center(
-                          child: pin == '' ? const SizedBox() : const Icon(
+                          child: pin.text == '' ? const SizedBox() : const Icon(
                             Icons.backspace
                           )
                         )

@@ -6,15 +6,15 @@ import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
 
 import '../../core/models/airtime_beneficiaries.dart';
-import 'airtime_viewmodel.dart';
+import 'transfer_viewmodel.dart';
 
-class AirtimeView extends StatelessWidget {
-  const AirtimeView({Key? key}) : super(key: key);
+class TransferView extends StatelessWidget {
+  const TransferView({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return ViewModelBuilder<AirtimeViewModel>.reactive(
-      viewModelBuilder: () => AirtimeViewModel(),
+    return ViewModelBuilder<TransferViewModel>.reactive(
+      viewModelBuilder: () => TransferViewModel(),
       onViewModelReady: (model) => model.setup(context),
       builder: (context, model, child) {
         Widget buildAmount(int value, int selectedValue) {
@@ -38,7 +38,7 @@ class AirtimeView extends StatelessWidget {
         }
 
         return CustomScaffoldWidget(
-          appBar: const CustomAppBar(title: "Airtime"),
+          appBar: const CustomAppBar(title: "Transfer"),
           body: Form(
             key: model.formKey,
             child: Column(
@@ -46,7 +46,7 @@ class AirtimeView extends StatelessWidget {
               children: [
                 const Text(
                   "Choose Amount",
-                  style: TextStyle(color: Colors.black),
+                  style: TextStyle(color: Colors.black, fontSize: 16, fontWeight: FontWeight.w700),
                 ),
                 const SizedBox(
                   height: 6,
@@ -81,31 +81,47 @@ class AirtimeView extends StatelessWidget {
                     model.changeSelectAmount(0, null);
                   },
                 ),
-                const SizedBox(height: 20),
-                SizedBox(
-                  child: BuildAirtimeBillerDropDown(
-                    list: model.billers.take(4).toList(),
-                    title: "Network",
-                    value: model.selectedBiller,
-                    onChanged: (AirtimeBillers? value) {
-                      model.selectedBiller = value;
-                      model.notifyListeners();
-                    },
+                const Align(
+                  alignment: Alignment.centerRight,
+                  child: Text("Beneficiaries",
+                    style: TextStyle(color: Color(0xFF095F85), fontWeight: FontWeight.w700, fontSize: 16),
+                  ),
+                ),
+                const SizedBox(height: 10),
+                BuildAirtimeBillerDropDown(
+                  list: model.billers.take(4).toList(),
+                  title: "Bank Name",
+                  value: model.selectedBiller,
+                  onChanged: (AirtimeBillers? value) {
+                    model.selectedBiller = value;
+                    model.notifyListeners();
+                  },
+                ),
+                // const SizedBox(height: 20),
+                BuildTextField(
+                  title: "Account Number",
+                  textInputType: TextInputType.number,
+                  controller: model.phoneController,
+                  hintText: "Enter account number",
+                  bottomSpacing: 0,
+                  validator: (String? val) => val!.isEmpty ? "Account number field cannot be empty" : null,
+                ),
+                const Align(
+                  alignment: Alignment.centerLeft,
+                  child: Text("Yusuf Badmus",
+                    style: TextStyle(color: Color(0xFF095F85), fontWeight: FontWeight.w700, fontSize: 16),
                   ),
                 ),
                 const SizedBox(height: 20),
                 BuildTextField(
-                  title: "Phone Number",
+                  title: "Purpose",
                   textInputType: TextInputType.number,
                   controller: model.phoneController,
-                  hintText: "Enter phone number",
-                  validator: (String? val) => val!.isEmpty ? "Phone field cannot be empty" : null,
-                  suffixTitle: const Text(
-                    "Choose contact",
-                    style: TextStyle(color: Color(0xFF095F85), fontWeight: FontWeight.w700, fontSize: 16),
-                  ),
+                  hintText: "Enter description here",
+                  bottomSpacing: 0,
+                  validator: (String? val) => val!.isEmpty ? "Account number field cannot be empty" : null,
                 ),
-                // const SizedBox(height: 20),
+                const SizedBox(height: 30),
                 SizedBox(
                   width: double.infinity,
                   child: RoundedButton(
@@ -119,7 +135,7 @@ class AirtimeView extends StatelessWidget {
                               MaterialPageRoute(
                                 builder: (context) => VerificationComplete(
                                   title: "Successful",
-                                  description: "Your airtime is on its way",
+                                  description: "Your transfer is on its way",
                                   onTap: () {
                                     NavigationService().popRepeated(2);
                                   },
@@ -150,7 +166,7 @@ class AirtimeView extends StatelessWidget {
     );
   }
 
-  Widget _eachBeneficiary(AirtimeBeneficiary airtimeBeneficiary, AirtimeViewModel model) {
+  Widget _eachBeneficiary(AirtimeBeneficiary airtimeBeneficiary, TransferViewModel model) {
     checkImage() {
       if (airtimeBeneficiary.operator == 'mtn') {
         return 'assets/images/billers/mtn.webp';

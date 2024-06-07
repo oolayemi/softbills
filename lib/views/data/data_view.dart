@@ -1,14 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:fluttercontactpicker/fluttercontactpicker.dart';
 import 'package:no_name/styles/brand_color.dart';
 import 'package:no_name/widgets/utility_widgets.dart';
 import 'package:stacked/stacked.dart';
 
 import '../../core/models/airtime_data_model.dart';
-import '../../core/models/data_beneficiaries.dart';
 import '../../core/models/data_billers.dart';
 import '../../core/utils/size_config.dart';
-import '../../core/utils/tools.dart';
 import 'data_viewmodel.dart';
 
 class DataView extends StatelessWidget {
@@ -22,147 +19,83 @@ class DataView extends StatelessWidget {
       builder: (context, model, child) {
         return CustomScaffoldWidget(
           appBar: const CustomAppBar(title: "Data"),
-          body: Stack(
-            children: [
-              Form(
-                key: model.formKey,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    SingleChildScrollView(
-                      scrollDirection: Axis.horizontal,
-                      child: model.dataBeneficiaries == null || model.dataBeneficiaries!.isEmpty
-                          ? const SizedBox()
-                          : Row(
-                        children: model.dataBeneficiaries!.map((e) => _eachBeneficiary(e, model)).toList(),
-                      ),
-                    ),
-                    const SizedBox(height: 30),
-                    Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        SizedBox(
-                          width: 130,
-                          child: BuildBillerDropDown(
-                            list: model.billers.take(5).toList(),
-                            title: "Provider",
-                            value: model.selectedBiller,
-                            onChanged: (DataBillers? value) {
-                              FocusScope.of(context).unfocus();
-                              model.setDataBiller(value!);
-                            },
-                          ),
-                        ),
-                        const SizedBox(width: 10),
-                        Expanded(
-                          child: BuildTextField(
-                            title: "Phone Number",
-                            textInputType: TextInputType.number,
-                            controller: model.phoneController,
-                            hintText: "Enter phone number",
-                            validator: (String? val) => val!.isEmpty ? "Phone field cannot be empty" : null,
-                            suffixIcon: InkWell(
-                              onTap: () async {
-                                FocusScope.of(context).unfocus();
-                                final PhoneContact contact = await FlutterContactPicker.pickPhoneContact();
-                                String? phone = contact.phoneNumber?.number;
-                                if (phone != null) {
-                                  String repHyphen = phone.replaceAll('-', '');
-                                  String newPhone = repHyphen.replaceAll(' ', '');
-                                  model.phoneController.text = '0${newPhone.substring(newPhone.length - 10)}';
-                                  model.notifyListeners();
-                                }
-                              },
-                              child: const Icon(
-                                Icons.perm_contact_cal_outlined,
-                              ),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: 20),
-                    _selectDataPlan(context, model),
-                    const SizedBox(height: 30),
-                    AmountTextField(
-                      title: "Amount",
-                      controller: model.amountController,
-                      enabled: false,
-                      suffixTitle: Text(
-                        formatMoney(
-                          model.wallet?.balance,
-                        ),
-                      ),
-                      validator: (String? val) => val!.isEmpty ? "Amount field cannot be empty" : null,
-                    ),
-                  ],
-                ),
-              ),
-              Positioned(
-                bottom: 20,
-                right: 0,
-                left: 0,
-                child: RoundedButton(
-                  title: "Buy Now",
-                  onPressed: () {
-                    if(model.amountController.text.isNotEmpty && model.formKey.currentState!.validate()) {
-                      if(model.selectedPlan != null){
-                        validateTransactionDetails({
-                          "Phone Number": model.phoneController.text,
-                          "Network": model.selectedBiller!.name,
-                          "Data Plan": "${model.selectedPlan!.name} @ ${model.selectedPlan!.variationAmount}",
-                        }, model.amountController.text, context, func: () async {
-                          await model.purchaseData(context);
-                        });
-                      } else {
-                        flusher("Please select a plan to continue", context, color: Colors.red);
-                      }
-
-                    } else{
-                      flusher("Please select a plan to continue", context, color: Colors.red);
-                    }
+          body: Form(
+            key: model.formKey,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                BuildBillerDropDown(
+                  list: model.billers.take(5).toList(),
+                  title: "Provider",
+                  value: model.selectedBiller,
+                  bottomSpacing: 0,
+                  onChanged: (DataBillers? value) {
+                    FocusScope.of(context).unfocus();
+                    model.setDataBiller(value!);
                   },
                 ),
-              )
-            ],
+                const SizedBox(height: 20),
+                _selectDataPlan(context, model),
+                const SizedBox(height: 20),
+                AmountTextField(
+                  title: "Amount",
+                  controller: model.amountController,
+                  enabled: false,
+                ),
+                const SizedBox(height: 20),
+                BuildTextField(
+                  title: "Phone Number",
+                  textInputType: TextInputType.number,
+                  controller: model.phoneController,
+                  hintText: "Enter phone number",
+                  validator: (String? val) => val!.isEmpty ? "Phone field cannot be empty" : null,
+                  suffixTitle: const Text(
+                    "Choose contact",
+                    style: TextStyle(color: Color(0xFF095F85), fontWeight: FontWeight.w700, fontSize: 16),
+                  ),
+                ),
+                // const SizedBox(height: 20),
+                SizedBox(
+                  width: double.infinity,
+                  child: RoundedButton(
+                    title: "Next",
+                    onPressed: () {
+                      pinPad(
+                          ctx: context,
+                          function: (String pin) {
+                            // Navigator.push(
+                            //   context,
+                            //   MaterialPageRoute(
+                            //     builder: (context) => VerificationComplete(
+                            //       title: "Successful",
+                            //       description: "Your airtime is on its way",
+                            //       onTap: () {
+                            //         NavigationService().popRepeated(2);
+                            //       },
+                            //     ),
+                            //   ),
+                            // );
+                          });
+                      // if (model.formKey.currentState!.validate()) {
+                      //   if (model.selectedBiller != null) {
+                      //     validateTransactionDetails({
+                      //       "Phone Number": model.phoneController.text,
+                      //       "Network": model.selectedBiller?.name,
+                      //     }, model.amountController.text, context, func: () async {
+                      //       await model.purchaseAirtime(context);
+                      //     });
+                      //   } else {
+                      //     flusher("Pls select a provider", context, color: Colors.red);
+                      //   }
+                      // }
+                    },
+                  ),
+                ),
+              ],
+            ),
           ),
         );
       },
-    );
-  }
-
-  Widget _eachBeneficiary(DataBeneficiary dataBeneficiary, DataViewModel model) {
-    checkImage() {
-      if (dataBeneficiary.operator == 'mtn') {
-        return 'assets/images/billers/mtn.webp';
-      } else if (dataBeneficiary.operator == 'glo') {
-        return 'assets/images/billers/glo.webp';
-      } else if (dataBeneficiary.operator == 'airtel') {
-        return 'assets/images/billers/airtel.webp';
-      } else {
-        return 'assets/images/billers/9mobile.webp';
-      }
-    }
-    return Row(
-      children: [
-        InkWell(
-          onTap: () => model.setBeneficiary(dataBeneficiary),
-          child: Column(
-            children: [
-              CircleAvatar(
-                radius: 20,
-                backgroundImage: AssetImage(checkImage()),
-              ),
-              const SizedBox(height: 10),
-              Text(
-                dataBeneficiary.phoneNumber!,
-                style: const TextStyle(fontSize: 9),
-              )
-            ],
-          ),
-        ),
-        const SizedBox(width: 15)
-      ],
     );
   }
 
@@ -227,7 +160,7 @@ class DataView extends StatelessWidget {
       children: [
         const Text(
           "Data Plans",
-          style: TextStyle(fontSize: 16),
+          style: TextStyle(fontWeight: FontWeight.w700, fontSize: 16),
         ),
         const SizedBox(height: 5),
         InkWell(
@@ -238,8 +171,9 @@ class DataView extends StatelessWidget {
             height: 60,
             width: double.maxFinite,
             padding: const EdgeInsets.symmetric(horizontal: 10),
-            decoration: BoxDecoration(
-                color: const Color(0xFF605F5F).withOpacity(.1), borderRadius: BorderRadius.circular(10)),
+            decoration: BoxDecoration(borderRadius: BorderRadius.circular(10), border: Border.all(color: Colors.grey, width: .5)),
+            // decoration: BoxDecoration(
+            //     color: const Color(0xFF605F5F).withOpacity(.1), borderRadius: BorderRadius.circular(10)),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [

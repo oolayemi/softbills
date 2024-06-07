@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:no_name/views/homepage/homepage_view.dart';
+import 'package:no_name/views/services/services_view.dart';
 import 'package:stacked/stacked.dart';
 
 import 'dashboard_viewmodel.dart';
@@ -11,30 +11,18 @@ class DashboardView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ViewModelBuilder<DashboardViewModel>.reactive(
-      onModelReady: (model) => model.setup(),
+      onViewModelReady: (model) => model.setup(),
       viewModelBuilder: () => DashboardViewModel(),
       builder: (context, model, child) {
         List<Widget> buildScreens() {
           return [
             const HomePageView(),
-            const SizedBox(),
+            const ServicesView(),
             const SizedBox(),
             const SizedBox(),
           ];
         }
 
-        getSVG(assetName, {Color? color}) {
-          return Padding(
-            padding: const EdgeInsets.all(2.0),
-            child: SvgPicture.asset(
-              "assets/icons/nav_bar/$assetName",
-              height: 25,
-              width: 25,
-              color: color,
-            ),
-
-          );
-        }
 
         Widget getTabIcon(int index, String activeImagePath, String inactiveImagePath) {
           return Padding(
@@ -97,27 +85,3 @@ class DashboardView extends StatelessWidget {
     );
   }
 }
-
-//child: Row(
-//                                   children: [
-//                                     Radio(
-//                                         value: 0,
-//                                         activeColor: Palette.primaryColor,
-//                                         visualDensity: const VisualDensity(
-//                                             horizontal: VisualDensity.minimumDensity,
-//                                             vertical: VisualDensity.minimumDensity),
-//                                         groupValue: model.paymentOption,
-//                                         onChanged: (value) {
-//                                           model.paymentOption = 0;
-//                                           setModalState(() {});
-//                                         }),
-//                                     const Text(
-//                                       'Card',
-//                                       style: TextStyle(
-//                                           fontSize: 14.0,
-//                                           fontWeight: FontWeight.w500,
-//                                           color: Colors.black),
-//                                     ),
-//                                   ],
-//                                 ),
-//                               ),

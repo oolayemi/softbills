@@ -20,7 +20,7 @@ import '../../core/utils/tools.dart';
 import '../../widgets/utility_widgets.dart';
 import '../transaction_successful/transaction_successful_view.dart';
 
-class AirtimeViewModel extends ReactiveViewModel {
+class TransferViewModel extends ReactiveViewModel {
   final NavigationService _navigationService = locator<NavigationService>();
   final AuthService _authService = locator<AuthService>();
   final DialogService _dialogService = locator<DialogService>();

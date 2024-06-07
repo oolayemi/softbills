@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:no_name/views/services/services_viewmodel.dart';
 import 'package:no_name/widgets/utility_widgets.dart';
 import 'package:stacked/stacked.dart';
+
+import '../profile/profile_view.dart';
 
 class ServicesView extends StatelessWidget {
   const ServicesView({Key? key}) : super(key: key);
@@ -11,88 +14,170 @@ class ServicesView extends StatelessWidget {
     return ViewModelBuilder<ServicesViewModel>.reactive(
       viewModelBuilder: () => ServicesViewModel(),
       builder: (context, model, child) {
-        return CustomScaffoldWidget(
-          appBar: const CustomAppBar(
-            title: "Services",
-            withBackButton: false,
-          ),
-          body: Column(
+
+        Widget quickLinks(String title, String imageUrl, Color bgColor, Function()? onTap) {
+          return InkWell(
+            onTap: onTap,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Container(
+                  width: 65,
+                  height: 65,
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                      color: bgColor
+                  ),
+                  child: Center(child: SvgPicture.asset(imageUrl, color: const Color(0xFF0F8CC3),),),
+                ),
+                const SizedBox(height: 5),
+                SizedBox(
+                  width: MediaQuery.of(context).size.width * .20,
+                  child: Text(
+                    title,
+                    textAlign: TextAlign.center,
+                    style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
+                  ),
+                ),
+              ],
+            ),
+          );
+        }
+
+        Widget buildRecent(context) {
+          return Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              _buildBillsPayment(context),
-              const SizedBox(height: 60),
-              _buildTransfers(context),
-              const SizedBox(height: 60),
-              _buildVAServices()
+              const Text("Recents", style: TextStyle(fontWeight: FontWeight.w700, fontSize: 18),),
+              const SizedBox(height: 20),
+              SingleChildScrollView(
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    quickLinks("Internet Recharge", "assets/icons/network.svg", const Color(0xFF0F8CC3).withOpacity(.1), () => model.gotoData()),
+                    quickLinks("Mobile Recharge", "assets/icons/mobile.svg", const Color(0xFF0F8CC3).withOpacity(.1),  () => model.gotoAirtime()),
+                    quickLinks("Transfer", "assets/icons/two-way-arrow.svg", const Color(0xFF0F8CC3).withOpacity(.1), () => model.gotoTransfer()),
+                  ],
+                ),
+              )
             ],
+          );
+        }
+        Widget buildBillsPayment(context) {
+          return Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const Text("Bill Payments", style: TextStyle(fontWeight: FontWeight.w700, fontSize: 18),),
+              const SizedBox(height: 20),
+              Column(
+                children: [
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      quickLinks("Internet Recharge", "assets/icons/network.svg", const Color(0xFF0F8CC3).withOpacity(.1), null),
+                      quickLinks("Mobile Recharge", "assets/icons/mobile.svg", const Color(0xFF0F8CC3).withOpacity(.1), null),
+                      quickLinks("Transfer", "assets/icons/two-way-arrow.svg", const Color(0xFF0F8CC3).withOpacity(.1), null),
+                    ],
+                  ),
+                  const SizedBox(height: 10),
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      quickLinks("Electricity Bill", "assets/icons/lightbulb.svg", const Color(0xFF0F8CC3).withOpacity(.1), null),
+                      quickLinks("Store", "assets/icons/shopping-bag.svg", const Color(0xFF0F8CC3).withOpacity(.1), null),
+                      quickLinks("Waste Bill", "assets/icons/waste-bill.svg", const Color(0xFF0F8CC3).withOpacity(.1), null),
+                    ],
+                  ),
+                  const SizedBox(height: 10),
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      quickLinks("Airtime to Cash", "assets/icons/airtime-to-cash.svg", const Color(0xFF0F8CC3).withOpacity(.1), null),
+                      quickLinks("Travel", "assets/icons/plan.svg", const Color(0xFF0F8CC3).withOpacity(.1), null),
+                      quickLinks("Water Bill", "assets/icons/water-bill.svg", const Color(0xFF0F8CC3).withOpacity(.1), null),
+                    ],
+                  ),
+                ],
+              )
+            ],
+          );
+        }
+
+        return CustomScaffoldWidget(
+          body: SingleChildScrollView(
+            child: Column(
+              children: [
+                Row(
+                  children: [
+                    SizedBox(
+                      width: 60,
+                      height: 60,
+                      child: Stack(
+                        clipBehavior: Clip.none,
+                        children: [
+                          GestureDetector(
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => const ProfileView(),
+                                ),
+                              );
+                            },
+                            child: const Padding(
+                              padding: EdgeInsets.only(left: 15.0, top: 10),
+                              child: CircleAvatar(
+                                radius: 30,
+                                backgroundImage: AssetImage('assets/images/image 128.png'),
+                              ),
+                            ),
+                          ),
+                          Positioned(
+                            top: 8,
+                            right: 0,
+                            child: Container(
+                              width: 12,
+                              height: 12,
+                              decoration: const BoxDecoration(
+                                shape: BoxShape.circle,
+                                color: Color(0xFFE73726),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    const SizedBox(width: 10),
+                    const Text(
+                      'Hi, Yusuf',
+                      style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.w700,
+                      ),
+                    ),
+                  ],
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(20),
+                  child: Column(
+                    children: [
+                      buildRecent(context),
+                      const SizedBox(height: 30),
+                      buildBillsPayment(context)
+                    ],
+                  ),
+                ),
+                const SizedBox(height: 60),
+            
+              ],
+            ),
           ),
         );
       },
-    );
-  }
-
-
-
-  _buildBillsPayment(context) {
-    ServicesViewModel model = ServicesViewModel();
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        const Text("Bills Payment"),
-        const SizedBox(height: 20),
-        SingleChildScrollView(
-          child: Row(
-            children: [
-              EachLink(icon: Icons.tv_rounded, title: "Cable TV", onTap: () => model.gotoCableTV()),
-              const SizedBox(width: 35),
-              EachLink(icon: Icons.light, title: "Electricity", onTap: () => model.gotoElectricity()),
-              const SizedBox(width: 35),
-              // EachLink(icon: Icons.flight, title: "Flight", onTap: () => flusher("Coming soon", context, color: Colors.blue, sec: 1)),
-              // const SizedBox(width: 35),
-              EachLink(icon: Icons.sports_basketball, title: "Betting", onTap: () => model.gotoBilling()),
-            ],
-          ),
-        )
-      ],
-    );
-  }
-
-  _buildTransfers(context) {
-    ServicesViewModel model = ServicesViewModel();
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        const Text("Transfers"),
-        const SizedBox(height: 20),
-        Row(
-          children: [
-            EachLink(icon: Icons.currency_exchange, title: "Transfer", onTap: () => flusher("Coming soon", context, color: Colors.blue, sec: 1),),
-            const SizedBox(width: 35),
-            EachLink(icon: Icons.attach_money_outlined, title: "Dollar Card", onTap: () => model.gotoSwap()),
-          ],
-        )
-      ],
-    );
-  }
-
-  _buildVAServices() {
-    ServicesViewModel model = ServicesViewModel();
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        const Text("VAS services"),
-        const SizedBox(height: 20),
-        Row(
-          children: [
-            EachLink(icon: Icons.phone_android_outlined, title: "Airtime", onTap: () => model.gotoAirtime()),
-            const SizedBox(width: 35),
-            EachLink(icon: Icons.wifi, title: "Data", onTap: () => model.gotoData()),
-            const SizedBox(width: 35),
-            EachLink(icon: Icons.wifi_tethering, title: "SME Data", onTap: () => model.gotoSmeData()),
-            const SizedBox(width: 35),
-              EachLink(icon: Icons.pin_sharp, title: "EPins", onTap: () => model.gotoSmeData()),
-          ],
-        )
-      ],
     );
   }
 }

@@ -3,6 +3,7 @@ import 'package:no_name/views/betting/betting_view.dart';
 import 'package:no_name/views/cabletv/cable_tv_view.dart';
 import 'package:no_name/views/electricity/electricity_view.dart';
 import 'package:no_name/views/swap/swap_view.dart';
+import 'package:no_name/views/transfer/transfer_view.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
 
@@ -23,6 +24,10 @@ class ServicesViewModel extends ReactiveViewModel {
 
   void gotoSmeData() {
     _navigationService.navigateToView(const SmeDataView());
+  }
+
+  void gotoTransfer() {
+    _navigationService.navigateToView(const TransferView());
   }
 
   void gotoCableTV() {
