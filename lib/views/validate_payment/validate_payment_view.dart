@@ -3,7 +3,7 @@ import 'package:no_name/widgets/utility_widgets.dart';
 import 'package:pinput/pinput.dart';
 
 class ValidatePaymentView extends StatelessWidget {
-  const ValidatePaymentView({Key? key}) : super(key: key);
+  const ValidatePaymentView({super.key});
 
   @override
   Widget build(BuildContext context) {

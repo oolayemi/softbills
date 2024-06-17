@@ -9,7 +9,7 @@ import '../../../core/constants/loading_dialog.dart';
 import 'sign_in_viewmodel.dart';
 
 class ExistingSignInView extends StatelessWidget {
-  const ExistingSignInView({Key? key}) : super(key: key);
+  const ExistingSignInView({super.key});
 
   @override
   Widget build(BuildContext context) {

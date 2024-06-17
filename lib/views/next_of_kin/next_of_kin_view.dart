@@ -6,7 +6,7 @@ import 'package:stacked/stacked.dart';
 import 'next_of_kin_viewmodel.dart';
 
 class NextOfKinView extends StatelessWidget {
-  const NextOfKinView({Key? key}) : super(key: key);
+  const NextOfKinView({super.key});
 
   @override
   Widget build(BuildContext context) {

@@ -8,7 +8,7 @@ import 'package:stacked/stacked.dart';
 import 'validate_phone_viewmodel.dart';
 
 class ValidatePhoneView extends StatelessWidget {
-  const ValidatePhoneView({Key? key}) : super(key: key);
+  const ValidatePhoneView({super.key});
 
   @override
   Widget build(BuildContext context) {

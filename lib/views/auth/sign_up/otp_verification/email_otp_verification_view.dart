@@ -11,7 +11,7 @@ import 'otp_verification_viewmodel.dart';
 class EmailOtpVerificationView extends StatelessWidget {
   final String email;
 
-  const EmailOtpVerificationView({Key? key, required this.email}) : super(key: key);
+  const EmailOtpVerificationView({super.key, required this.email});
 
   @override
   Widget build(BuildContext context) {

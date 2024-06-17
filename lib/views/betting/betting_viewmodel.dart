@@ -80,7 +80,7 @@ class BettingViewModel extends ReactiveViewModel {
       } else {
         flusher(json['message'] ?? 'Error Fetching data', context, color: Colors.red);
       }
-    } on DioError catch (e) {
+    } on DioException catch (e) {
       flusher(DioExceptions.fromDioError(e).toString(), context, color: Colors.red);
     }
   }
@@ -119,7 +119,7 @@ class BettingViewModel extends ReactiveViewModel {
         _dialogService.completeDialog(DialogResponse());
         flusher(json['message'] ?? 'Error Fetching data', context, color: Colors.red);
       }
-    } on DioError catch (e) {
+    } on DioException catch (e) {
       print(e.response!.data);
       _dialogService.completeDialog(DialogResponse());
       flusher(DioExceptions.fromDioError(e).toString(), context, color: Colors.red);
@@ -160,7 +160,7 @@ class BettingViewModel extends ReactiveViewModel {
         _dialogService.completeDialog(DialogResponse());
         flusher(json['message'] ?? 'Error Fetching data', context, color: Colors.red);
       }
-    } on DioError catch (e) {
+    } on DioException catch (e) {
       print(e.response!.data);
       _dialogService.completeDialog(DialogResponse());
       flusher(DioExceptions.fromDioError(e).toString(), context, color: Colors.red);

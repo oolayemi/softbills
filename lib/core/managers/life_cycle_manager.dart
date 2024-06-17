@@ -10,7 +10,7 @@ import '../utils/tools.dart';
 class LifeCycleManager extends StatefulWidget {
   final Widget? child;
 
-  const LifeCycleManager({Key? key, this.child}) : super(key: key);
+  const LifeCycleManager({super.key, this.child});
   
   @override
   State<LifeCycleManager> createState() => _LifeCycleManagerState();
@@ -73,6 +73,8 @@ class _LifeCycleManagerState extends State<LifeCycleManager> with WidgetsBinding
       case AppLifecycleState.inactive:
       case AppLifecycleState.paused:
       case AppLifecycleState.detached:
+      case AppLifecycleState.hidden:
+        // TODO: Handle this case.
         _keepAlive(false);
         break;
     }

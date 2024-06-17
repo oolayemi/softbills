@@ -4,7 +4,7 @@ import 'package:no_name/widgets/utility_widgets.dart';
 import 'package:stacked/stacked.dart';
 
 class AllTransactionsView extends StatelessWidget {
-  const AllTransactionsView({Key? key}) : super(key: key);
+  const AllTransactionsView({super.key});
 
   @override
   Widget build(BuildContext context) {

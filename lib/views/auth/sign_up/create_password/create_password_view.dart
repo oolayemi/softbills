@@ -6,7 +6,7 @@ import 'create_password_viewmodel.dart';
 
 class CreatePasswordView extends StatelessWidget {
   final String from;
-  const CreatePasswordView({Key? key, this.from = "new"}) : super(key: key);
+  const CreatePasswordView({super.key, this.from = "new"});
 
   @override
   Widget build(BuildContext context) {

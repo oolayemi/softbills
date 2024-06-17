@@ -11,7 +11,7 @@ import '../../core/utils/tools.dart';
 import 'sme_data_viewmodel.dart';
 
 class SmeDataView extends StatelessWidget {
-  const SmeDataView({Key? key}) : super(key: key);
+  const SmeDataView({super.key});
 
   @override
   Widget build(BuildContext context) {

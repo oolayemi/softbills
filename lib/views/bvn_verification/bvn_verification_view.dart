@@ -5,7 +5,7 @@ import 'package:stacked/stacked.dart';
 import 'bvn_verification_viewmodel.dart';
 
 class BVNVerificationView extends StatelessWidget {
-  const BVNVerificationView({Key? key}) : super(key: key);
+  const BVNVerificationView({super.key});
 
   @override
   Widget build(BuildContext context) {

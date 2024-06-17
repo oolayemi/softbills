@@ -4,6 +4,7 @@ import 'package:no_name/views/splash_screen/splash_screen.dart';
 
 import '../views/dashboard/dashboard_view.dart';
 import '../views/homepage/homepage_view.dart';
+import '../widgets/utility_widgets.dart';
 
 abstract class Routes {
   static const startupViewRoute = '/start-up';
@@ -67,14 +68,10 @@ PageRoute unknownRoutePage(String? routeName) => CupertinoPageRoute(
               style: const TextStyle(fontSize: 16),
             ),
           ),
-
-          ElevatedButton(
-            onPressed: () {Navigator.of(ctx).pop();},
-            style: ButtonStyle(
-              backgroundColor: MaterialStateProperty.all(Colors.transparent),
-            ),
-            child: const Text("Back"),
-          )
+          RoundedButton(
+            title: "Back",
+            onPressed: () => Navigator.of(ctx).pop(),
+          ),
         ],
       ),
     ),

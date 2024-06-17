@@ -8,7 +8,7 @@ import '../../core/utils/tools.dart';
 import 'betting_viewmodel.dart';
 
 class BettingView extends StatelessWidget {
-  const BettingView({Key? key}) : super(key: key);
+  const BettingView({super.key});
 
   @override
   Widget build(BuildContext context) {

@@ -9,7 +9,7 @@ import 'user_info_dob_viewmodel.dart';
 class UserInfoDobView extends StatelessWidget {
   final Map<String, dynamic> details;
 
-  const UserInfoDobView({Key? key, required this.details}) : super(key: key);
+  const UserInfoDobView({super.key, required this.details});
 
   @override
   Widget build(BuildContext context) {

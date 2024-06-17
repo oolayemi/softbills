@@ -7,7 +7,7 @@ import 'package:stacked/stacked.dart';
 import '../profile/profile_view.dart';
 
 class ServicesView extends StatelessWidget {
-  const ServicesView({Key? key}) : super(key: key);
+  const ServicesView({super.key});
 
   @override
   Widget build(BuildContext context) {

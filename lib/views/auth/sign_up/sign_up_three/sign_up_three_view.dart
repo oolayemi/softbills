@@ -7,7 +7,7 @@ import 'sign_up_three_viewmodel.dart';
 class SignUpThreeView extends StatelessWidget {
   final Map<String, dynamic> details;
 
-  const SignUpThreeView({Key? key, required this.details}) : super(key: key);
+  const SignUpThreeView({super.key, required this.details});
 
   @override
   Widget build(BuildContext context) {

@@ -10,7 +10,7 @@ import 'package:stacked/stacked.dart';
 import '../../widgets/utility_widgets.dart';
 
 class HomePageView extends StatelessWidget {
-  const HomePageView({Key? key}) : super(key: key);
+  const HomePageView({super.key});
 
   @override
   Widget build(BuildContext context) {

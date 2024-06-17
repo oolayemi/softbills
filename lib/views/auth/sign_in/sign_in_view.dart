@@ -8,7 +8,7 @@ import 'package:stacked_services/stacked_services.dart';
 import '../../../widgets/utility_widgets.dart';
 
 class SignInView extends StatelessWidget {
-  const SignInView({Key? key}) : super(key: key);
+  const SignInView({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -25,80 +25,77 @@ class SignInView extends StatelessWidget {
                 ),
               ),
             ),
-            body: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Form(
-                key: model.formKey,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    const Text(
-                      "Sign In",
-                      textAlign: TextAlign.left,
-                      style: TextStyle(
-                        fontSize: 28,
-                        fontWeight: FontWeight.w700,
-                      ),
+            body: Form(
+              key: model.formKey,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  const Text(
+                    "Sign In",
+                    textAlign: TextAlign.left,
+                    style: TextStyle(
+                      fontSize: 28,
+                      fontWeight: FontWeight.w700,
                     ),
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    BuildTextField(
-                      title: "Email",
-                      hintText: "olayemi@gmail.com",
-                      controller: model.emailController,
-                      obscure: false,
-                      //onChanged: model.setPassword,
-                      validator: (String? value) => value!.isEmpty ? "Email field cannot be empty" : null,
-                    ),
-                    const SizedBox(
-                      height: 7,
-                    ),
-                    BuildTextField(
-                      title: "Password",
-                      hintText: "************",
-                      controller: model.passwordController,
-                      obscure: true,
-                      validator: (String? value) => value!.isEmpty ? "Password field cannot be empty" : null,
-                    ),
-                    const SizedBox(height: 10),
-                    SizedBox(
-                      width: double.infinity,
-                      child: RoundedButton(
-                          title: "Sign In",
-                          onPressed: () {
-                            NavigationService().navigateToView(const DashboardView());
-                            // if (model.formKey.currentState!.validate()) {
-                            //   model.signIn(context);
-                            // }
-                          }),
-                    ),
-                    const SizedBox(
-                      height: 15,
-                    ),
-                    InkWell(
-                      onTap: () {
-                        showModalBottomSheet(
-                          context: context,
-                          builder: (BuildContext context) {
-                            return const ModalSheet();
-                          },
-                        );
-                      },
-                      child: const Center(
-                        child: Text(
-                          "Forgot Password?",
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.w700,
-                          ),
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  BuildTextField(
+                    title: "Email",
+                    hintText: "olayemi@gmail.com",
+                    controller: model.emailController,
+                    obscure: false,
+                    //onChanged: model.setPassword,
+                    validator: (String? value) => value!.isEmpty ? "Email field cannot be empty" : null,
+                  ),
+                  const SizedBox(
+                    height: 7,
+                  ),
+                  BuildTextField(
+                    title: "Password",
+                    hintText: "************",
+                    controller: model.passwordController,
+                    obscure: true,
+                    validator: (String? value) => value!.isEmpty ? "Password field cannot be empty" : null,
+                  ),
+                  const SizedBox(height: 10),
+                  SizedBox(
+                    width: double.infinity,
+                    child: RoundedButton(
+                        title: "Sign In",
+                        onPressed: () {
+                          NavigationService().navigateToView(const DashboardView());
+                          // if (model.formKey.currentState!.validate()) {
+                          //   model.signIn(context);
+                          // }
+                        }),
+                  ),
+                  const SizedBox(
+                    height: 15,
+                  ),
+                  InkWell(
+                    onTap: () {
+                      showModalBottomSheet(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return const ModalSheet();
+                        },
+                      );
+                    },
+                    child: const Center(
+                      child: Text(
+                        "Forgot Password?",
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w700,
                         ),
                       ),
-                    )
-                  ],
-                ),
+                    ),
+                  )
+                ],
               ),
             ),
           );

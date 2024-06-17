@@ -10,7 +10,7 @@ import 'fp_otp_verification_viewmodel.dart';
 class FPOtpVerificationView extends StatelessWidget {
   final String email;
 
-  const FPOtpVerificationView({Key? key, required this.email}) : super(key: key);
+  const FPOtpVerificationView({super.key, required this.email});
 
   @override
   Widget build(BuildContext context) {

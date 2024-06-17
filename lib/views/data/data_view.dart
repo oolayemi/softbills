@@ -9,7 +9,7 @@ import '../../core/utils/size_config.dart';
 import 'data_viewmodel.dart';
 
 class DataView extends StatelessWidget {
-  const DataView({Key? key}) : super(key: key);
+  const DataView({super.key});
 
   @override
   Widget build(BuildContext context) {

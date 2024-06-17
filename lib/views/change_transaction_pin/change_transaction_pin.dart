@@ -5,7 +5,7 @@ import 'package:stacked/stacked.dart';
 import 'change_transaction_pin_viewmodel.dart';
 
 class ChangeTransactionPinView extends StatelessWidget {
-  const ChangeTransactionPinView({Key? key}) : super(key: key);
+  const ChangeTransactionPinView({super.key});
 
   @override
   Widget build(BuildContext context) {

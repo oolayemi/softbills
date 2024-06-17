@@ -5,7 +5,7 @@ import 'package:stacked/stacked.dart';
 import 'personal_data_viewmodel.dart';
 
 class PersonalDataView extends StatelessWidget {
-  const PersonalDataView({Key? key}) : super(key: key);
+  const PersonalDataView({super.key});
 
   @override
   Widget build(BuildContext context) {

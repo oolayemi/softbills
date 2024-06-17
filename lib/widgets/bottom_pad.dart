@@ -12,7 +12,7 @@ import '../core/utils/size_config.dart';
 class BottomPad<T extends ReactiveViewModel> extends StatefulWidget {
   final Function? function;
 
-  const BottomPad({Key? key, this.function}) : super(key: key);
+  const BottomPad({super.key, this.function});
   @override
   State<BottomPad> createState() => _BottomPadState();
 }

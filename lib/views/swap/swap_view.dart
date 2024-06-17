@@ -7,7 +7,7 @@ import 'package:stacked/stacked.dart';
 import '../../styles/brand_color.dart';
 
 class SwapView extends StatelessWidget {
-  const SwapView({Key? key}) : super(key: key);
+  const SwapView({super.key});
 
   @override
   Widget build(BuildContext context) {

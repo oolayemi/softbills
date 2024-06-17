@@ -8,7 +8,7 @@ import 'package:stacked/stacked.dart';
 import 'account_viewmodel.dart';
 
 class AccountView extends StatelessWidget {
-  const AccountView({Key? key}) : super(key: key);
+  const AccountView({super.key});
 
   @override
   Widget build(BuildContext context) {

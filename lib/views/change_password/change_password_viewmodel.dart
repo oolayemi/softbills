@@ -55,7 +55,7 @@ class ChangePasswordViewModel extends ReactiveViewModel {
         flusher(json['message'] ?? 'Error Fetching data', context,
             color: Colors.red);
       }
-    } on DioError catch (e) {
+    } on DioException catch (e) {
       _dialogService.completeDialog(DialogResponse());
       print(e.response);
       flusher(DioExceptions.fromDioError(e).toString(), context,

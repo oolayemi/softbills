@@ -6,7 +6,7 @@ import 'package:stacked/stacked.dart';
 import 'change_password_viewmodel.dart';
 
 class ChangePasswordView extends StatelessWidget {
-  const ChangePasswordView({Key? key}) : super(key: key);
+  const ChangePasswordView({super.key});
 
   @override
   Widget build(BuildContext context) {

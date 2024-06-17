@@ -9,7 +9,7 @@ import 'package:stacked_services/stacked_services.dart';
 import 'settings_viewmodel.dart';
 
 class SettingsView extends StatelessWidget {
-  const SettingsView({Key? key}) : super(key: key);
+  const SettingsView({super.key});
 
   @override
   Widget build(BuildContext context) {

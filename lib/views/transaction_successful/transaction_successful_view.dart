@@ -4,7 +4,7 @@ import 'package:no_name/widgets/utility_widgets.dart';
 class TransactionSuccessfulView extends StatelessWidget {
   final Widget bottomWidgets;
 
-  const TransactionSuccessfulView({Key? key, this.bottomWidgets = const SizedBox()}) : super(key: key);
+  const TransactionSuccessfulView({super.key, this.bottomWidgets = const SizedBox()});
 
   @override
   Widget build(BuildContext context) {

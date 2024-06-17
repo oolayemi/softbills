@@ -4,7 +4,7 @@ import 'package:no_name/widgets/utility_widgets.dart';
 import 'package:stacked_services/stacked_services.dart';
 
 class Welcome extends StatelessWidget {
-  const Welcome({Key? key}) : super(key: key);
+  const Welcome({super.key});
 
   @override
   Widget build(BuildContext context) {

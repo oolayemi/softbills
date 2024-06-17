@@ -8,7 +8,7 @@ import '../core/models/transaction_history_data.dart';
 class TransactionHistory extends StatelessWidget {
   final DataResponse dataResponse;
 
-  const TransactionHistory({Key? key, required this.dataResponse}) : super(key: key);
+  const TransactionHistory({super.key, required this.dataResponse});
 
   @override
   Widget build(BuildContext context) {

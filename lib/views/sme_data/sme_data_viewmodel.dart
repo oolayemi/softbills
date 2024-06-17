@@ -81,7 +81,7 @@ class SmeDataViewModel extends ReactiveViewModel {
         errorFetching = true;
         fetched = false;
       }
-    } on DioError catch (e) {
+    } on DioException catch (e) {
       errorFetching = true;
       flusher(DioExceptions.fromDioError(e).toString(), context, color: Colors.red);
     }
@@ -139,7 +139,7 @@ class SmeDataViewModel extends ReactiveViewModel {
         _dialogService.completeDialog(DialogResponse());
         flusher(json['message'] ?? 'Error Fetching data', context, color: Colors.red);
       }
-    } on DioError catch (e) {
+    } on DioException catch (e) {
       errorFetching = true;
       print(e.response!.data);
       _dialogService.completeDialog(DialogResponse());

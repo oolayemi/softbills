@@ -162,7 +162,7 @@ class AuthService with ReactiveServiceMixin {
               ApiResponse(showMessage: true, message: responseData['message']);
         }
       });
-    } on DioError catch (e) {
+    } on DioException catch (e) {
       print(e.response!.data);
       response =
           ApiResponse(showMessage: true, message: 'Error Processing Request');
@@ -197,7 +197,7 @@ class AuthService with ReactiveServiceMixin {
               ApiResponse(showMessage: true, message: responseData['message']);
         }
       });
-    } on DioError catch (e) {
+    } on DioException catch (e) {
       print(e.response!.data);
       response =
           ApiResponse(showMessage: true, message: 'Error Processing Request');
@@ -232,7 +232,7 @@ class AuthService with ReactiveServiceMixin {
               ApiResponse(showMessage: true, message: responseData['message']);
         }
       });
-    } on DioError catch (e) {
+    } on DioException catch (e) {
       print(e.response!.data);
       response =
           ApiResponse(showMessage: true, message: 'Error Processing Request');
@@ -267,7 +267,7 @@ class AuthService with ReactiveServiceMixin {
               ApiResponse(showMessage: true, message: responseData['message']);
         }
       });
-    } on DioError catch (e) {
+    } on DioException catch (e) {
       print(e.response!.data);
       response =
           ApiResponse(showMessage: true, message: 'Error Processing Request');
@@ -303,7 +303,7 @@ class AuthService with ReactiveServiceMixin {
               ApiResponse(showMessage: true, message: responseData['message']);
         }
       });
-    } on DioError catch (e) {
+    } on DioException catch (e) {
       print(e.response!.data);
       response =
           ApiResponse(showMessage: true, message: 'Error Processing Request');
@@ -340,7 +340,7 @@ class AuthService with ReactiveServiceMixin {
         apiResponse = ApiResponse(showMessage: true, message: json['message']);
         return apiResponse;
       }
-    } on DioError catch (e) {
+    } on DioException catch (e) {
       print(e.response!.data);
       apiResponse =
           ApiResponse(showMessage: true, message: 'Error Processing Request');
@@ -376,7 +376,7 @@ class AuthService with ReactiveServiceMixin {
         apiResponse = ApiResponse(showMessage: true, message: json['message']);
         return apiResponse;
       }
-    } on DioError catch (e) {
+    } on DioException catch (e) {
       print(e.response!.data);
       apiResponse =
           ApiResponse(showMessage: true, message: 'Error Processing Request');
@@ -408,7 +408,7 @@ class AuthService with ReactiveServiceMixin {
           ApiResponse(showMessage: false, message: 'Wallet Trans gotten');
 
       print('Auth user transactions gotten::: ');
-    } on DioError catch (e) {
+    } on DioException catch (e) {
       print('Request error: ${e.response}');
       response = ApiResponse(
           showMessage: true, message: 'Error Processing Request, Try Again');

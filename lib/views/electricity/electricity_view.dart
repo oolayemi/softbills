@@ -10,7 +10,7 @@ import '../../core/utils/tools.dart';
 import 'electricity_viewmodel.dart';
 
 class ElectricityView extends StatelessWidget {
-  const ElectricityView({Key? key}) : super(key: key);
+  const ElectricityView({super.key});
 
   @override
   Widget build(BuildContext context) {

@@ -5,7 +5,7 @@ import 'package:stacked/stacked.dart';
 import 'id_verification_viewmodel.dart';
 
 class IDVerificationView extends StatelessWidget {
-  const IDVerificationView({Key? key}) : super(key: key);
+  const IDVerificationView({super.key});
 
   @override
   Widget build(BuildContext context) {

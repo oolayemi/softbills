@@ -39,8 +39,8 @@ Dio dio({bool withToken = true}) {
   return Dio(
     BaseOptions(
       baseUrl: env('APP_URL')!,
-      connectTimeout: 90000,
-      receiveTimeout: 90000,
+      connectTimeout: const Duration(seconds: 90),
+      receiveTimeout: const Duration(seconds: 90),
       headers: withToken
           ? {
               "Content-Type": "application/json",
@@ -78,7 +78,7 @@ class CustomInterceptor extends Interceptor {
   }
 
   @override
-  FutureOr<dynamic> onError(DioError err, ErrorInterceptorHandler handler) async {
+  FutureOr<dynamic> onError(DioException err, ErrorInterceptorHandler handler) async {
     // Do something with the error
     // For example, log the error message
     if(err.response?.statusCode == 401) {

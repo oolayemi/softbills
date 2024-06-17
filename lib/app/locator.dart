@@ -6,8 +6,6 @@ import 'package:path_provider/path_provider.dart';
 import 'package:stacked_services/stacked_services.dart';
 
 import '../core/services/auth_service.dart';
-import '../core/services/notification/notification_service.dart';
-import '../core/services/notification/notification_service_impl.dart';
 import '../core/services/user_service.dart';
 import '../core/services/utility_storage_service.dart';
 import '../views/services/transfer_funds_service.dart';
@@ -29,7 +27,7 @@ Future<void> setupLocator({bool test = false})async {
   locator.registerLazySingleton<SnackbarService>(
         () => SnackbarService(),
   );
-  locator.registerLazySingleton<NotificationService>(() => NotificationRemindersServiceImpl());
+  // locator.registerLazySingleton<NotificationService>(() => NotificationRemindersServiceImpl());
   locator.registerLazySingleton<AuthService>(
           () => AuthService()
   );

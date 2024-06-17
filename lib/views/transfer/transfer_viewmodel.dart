@@ -117,7 +117,7 @@ class TransferViewModel extends ReactiveViewModel {
         errorFetching = true;
         fetched = false;
       }
-    } on DioError catch (e) {
+    } on DioException catch (e) {
       errorFetching = true;
       print(e.response);
       flusher(DioExceptions.fromDioError(e).toString(), context, color: Colors.red);
@@ -159,7 +159,7 @@ class TransferViewModel extends ReactiveViewModel {
         _dialogService.completeDialog(DialogResponse());
         flusher(json['message'] ?? 'Error Fetching data', context, color: Colors.red);
       }
-    } on DioError catch (e) {
+    } on DioException catch (e) {
       _dialogService.completeDialog(DialogResponse());
       flusher(DioExceptions.fromDioError(e).toString(), context, color: Colors.red);
     }
@@ -179,7 +179,7 @@ class TransferViewModel extends ReactiveViewModel {
       } else {
         Fluttertoast.showToast(msg: "An error occurred");
       }
-    } on DioError catch (e) {
+    } on DioException catch (e) {
       print(e.response);
       Fluttertoast.showToast(msg: DioExceptions.fromDioError(e).message);
     }

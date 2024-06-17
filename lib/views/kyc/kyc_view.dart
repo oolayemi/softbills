@@ -6,7 +6,7 @@ import 'package:stacked/stacked.dart';
 import 'kyc_viewmodel.dart';
 
 class KycView extends StatelessWidget {
-  const KycView({Key? key}) : super(key: key);
+  const KycView({super.key});
 
   @override
   Widget build(BuildContext context) {

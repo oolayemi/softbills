@@ -316,8 +316,7 @@ class AmountTextField extends StatelessWidget {
   final Function(String)? onChanged;
   final String? Function(String?)? validator;
 
-  const AmountTextField({Key? key, this.title, this.suffixTitle, this.validator, this.controller, this.enabled = true, this.onChanged})
-      : super(key: key);
+  const AmountTextField({super.key, this.title, this.suffixTitle, this.validator, this.controller, this.enabled = true, this.onChanged});
 
   @override
   Widget build(BuildContext context) {
@@ -392,7 +391,7 @@ class BuildTextField extends StatelessWidget {
   final String? Function(String?)? validator;
 
   const BuildTextField(
-      {Key? key,
+      {super.key,
       required this.title,
       this.initialValue,
       this.onChanged,
@@ -407,8 +406,7 @@ class BuildTextField extends StatelessWidget {
       this.hintText,
       this.maxLength,
       this.suffixTitle,
-      this.validator})
-      : super(key: key);
+      this.validator});
 
   @override
   Widget build(BuildContext context) {
@@ -481,7 +479,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   final bool withBackButton;
   final List<Widget>? actions;
 
-  const CustomAppBar({Key? key, this.title, this.withBackButton = true, this.actions}) : super(key: key);
+  const CustomAppBar({super.key, this.title, this.withBackButton = true, this.actions});
 
   @override
   Size get preferredSize => const Size.fromHeight(kToolbarHeight + 2);
@@ -503,22 +501,6 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
       centerTitle: true,
       actions: actions,
     );
-    return AppBar(
-      elevation: 0,
-      centerTitle: true,
-      backgroundColor: BrandColors.primary,
-      leading: withBackButton
-          ? IconButton(
-              onPressed: () => Navigator.pop(context),
-              icon: const Icon(
-                Icons.arrow_circle_left_outlined,
-                size: 32,
-              ),
-            )
-          : null,
-      actions: actions,
-      title: title != null ? Text(title!) : const SizedBox(),
-    );
   }
 }
 
@@ -530,13 +512,13 @@ class CustomScaffoldWidget extends StatelessWidget {
   final Color? bgColor;
 
   const CustomScaffoldWidget({
-    Key? key,
+    super.key,
     this.appBar,
     required this.body,
     this.padding = 24.0,
     this.bottomNavBar,
     this.bgColor,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -561,7 +543,7 @@ class CustomScaffoldWidget extends StatelessWidget {
 class RecentTransactionSection extends StatelessWidget {
   final List<DataResponse>? transactionList;
 
-  const RecentTransactionSection({Key? key, this.transactionList}) : super(key: key);
+  const RecentTransactionSection({super.key, this.transactionList});
 
   @override
   Widget build(BuildContext context) {
@@ -635,7 +617,7 @@ class RecentTransactionSection extends StatelessWidget {
 }
 
 class ExchangeTextField extends StatelessWidget {
-  const ExchangeTextField({Key? key}) : super(key: key);
+  const ExchangeTextField({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -712,14 +694,14 @@ class BuildDropDown extends StatelessWidget {
   final Function(String?)? onChanged;
 
   const BuildDropDown({
-    Key? key,
+    super.key,
     this.value,
     required this.list,
     this.onChanged,
     required this.title,
     this.iconUrl,
     this.bottomSpacing = 20,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -781,13 +763,13 @@ class BuildBillerDropDown extends StatelessWidget {
   final Function(DataBillers?)? onChanged;
 
   const BuildBillerDropDown({
-    Key? key,
+    super.key,
     this.value,
     required this.list,
     this.onChanged,
     required this.title,
     this.bottomSpacing = 20,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -856,13 +838,13 @@ class BuildAirtimeBillerDropDown extends StatelessWidget {
   final Function(AirtimeBillers?)? onChanged;
 
   const BuildAirtimeBillerDropDown({
-    Key? key,
+    super.key,
     this.value,
     required this.list,
     this.onChanged,
     required this.title,
     this.bottomSpacing = 20,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -931,7 +913,7 @@ class EachLink extends StatelessWidget {
   final String title;
   final dynamic onTap;
 
-  const EachLink({Key? key, required this.icon, required this.title, this.onTap}) : super(key: key);
+  const EachLink({super.key, required this.icon, required this.title, this.onTap});
 
   @override
   Widget build(BuildContext context) {
@@ -965,7 +947,7 @@ class EachRoundLink extends StatelessWidget {
   final String title;
   final dynamic onTap;
 
-  const EachRoundLink({Key? key, required this.icon, required this.title, this.onTap}) : super(key: key);
+  const EachRoundLink({super.key, required this.icon, required this.title, this.onTap});
 
   @override
   Widget build(BuildContext context) {
@@ -1005,7 +987,7 @@ class RoundedButton extends StatelessWidget {
   final Function()? onPressed;
   final Color? bgColor;
 
-  const RoundedButton({Key? key, required this.title, this.onPressed, this.bgColor}) : super(key: key);
+  const RoundedButton({super.key, required this.title, this.onPressed, this.bgColor});
 
   @override
   Widget build(BuildContext context) {
@@ -1029,7 +1011,7 @@ class TabButton extends StatelessWidget {
   final double? width;
   final double? height;
 
-  const TabButton({Key? key, required this.selectedPage, required this.pageNumber, this.width, this.height}) : super(key: key);
+  const TabButton({super.key, required this.selectedPage, required this.pageNumber, this.width, this.height});
 
   @override
   Widget build(BuildContext context) {

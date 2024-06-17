@@ -104,7 +104,7 @@ class ElectricityViewModel extends ReactiveViewModel {
         flusher(json['message'] ?? 'Error Fetching data', context,
             color: Colors.red);
       }
-    } on DioError catch (e) {
+    } on DioException catch (e) {
       print(e.response);
       flusher(DioExceptions.fromDioError(e).toString(), context,
           color: Colors.red);
@@ -153,7 +153,7 @@ class ElectricityViewModel extends ReactiveViewModel {
         flusher(json['message'] ?? 'Error Fetching data', context,
             color: Colors.red);
       }
-    } on DioError catch (e) {
+    } on DioException catch (e) {
       setLoading(false);
       resetName();
       _dialogService.completeDialog(DialogResponse());
@@ -193,7 +193,7 @@ class ElectricityViewModel extends ReactiveViewModel {
           print(json);
           flusher(json['message'] ?? 'Error Fetching data', context, color: Colors.red);
         }
-    } on DioError catch (e) {
+    } on DioException catch (e) {
       _dialogService.completeDialog(DialogResponse());
       flusher(DioExceptions.fromDioError(e).toString(), context,
           color: Colors.red);

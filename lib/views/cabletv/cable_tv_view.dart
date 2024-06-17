@@ -11,7 +11,7 @@ import '../../core/models/cable_tv_data.dart';
 import '../../core/utils/size_config.dart';
 
 class CableTvView extends StatelessWidget {
-  const CableTvView({Key? key}) : super(key: key);
+  const CableTvView({super.key});
 
   @override
   Widget build(BuildContext context) {

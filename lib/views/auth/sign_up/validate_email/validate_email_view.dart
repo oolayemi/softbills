@@ -5,7 +5,7 @@ import 'package:stacked/stacked.dart';
 import 'validate_email_viewmodel.dart';
 
 class ValidateEmailView extends StatelessWidget {
-  const ValidateEmailView({Key? key}) : super(key: key);
+  const ValidateEmailView({super.key});
 
   @override
   Widget build(BuildContext context) {

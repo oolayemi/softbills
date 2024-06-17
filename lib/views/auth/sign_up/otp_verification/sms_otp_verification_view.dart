@@ -11,7 +11,7 @@ import 'otp_verification_viewmodel.dart';
 class SmsOtpVerificationView extends StatelessWidget {
   final String phone;
 
-  const SmsOtpVerificationView({Key? key, required this.phone}) : super(key: key);
+  const SmsOtpVerificationView({super.key, required this.phone});
 
   @override
   Widget build(BuildContext context) {
@@ -73,7 +73,7 @@ class SmsOtpVerificationView extends StatelessWidget {
                 defaultPinTheme: PinTheme(
                   width: 60,
                   height: 60,
-                  textStyle: const TextStyle(fontSize: 28, fontWeight: FontWeight.w600, color: Colors.white),
+                  textStyle: const TextStyle(fontSize: 28, fontWeight: FontWeight.w600, color: Colors.black),
                   decoration: BoxDecoration(
                     border: Border.all(width: .5),
                     borderRadius: BorderRadius.circular(10),

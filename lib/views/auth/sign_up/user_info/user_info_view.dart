@@ -9,7 +9,7 @@ import 'user_info_viewmodel.dart';
 class UserInfoView extends StatelessWidget {
   final Map<String, dynamic> details;
 
-  const UserInfoView({Key? key, required this.details}) : super(key: key);
+  const UserInfoView({super.key, required this.details});
 
   @override
   Widget build(BuildContext context) {

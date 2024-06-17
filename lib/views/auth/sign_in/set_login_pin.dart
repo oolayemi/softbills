@@ -7,7 +7,7 @@ import 'package:stacked/stacked.dart';
 import 'sign_in_viewmodel.dart';
 
 class SetLoginPinView extends StatelessWidget {
-  const SetLoginPinView({Key? key}) : super(key: key);
+  const SetLoginPinView({super.key});
 
   @override
   Widget build(BuildContext context) {

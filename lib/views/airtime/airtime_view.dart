@@ -9,7 +9,7 @@ import '../../core/models/airtime_beneficiaries.dart';
 import 'airtime_viewmodel.dart';
 
 class AirtimeView extends StatelessWidget {
-  const AirtimeView({Key? key}) : super(key: key);
+  const AirtimeView({super.key});
 
   @override
   Widget build(BuildContext context) {
