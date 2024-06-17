@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:crypto/crypto.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 import 'package:intl/intl.dart';
 import 'package:no_name/core/models/airtime_billers.dart';
@@ -19,6 +20,10 @@ import '../core/utils/size_config.dart';
 import '../styles/brand_color.dart';
 import 'bottom_pad.dart';
 import 'transaction_history.dart';
+
+toast(String message, {Color? color, int seconds = 1}) {
+  Fluttertoast.showToast(msg: message, backgroundColor: color, timeInSecForIosWeb: seconds);
+}
 
 flusher(String? message, BuildContext context, {int sec = 3, Color? color, String? title}) {
   return Flushbar(
@@ -499,7 +504,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
             )
           : null,
       centerTitle: true,
-      actions: actions,
+      actions: [...?actions, const SizedBox(width: 10)],
     );
   }
 }

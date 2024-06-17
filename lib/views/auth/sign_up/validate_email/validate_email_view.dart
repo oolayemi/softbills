@@ -59,7 +59,7 @@ class ValidateEmailView extends StatelessWidget {
                       title: "Send Code",
                       onPressed: () {
                         if (model.formKey.currentState!.validate()) {
-                          model.gotoEmailOtpView();
+                          model.validateEmail(context);
                         }
                       },
                     ),

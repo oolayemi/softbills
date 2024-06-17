@@ -10,13 +10,13 @@ class DioExceptions implements Exception {
       case DioExceptionType.connectionTimeout:
         message = "Connection timeout with API server";
         break;
-      case DioExceptionType.badResponse:
+      case DioExceptionType.unknown:
         message = "Connection failed due to internet connection";
         break;
       case DioExceptionType.receiveTimeout:
         message = "Receive timeout in connection with API server";
         break;
-      case DioExceptionType.unknown:
+      case DioExceptionType.badResponse:
         message = _handleError(dioError.response!.statusCode!, dioError.response!.data);
         break;
       case DioExceptionType.sendTimeout:
