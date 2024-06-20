@@ -31,6 +31,14 @@ class SignInViewModel extends ReactiveViewModel {
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
 
+  bool obscurePassword = true;
+  bool isPasswordValid = false;
+
+  void toggleObscurePassword() {
+    obscurePassword = !obscurePassword;
+    notifyListeners();
+  }
+
   bool get canUseBiometrics => _authService.isBiometricsAvailable;
 
   Future<void> setup() async {
@@ -42,7 +50,7 @@ class SignInViewModel extends ReactiveViewModel {
     LoaderDialog.showLoadingDialog(context, message: "Signing in");
     String hashedPin = sha1.convert(utf8.encode(pinController.text)).toString();
     if (_storageService.getString('loginPin') == hashedPin) {
-      await getDetails();
+      await _authService.getDetails();
       _dialogService.completeDialog(DialogResponse());
       flusher("Sign in successful", context, color: Colors.green);
     } else {
@@ -107,9 +115,8 @@ class SignInViewModel extends ReactiveViewModel {
           _storageService.addString("token", jsonData['data']['token']);
           _storageService.addString('email', emailController.text);
           _storageService.addBool('isLoggedIn', true);
-          await getDetails(gotoDashboard: false).then((value) {
-            _navigationService.clearStackAndShowView(const SetLoginPinView());
-          });
+          await _authService.getDetails();
+          _navigationService.clearStackAndShowView(const SetLoginPinView());
         } else {
           _dialogService.completeDialog(DialogResponse());
           flusher(json.decode(response.toString())['message'], context, color: Colors.red);

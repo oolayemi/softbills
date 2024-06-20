@@ -69,7 +69,7 @@ class SignUpThreeViewModel extends ReactiveViewModel {
           _storageService.addString("token", jsonData['data']['token']);
           _storageService.addString('email', details['email']);
           _storageService.addBool('isLoggedIn', true);
-          await getDetails();
+          await _authService.getDetails();
 
         } else {
           _dialogService.completeDialog(DialogResponse());

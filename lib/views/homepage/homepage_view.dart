@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:no_name/core/utils/tools.dart';
 import 'package:no_name/views/homepage/homepage_viewmodel.dart';
 import 'package:no_name/views/profile/profile_view.dart';
 import 'package:no_name/views/transactions/transaction_view.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
-
 
 class HomePageView extends StatelessWidget {
   const HomePageView({super.key});
@@ -69,11 +69,13 @@ class HomePageView extends StatelessWidget {
                                           ),
                                         );
                                       },
-                                      child: const Padding(
-                                        padding: EdgeInsets.only(left: 15.0, top: 10),
+                                      child: Padding(
+                                        padding: const EdgeInsets.only(left: 15.0, top: 10),
                                         child: CircleAvatar(
                                           radius: 30,
-                                          backgroundImage: AssetImage('assets/images/image 128.png'),
+                                          backgroundImage: model.profileData?.imageUrl == null
+                                              ? const AssetImage('assets/images/image 128.png')
+                                              : NetworkImage(model.profileData!.imageUrl!) as ImageProvider,
                                         ),
                                       ),
                                     ),
@@ -93,9 +95,9 @@ class HomePageView extends StatelessWidget {
                                 ),
                               ),
                               const SizedBox(width: 10),
-                              const Text(
-                                'Hi, Yusuf',
-                                style: TextStyle(
+                              Text(
+                                'Hi, ${model.profileData?.firstname ?? "N/A"}',
+                                style: const TextStyle(
                                   fontSize: 20,
                                   fontWeight: FontWeight.w700,
                                 ),
@@ -187,11 +189,12 @@ class HomePageView extends StatelessWidget {
                                           ),
                                         ],
                                       ),
-                                      const Padding(
-                                        padding: EdgeInsets.only(top: 0),
+                                      Padding(
+                                        padding: const EdgeInsets.only(top: 0),
                                         child: Text(
-                                          '\u20A6250,000,000',
-                                          style: TextStyle(
+                                          formatMoney(model.wallet?.balance ?? 0),
+                                          // '\u20A6${formatMoney(model.wallet?.balance ?? 0)}',
+                                          style: const TextStyle(
                                             fontSize: 25,
                                             color: Colors.white,
                                             fontWeight: FontWeight.w700,
@@ -212,9 +215,9 @@ class HomePageView extends StatelessWidget {
                                               child: Row(
                                                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                                 children: [
-                                                  const Text(
-                                                    '0156275348',
-                                                    style: TextStyle(
+                                                  Text(
+                                                    model.wallet?.number ?? "N/A",
+                                                    style: const TextStyle(
                                                       color: Colors.white,
                                                       fontSize: 16,
                                                       fontWeight: FontWeight.w600,

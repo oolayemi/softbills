@@ -147,8 +147,8 @@ class AuthService with ReactiveServiceMixin {
           if (responseData['status'] == 'success') {
             ProfileResponse temp = ProfileResponse.fromJson(responseData);
             _profileResponse.value = temp.data;
-            StorageService()
-                .addString('transactionPin', temp.data!.transactionPin);
+            // StorageService()
+            //     .addString('transactionPin', temp.data!.transactionPin);
             response = ApiResponse(showMessage: false, message: null);
             notifyListeners();
             return;
@@ -422,6 +422,16 @@ class AuthService with ReactiveServiceMixin {
     _storageService.removeString('email');
     _storageService.removeBool('isLoggedIn');
     _navigationService.clearStackAndShowView(const SignInView());
+  }
+
+  Future<void> getDetails() async {
+    await getProfile();
+    await getNextOfKin();
+    await getWalletDetails();
+    // await getVirtualAccounts();
+    // await getAirtimeBeneficiaries();
+    // await getDataBeneficiaries();
+    await getWalletTransactions(page: 1);
   }
 }
 

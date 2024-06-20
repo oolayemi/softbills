@@ -1,14 +1,19 @@
 import 'dart:async';
 
 import 'package:no_name/app/locator.dart';
+import 'package:no_name/core/services/auth_service.dart';
 import 'package:no_name/core/services/utility_storage_service.dart';
 import 'package:no_name/views/auth/initial_sign_up.dart';
+import 'package:no_name/views/dashboard/dashboard_view.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
 
+import '../auth/sign_in/existing_sign_in_view.dart';
+import '../auth/sign_in/sign_in_view.dart';
 
 class SplashScreenViewModel extends ReactiveViewModel {
   final NavigationService _navigationService = locator<NavigationService>();
+  final AuthService _authService = locator<AuthService>();
   final StorageService _storageService = locator<StorageService>();
 
   double opacity = 0.0;
@@ -33,15 +38,23 @@ class SplashScreenViewModel extends ReactiveViewModel {
     // Wait for 2 seconds
     await Future.delayed(const Duration(seconds: 2));
 
-    _navigationService.clearStackAndShowView(
-      // _storageService.getString('token') != null
-      //     ? _storageService.getString('loginPin') != null
-      //         ? const ExistingSignInView()
-      //         : const SignInView()
-      //     : _storageService.getBool('skippedOnboarding') == null || _storageService.getBool('skippedOnboarding') == false
-               const InitialSignUpView()
-              // : const SignInView(),
-    );
+    // locator<StorageService>().addBool('skippedOnboarding', false);
+
+    if (_storageService.getString('token') != null) {
+      await _authService.getDetails();
+      _navigationService.clearStackAndShowView(const DashboardView());
+    } else {
+      _navigationService.clearStackAndShowView(const InitialSignUpView());
+    }
+
+    // _navigationService.clearStackAndShowView(
+    //   _storageService.getString('token') != null
+    //       ? const DashboardView()
+    //       : _storageService.getBool('skippedOnboarding') == null ||
+    //               _storageService.getBool('skippedOnboarding') == false
+    //           ? const InitialSignUpView()
+    //           : const SignInView(),
+    // );
   }
 
   @override

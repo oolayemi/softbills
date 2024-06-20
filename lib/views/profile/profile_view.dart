@@ -14,19 +14,8 @@ class ProfileView extends StatelessWidget {
         // onModelReady: (model) => model.setUp(),
         builder: (context, model, child) {
           return CustomScaffoldWidget(
-            appBar: AppBar(
-              title: const Text(
-                'Profile',
-                style: TextStyle(fontWeight: FontWeight.w600, fontSize: 19),
-              ),
-              leading: GestureDetector(
-                onTap: Navigator.of(context).pop,
-                child: Padding(
-                  padding: const EdgeInsets.only(left: 17.0),
-                  child: Image.asset('assets/images/Group 7768.png'),
-                ),
-              ),
-              centerTitle: true,
+            appBar: const CustomAppBar(
+              title: "Profile",
             ),
             body: SingleChildScrollView(
               child: Column(
@@ -34,22 +23,24 @@ class ProfileView extends StatelessWidget {
                   Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      const Padding(
-                        padding: EdgeInsets.only(top: 15.0),
+                      Padding(
+                        padding: const EdgeInsets.only(top: 15.0),
                         child: Center(
                           child: CircleAvatar(
                             radius: 50,
-                            backgroundImage: AssetImage('assets/images/image 128.png'),
+                            backgroundImage: model.profileData?.imageUrl == null
+                                ? const AssetImage('assets/images/image 128.png')
+                                : NetworkImage(model.profileData!.imageUrl!) as ImageProvider,
                           ),
                         ),
                       ),
                       const SizedBox(
                         height: 10,
                       ),
-                      const Center(
+                      Center(
                           child: Text(
-                        'Yusuf',
-                        style: TextStyle(fontWeight: FontWeight.w700, fontSize: 30, color: Color(0xFF0991CC)),
+                        model.profileData?.firstname ?? "N/A",
+                        style: const TextStyle(fontWeight: FontWeight.w700, fontSize: 22, color: Color(0xFF0991CC)),
                       )),
                       const SizedBox(
                         height: 5,
@@ -61,9 +52,9 @@ class ProfileView extends StatelessWidget {
                           const SizedBox(
                             width: 10,
                           ),
-                          const Text(
-                            'Tier 1',
-                            style: TextStyle(fontSize: 20, fontWeight: FontWeight.w700),
+                          Text(
+                            'Tier ${model.profileData?.tier ?? "0"}',
+                            style: const TextStyle(fontSize: 20, fontWeight: FontWeight.w700),
                           )
                         ],
                       ),
@@ -108,44 +99,49 @@ class ProfileView extends StatelessWidget {
                         ),
                       ),
                       const SizedBox(height: 20),
-                      const Column(
+                      Column(
                         children: [
                           Row(
                             children: [
                               Expanded(
                                   child: BuildTextField(
                                 title: "First name",
-                                hintText: "Yusuf",
+                                hintText: "firstname",
+                                initialValue: model.profileData?.firstname,
                               )),
-                              SizedBox(width: 12),
+                              const SizedBox(width: 12),
                               Expanded(
                                   child: BuildTextField(
                                 title: "Last name",
-                                hintText: "Lawal",
+                                hintText: "lastname",
+                                initialValue: model.profileData?.lastname,
                               )),
                             ],
                           ),
-                          SizedBox(
-                            height: 10,
-                          ),
                           BuildTextField(
                             title: "Email",
-                            hintText: "badmusyusuf007@gmail.com",
-                          ),
-                          SizedBox(
-                            height: 10,
+                            hintText: "email",
+                            initialValue: model.profileData?.email,
                           ),
                           BuildTextField(
                             title: "Mobile Number",
-                            hintText: "+23481275183206",
+                            hintText: "mobile number",
+                            initialValue: model.profileData?.phone,
                           ),
-                          SizedBox(
+                          const SizedBox(
                             height: 10,
                           ),
                         ],
                       ),
                       const SizedBox(
                         height: 30,
+                      ),
+                      SizedBox(
+                        width: double.infinity,
+                        child: RoundedButton(
+                          title: "Update profile",
+                          onPressed: () {},
+                        ),
                       )
                     ],
                   )

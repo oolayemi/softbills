@@ -44,10 +44,8 @@ class SignInView extends StatelessWidget {
                   ),
                   BuildTextField(
                     title: "Email",
-                    hintText: "olayemi@gmail.com",
+                    hintText: "test@sample.com",
                     controller: model.emailController,
-                    obscure: false,
-                    //onChanged: model.setPassword,
                     validator: (String? value) => value!.isEmpty ? "Email field cannot be empty" : null,
                   ),
                   const SizedBox(
@@ -57,7 +55,14 @@ class SignInView extends StatelessWidget {
                     title: "Password",
                     hintText: "************",
                     controller: model.passwordController,
-                    obscure: true,
+                    obscure: model.obscurePassword,
+                    isLast: true,
+                    suffixIcon: InkWell(
+                      onTap: () => model.toggleObscurePassword(),
+                      child: Icon(model.obscurePassword
+                          ? Icons.visibility
+                          : Icons.visibility_off),
+                    ),
                     validator: (String? value) => value!.isEmpty ? "Password field cannot be empty" : null,
                   ),
                   const SizedBox(height: 10),
@@ -66,10 +71,9 @@ class SignInView extends StatelessWidget {
                     child: RoundedButton(
                         title: "Sign In",
                         onPressed: () {
-                          NavigationService().navigateToView(const DashboardView());
-                          // if (model.formKey.currentState!.validate()) {
-                          //   model.signIn(context);
-                          // }
+                          if (model.formKey.currentState!.validate()) {
+                            NavigationService().navigateToView(const DashboardView());
+                          }
                         }),
                   ),
                   const SizedBox(

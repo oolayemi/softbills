@@ -77,7 +77,7 @@ class UserInfoDobView extends StatelessWidget {
                       title: "Create account",
                       onPressed: () {
                         if (model.formKey.currentState!.validate()) {
-                          model.createAccount();
+                          model.signUp(context);
                         }
                       },
                     ),

@@ -30,6 +30,8 @@ class CreatePasswordViewModel extends ReactiveViewModel {
   }
 
   void gotoVerificationCompleteView() {
+    details!['password'] = passwordController.text;
+    _navigationService.back();
     _navigationService.navigateToView(VerificationComplete(
       title: "Password created",
       description: "Your password has been created",
