@@ -27,59 +27,64 @@ class UserInfoDobView extends StatelessWidget {
                 ),
               ),
             ),
-            body: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const Text(
-                  "What is your date of birth?",
-                  textAlign: TextAlign.left,
-                  style: TextStyle(
-                    fontSize: 28,
-                    fontWeight: FontWeight.w700,
+            body: Form(
+              key: model.formKey,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const Text(
+                    "What is your date of birth?",
+                    textAlign: TextAlign.left,
+                    style: TextStyle(
+                      fontSize: 28,
+                      fontWeight: FontWeight.w700,
+                    ),
                   ),
-                ),
-                const SizedBox(
-                  height: 15,
-                ),
-                const Text(
-                  "We need your DOB to verify your account",
-                  textAlign: TextAlign.left,
-                  style: TextStyle(
-                    fontSize: 13,
-                    fontWeight: FontWeight.w400,
-                    color: Color(0xFF333333),
+                  const SizedBox(
+                    height: 15,
                   ),
-                ),
-                const SizedBox(
-                  height: 20,
-                ),
-                const BuildTextField(
-                  title: "Date of birth",
-                  hintText: "MM/DD/YYYY",
-                ),
-                const SizedBox(
-                  height: 13,
-                ),
-                const Expanded(child: SizedBox()),
-                SizedBox(
-                  width: double.infinity,
-                  child: RoundedButton(
-                    title: "Create account",
-                    onPressed: () {
-                      NavigationService().navigateToView(
-                        VerificationComplete(
-                          title: "All done!",
-                          description: "Your account has been created. You're now ready to explore and enjoy all the features and benefits we have to offer.",
-                          buttonText: "Start exploring App",
-                          imageUrl: "assets/images/Design 1.png",
-                          onTap: (){},
-                        ),
-                      );
+                  const Text(
+                    "We need your DOB to verify your account",
+                    textAlign: TextAlign.left,
+                    style: TextStyle(
+                      fontSize: 13,
+                      fontWeight: FontWeight.w400,
+                      color: Color(0xFF333333),
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  InkWell(
+                    onTap: () {
+                      model.chooseDate(context);
                     },
+                    child: BuildTextField(
+                      title: "Date of birth",
+                      hintText: "MM/DD/YYYY",
+                      enabled: false,
+                      controller: model.datetimeController,
+                      validator: (value) => value!.isEmpty ? "Date of birth field cannot be empty" : null,
+                    ),
                   ),
-                ),
-                const SizedBox(height: 10)
-              ],
+                  const SizedBox(
+                    height: 13,
+                  ),
+                  const Expanded(child: SizedBox()),
+                  SizedBox(
+                    width: double.infinity,
+                    child: RoundedButton(
+                      title: "Create account",
+                      onPressed: () {
+                        if (model.formKey.currentState!.validate()) {
+                          model.createAccount();
+                        }
+                      },
+                    ),
+                  ),
+                  const SizedBox(height: 10)
+                ],
+              ),
             ),
           );
         });

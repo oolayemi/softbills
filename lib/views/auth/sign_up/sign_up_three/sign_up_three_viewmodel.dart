@@ -44,7 +44,7 @@ class SignUpThreeViewModel extends ReactiveViewModel {
     await _authService.getDataBeneficiaries();
     await _authService.getWalletTransactions(page: 1);
     //save pin, then otp verification
-    _navigationService.clearStackAndShowView(SmsOtpVerificationView(phone: details['phone']));
+    _navigationService.clearStackAndShowView(SmsOtpVerificationView(phone: details['phone'], details: details));
   }
 
   Future<void> signUp(context) async {

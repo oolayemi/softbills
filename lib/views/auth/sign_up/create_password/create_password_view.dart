@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_pw_validator/flutter_pw_validator.dart';
 import 'package:no_name/widgets/utility_widgets.dart';
 import 'package:stacked/stacked.dart';
 
@@ -6,12 +7,15 @@ import 'create_password_viewmodel.dart';
 
 class CreatePasswordView extends StatelessWidget {
   final String from;
-  const CreatePasswordView({super.key, this.from = "new"});
+  final Map<String, dynamic>? details;
+
+  const CreatePasswordView({super.key, this.from = "new", this.details});
 
   @override
   Widget build(BuildContext context) {
     return ViewModelBuilder<CreatePasswordViewModel>.reactive(
         viewModelBuilder: () => CreatePasswordViewModel(),
+        onViewModelReady: (model) => model.setUp(from, details),
         builder: (context, model, child) {
           return CustomScaffoldWidget(
             appBar: AppBar(
@@ -42,17 +46,35 @@ class CreatePasswordView extends StatelessWidget {
                   BuildTextField(
                     title: "Choose a password",
                     hintText: "password",
-                    controller: model.passwordController,
-                    validator: (String? value) => value!.isEmpty ? "Please fill in the password field" : null,
-                  ),
-                  const Text(
-                    "At least 8 characters, containing a letter, a number and special character",
-                    style: TextStyle(
-                      fontSize: 14,
-                      fontWeight: FontWeight.w400,
-                      color: Color(0xFF333333),
+                    obscure: model.obscurePassword,
+                    isLast: true,
+                    suffixIcon: InkWell(
+                      onTap: () => model.toggleObscurePassword(),
+                      child: Icon(model.obscurePassword ? Icons.visibility : Icons.visibility_off),
                     ),
+                    validator: (String? value) => value!.isEmpty
+                        ? "Password field cannot be empty"
+                        : !model.isPasswordValid
+                            ? "The password doesn't match the condition"
+                            : null,
+                    controller: model.passwordController,
                   ),
+                  FlutterPwValidator(
+                      controller: model.passwordController,
+                      minLength: 8,
+                      specialCharCount: 1,
+                      uppercaseCharCount: 1,
+                      numericCharCount: 1,
+                      width: 400,
+                      height: 150,
+                      onSuccess: () {
+                        model.isPasswordValid = true;
+                        model.notifyListeners();
+                      },
+                      onFail: () {
+                        model.isPasswordValid = false;
+                        model.notifyListeners();
+                      }),
                   const Expanded(child: SizedBox()),
                   SizedBox(
                     width: double.infinity,

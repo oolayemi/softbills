@@ -74,7 +74,8 @@ class ValidatePhoneView extends StatelessWidget {
                         onInputChanged: (PhoneNumber number) {
                           model.setPhoneNumber(number.phoneNumber!);
                         },
-                        selectorConfig: const SelectorConfig(selectorType: PhoneInputSelectorType.DIALOG, trailingSpace: false),
+                        selectorConfig:
+                            const SelectorConfig(selectorType: PhoneInputSelectorType.DIALOG, trailingSpace: false),
                         ignoreBlank: false,
                         countries: const ['NG'],
                         autoValidateMode: AutovalidateMode.disabled,
@@ -122,9 +123,11 @@ class ValidatePhoneView extends StatelessWidget {
                               children: [
                                 TextSpan(
                                   text: ' Sign in',
-                                  style: const TextStyle(color: Colors.blue, fontSize: 16, fontWeight: FontWeight.w700
-                                      //   decoration: TextDecoration.underline,
-                                      ),
+                                  style: const TextStyle(
+                                    color: Colors.blue,
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w700,
+                                  ),
                                   recognizer: TapGestureRecognizer()
                                     ..onTap = () {
                                       Navigator.pushReplacement(
@@ -150,7 +153,7 @@ class ValidatePhoneView extends StatelessWidget {
                       title: "Send Code",
                       onPressed: () {
                         if (model.formKey.currentState!.validate()) {
-                            model.validatePhone(context);
+                          model.validatePhone(context);
                         }
                       },
                     ),

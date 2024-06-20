@@ -1,23 +1,28 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:no_name/views/auth/sign_up/create_password/create_password_view.dart';
 import 'package:no_name/views/auth/sign_up/otp_verification/verification_complete.dart';
 import 'package:no_name/widgets/utility_widgets.dart';
 import 'package:pinput/pinput.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
+import 'package:timer_count_down/timer_count_down.dart';
 
+import '../../../../styles/brand_color.dart';
 import 'otp_verification_viewmodel.dart';
 
 class EmailOtpVerificationView extends StatelessWidget {
   final String email;
+  final Map<String, dynamic> details;
 
-  const EmailOtpVerificationView({super.key, required this.email});
+  const EmailOtpVerificationView({super.key, required this.email, required this.details});
 
   @override
   Widget build(BuildContext context) {
     return ViewModelBuilder<OtpVerificationViewModel>.reactive(
       viewModelBuilder: () => OtpVerificationViewModel(),
-      onViewModelReady: (model) =>  model.setUp(null, email),
+      onViewModelReady: (model) => model.setUp(email, details),
       builder: (context, model, child) {
         return CustomScaffoldWidget(
           appBar: AppBar(
@@ -80,13 +85,11 @@ class EmailOtpVerificationView extends StatelessWidget {
                     height: 60,
                     textStyle: const TextStyle(fontSize: 28, fontWeight: FontWeight.w600),
                     decoration: BoxDecoration(
-
                       border: Border.all(width: .5),
                       borderRadius: BorderRadius.circular(10),
                     ),
                   ),
                 ),
-
                 const SizedBox(height: 20),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -94,15 +97,24 @@ class EmailOtpVerificationView extends StatelessWidget {
                     Row(
                       children: [
                         RichText(
-                          text: const TextSpan(
+                          text: TextSpan(
                             text: 'Didn\'t get the code? ',
-                            style: TextStyle(color: Colors.black, fontSize: 16, fontWeight: FontWeight.w700),
+                            style: const TextStyle(color: Colors.black, fontSize: 16, fontWeight: FontWeight.w700),
                             children: [
                               TextSpan(
                                 text: 'Resend it',
-                                style: TextStyle(color: Colors.blue, fontSize: 16, fontWeight: FontWeight.w700
-                                    //   decoration: TextDecoration.underline,
-                                    ),
+                                style: const TextStyle(
+                                  color: Colors.blue,
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w700,
+                                ),
+                                recognizer: TapGestureRecognizer()..onTap = () {
+                                  if (!model.isResendCodeEnable) {
+                                    toast("Please retry when the countdown is done", color: Colors.red);
+                                  } else {
+                                    // resend otp
+                                  }
+                                },
                               ),
                             ],
                           ),
@@ -122,10 +134,18 @@ class EmailOtpVerificationView extends StatelessWidget {
                         const SizedBox(
                           width: 5,
                         ),
-                        const Text(
-                          '45s',
-                          style: TextStyle(fontSize: 13, fontWeight: FontWeight.w700),
-                        )
+                        Countdown(
+                          seconds: 60,
+                          build: (BuildContext context, double time) => Text(
+                            "${time.toInt()}s",
+                            style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w700),
+                          ),
+                          interval: const Duration(seconds: 1),
+                          controller: model.countdownController,
+                          onFinished: () {
+                            model.enableResendCode(true);
+                          },
+                        ),
                       ],
                     )
                   ],

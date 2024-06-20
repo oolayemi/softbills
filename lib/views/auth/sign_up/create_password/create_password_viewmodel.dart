@@ -10,12 +10,23 @@ class CreatePasswordViewModel extends ReactiveViewModel {
   final NavigationService _navigationService = locator<NavigationService>();
 
   TextEditingController passwordController = TextEditingController();
+  bool obscurePassword = true;
+  bool isPasswordValid = false;
+
+  void toggleObscurePassword() {
+    obscurePassword = !obscurePassword;
+    notifyListeners();
+  }
 
   final formKey = GlobalKey<FormState>();
   String? from;
+  Map<String, dynamic>? details;
 
-  void setUp(String from) {
+  void setUp(String from, Map<String, dynamic>? details) {
     this.from = from;
+    this.details = details;
+
+    print(details);
   }
 
   void gotoVerificationCompleteView() {
@@ -24,8 +35,8 @@ class CreatePasswordViewModel extends ReactiveViewModel {
       description: "Your password has been created",
       buttonText: from == "reset" ? "Back to Login" : null,
       onTap: () => NavigationService().navigateToView(
-        from == "reset"
-            ? const UserInfoView(details: {})
+        from == "new"
+            ? UserInfoView(details: details ?? {})
             : const SignInView()),
     ));
   }

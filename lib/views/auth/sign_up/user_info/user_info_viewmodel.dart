@@ -4,15 +4,16 @@ import 'package:stacked_services/stacked_services.dart';
 
 import '../../../../app/locator.dart';
 import '../sign_up_three/sign_up_three_view.dart';
+import '../user_info_dob/user_info_dob_view.dart';
 
 class UserInfoViewModel extends ReactiveViewModel {
   final NavigationService _navigationService = locator<NavigationService>();
-  TextEditingController passwordController = TextEditingController();
-  bool obscurePassword = true;
-  bool isPasswordValid = false;
+  TextEditingController firstNameController = TextEditingController();
+  TextEditingController lastNameController = TextEditingController();
+  String? gender;
 
-  void toggleObscurePassword() {
-    obscurePassword = !obscurePassword;
+  setGender(value) {
+    gender = value;
     notifyListeners();
   }
 
@@ -25,6 +26,7 @@ class UserInfoViewModel extends ReactiveViewModel {
 
   void setDetails(Map<String, dynamic> detail) {
     details = detail;
+    print(details);
     notifyListeners();
   }
 
@@ -32,11 +34,11 @@ class UserInfoViewModel extends ReactiveViewModel {
     details['password'] = password;
   }
 
-  void gotoSignUpThree() {
-    _navigationService.navigateToView(SignUpThreeView(details: details));
-  }
+  void goToDobPage() {
+    details['firstname'] = firstNameController.text;
+    details['lastname'] = lastNameController.text;
+    details['gender'] = gender;
 
-  @override
-  // TODO: implement reactiveServices
-  List<ReactiveServiceMixin> get reactiveServices => [];
+    _navigationService.navigateToView(UserInfoDobView(details: details));
+  }
 }

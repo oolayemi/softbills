@@ -1,11 +1,11 @@
 import 'dart:convert';
 
 import 'package:dio/dio.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:no_name/app/locator.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
+import 'package:timer_count_down/timer_controller.dart';
 
 import '../../../../core/constants/loading_dialog.dart';
 import '../../../../core/exceptions/error_handling.dart';
@@ -20,12 +20,23 @@ class OtpVerificationViewModel extends ReactiveViewModel {
   final NavigationService _navigationService = locator<NavigationService>();
 
   final TextEditingController otpController = TextEditingController();
-  late String? phone;
-  late String? email;
+  late String? value;
+  Map<String, dynamic> details = {};
+  bool isResendCodeEnable = false;
 
-  void setUp(String? phone, String? email){
-    this.phone = phone;
-    this.email = email;
+  late CountdownController countdownController;
+
+  void setUp(String? value, Map<String, dynamic> details){
+    countdownController = CountdownController(autoStart: true);
+    this.value = value;
+    this.details = details;
+
+    print(details);
+  }
+
+  void enableResendCode(bool value) {
+    isResendCodeEnable = value;
+    notifyListeners();
   }
 
   var formKey = GlobalKey<FormState>();
@@ -35,7 +46,7 @@ class OtpVerificationViewModel extends ReactiveViewModel {
 
     Map<String, dynamic> payload = {
       'otp': otpController.text,
-      'phone': phone
+      'phone': value
     };
 
     try {
@@ -49,7 +60,7 @@ class OtpVerificationViewModel extends ReactiveViewModel {
         description: "Your phone number has been verified",
         onTap: () {
           _navigationService.back();
-          _navigationService.navigateToView(const ValidateEmailView());
+          _navigationService.navigateToView(ValidateEmailView(details: details));
         },
       ));
 
@@ -65,7 +76,7 @@ class OtpVerificationViewModel extends ReactiveViewModel {
 
     Map<String, dynamic> payload = {
       'otp': otpController.text,
-      'email': email
+      'email': value
     };
 
     try {
@@ -79,7 +90,7 @@ class OtpVerificationViewModel extends ReactiveViewModel {
         description: "Your email address has been verified successfully",
         onTap: () {
           _navigationService.back();
-          NavigationService().navigateToView(const CreatePasswordView());
+          NavigationService().navigateToView(CreatePasswordView(details: details));
         },
       ));
 
@@ -88,5 +99,10 @@ class OtpVerificationViewModel extends ReactiveViewModel {
       print(e.response);
       toast(DioExceptions.fromDioError(e).toString(), color: Colors.red);
     }
+  }
+
+  void resendOtp(){
+    countdownController.restart();
+    otpController.clear();
   }
 }

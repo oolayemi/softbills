@@ -16,8 +16,13 @@ class ValidateEmailViewModel extends ReactiveViewModel {
   final NavigationService _navigationService = locator<NavigationService>();
   final DialogService _dialogService = locator<DialogService>();
   TextEditingController emailController = TextEditingController();
+  Map<String, dynamic> details = {};
 
   final formKey = GlobalKey<FormState>();
+
+  setUp(Map<String, dynamic> details){
+    this.details = details;
+  }
 
 
   Future<void> validateEmail(context) async {
@@ -31,8 +36,10 @@ class ValidateEmailViewModel extends ReactiveViewModel {
       final response = await dio().post('/auth/register/email/validate', data: payload);
       Map<String, dynamic> json = jsonDecode(response.toString());
 
+      details['email'] = emailController.text;
+
       _dialogService.completeDialog(DialogResponse());
-      _navigationService.navigateToView(EmailOtpVerificationView(email: emailController.text));
+      _navigationService.navigateToView(EmailOtpVerificationView(email: emailController.text, details: details));
 
     } on DioException catch (e) {
       _dialogService.completeDialog(DialogResponse());

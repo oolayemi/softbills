@@ -5,12 +5,14 @@ import 'package:stacked/stacked.dart';
 import 'validate_email_viewmodel.dart';
 
 class ValidateEmailView extends StatelessWidget {
-  const ValidateEmailView({super.key});
+  final Map<String, dynamic> details;
+  const ValidateEmailView({super.key, required this.details});
 
   @override
   Widget build(BuildContext context) {
     return ViewModelBuilder<ValidateEmailViewModel>.reactive(
         viewModelBuilder: () => ValidateEmailViewModel(),
+        onViewModelReady: (model) => model.setUp(details),
         builder: (context, model, child) {
           return CustomScaffoldWidget(
             appBar: AppBar(

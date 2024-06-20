@@ -80,6 +80,8 @@ dependencies:
   numeric_keyboard: ^1.1.0
   flutter_pw_validator: ^1.5.0
 
+  timer_count_down: ^2.2.1
+
   crypto: any
   google_fonts: ^6.0.0
 dev_dependencies:

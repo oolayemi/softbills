@@ -1,21 +1,24 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:no_name/widgets/utility_widgets.dart';
 import 'package:pinput/pinput.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
+import 'package:timer_count_down/timer_count_down.dart';
 
 import 'otp_verification_viewmodel.dart';
 
 class SmsOtpVerificationView extends StatelessWidget {
   final String phone;
+  final Map<String, dynamic> details;
 
-  const SmsOtpVerificationView({super.key, required this.phone});
+  const SmsOtpVerificationView({super.key, required this.phone, required this.details});
 
   @override
   Widget build(BuildContext context) {
     return ViewModelBuilder<OtpVerificationViewModel>.reactive(
       viewModelBuilder: () => OtpVerificationViewModel(),
-      onViewModelReady: (model) => model.setUp(phone, null),
+      onViewModelReady: (model) => model.setUp(phone, details),
       builder: (context, model, child) {
         return CustomScaffoldWidget(
           appBar: AppBar(
@@ -90,20 +93,24 @@ class SmsOtpVerificationView extends StatelessWidget {
                     Row(
                       children: [
                         RichText(
-                          text: const TextSpan(
+                          text: TextSpan(
                             text: 'Didn\'t get the code? ',
                             style: TextStyle(color: Colors.black, fontSize: 16, fontWeight: FontWeight.w700),
                             children: [
                               TextSpan(
                                 text: 'Resend it',
-                                style: TextStyle(color: Colors.blue, fontSize: 16, fontWeight: FontWeight.w700
-                                    //   decoration: TextDecoration.underline,
-                                    ),
-                                //                 recognizer: TapGestureRecognizer()
-                                //                   ..onTap = () {
-                                // print('Resend it clicked');
-                                // // Add any action you want to perform on tap here
-                                //                   },
+                                style: const TextStyle(
+                                  color: Colors.blue,
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w700,
+                                ),
+                                recognizer: TapGestureRecognizer()..onTap = () {
+                                  if (!model.isResendCodeEnable) {
+                                    toast("Please retry when the countdown is done", color: Colors.red);
+                                  } else {
+                                    // resend otp
+                                  }
+                                },
                               ),
                             ],
                           ),
@@ -123,10 +130,18 @@ class SmsOtpVerificationView extends StatelessWidget {
                         const SizedBox(
                           width: 5,
                         ),
-                        const Text(
-                          '45s',
-                          style: TextStyle(fontSize: 13, fontWeight: FontWeight.w700),
-                        )
+                        Countdown(
+                          seconds: 60,
+                          build: (BuildContext context, double time) => Text(
+                            "${time.toInt()}s",
+                            style: TextStyle(fontSize: 13, fontWeight: FontWeight.w700),
+                          ),
+                          interval: const Duration(seconds: 1),
+                          controller: model.countdownController,
+                          onFinished: () {
+                            model.enableResendCode(true);
+                          },
+                        ),
                       ],
                     )
                   ],

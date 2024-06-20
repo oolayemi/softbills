@@ -38,7 +38,7 @@ class ValidatePhoneViewModel extends ReactiveViewModel {
       Map<String, dynamic> json = jsonDecode(response.toString());
 
       _dialogService.completeDialog(DialogResponse());
-      _navigationService.navigateToView(SmsOtpVerificationView(phone: phone!));
+      _navigationService.navigateToView(SmsOtpVerificationView(phone: phone!, details: payload));
 
     } on DioException catch (e) {
       _dialogService.completeDialog(DialogResponse());
