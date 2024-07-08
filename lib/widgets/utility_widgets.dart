@@ -14,6 +14,7 @@ import 'package:no_name/core/utils/tools.dart';
 import 'package:pinput/pinput.dart';
 import 'package:stacked_services/stacked_services.dart';
 
+import '../core/models/bank_data.dart';
 import '../core/models/data_billers.dart';
 import '../core/models/transaction_history_data.dart';
 import '../core/utils/size_config.dart';
@@ -889,6 +890,79 @@ class BuildAirtimeBillerDropDown extends StatelessWidget {
                                       child: Image.network(e.image!, height: 20, width: 20),
                                     ),
                                     const SizedBox(width: 4),
+                                    Text(e.name!.split(' ').first),
+                                  ],
+                                ),
+                              ),
+                            )
+                            .toList(),
+                        onChanged: onChanged,
+                      ),
+                    )
+                  : const Padding(
+                      padding: EdgeInsets.symmetric(vertical: 15.0),
+                      child: Text("Loading..."),
+                    ),
+            ],
+          ),
+        ),
+        SizedBox(
+          height: bottomSpacing,
+        )
+      ],
+    );
+  }
+}
+
+class BuildBankListDropDown extends StatelessWidget {
+  final String title;
+  final Bank? value;
+  final List<Bank> list;
+  final double bottomSpacing;
+  final Function(Bank?)? onChanged;
+
+  const BuildBankListDropDown({
+    super.key,
+    this.value,
+    required this.list,
+    this.onChanged,
+    required this.title,
+    this.bottomSpacing = 20,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          title,
+          style: const TextStyle(fontWeight: FontWeight.w700, fontSize: 16),
+        ),
+        const SizedBox(
+          height: 6,
+        ),
+        Container(
+          padding: const EdgeInsets.only(right: 6, left: 6, top: 6, bottom: 6),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(10),
+            border: Border.all(color: const Color(0xFFC4C4C4), width: 1),
+          ),
+          child: Row(
+            children: [
+              list.isNotEmpty
+                  ? Expanded(
+                      child: DropdownButton<Bank>(
+                        value: value,
+                        isExpanded: true,
+                        hint: Text("Select $title"),
+                        underline: const SizedBox(),
+                        items: list
+                            .map<DropdownMenuItem<Bank>>(
+                              (e) => DropdownMenuItem(
+                                value: e,
+                                child: Row(
+                                  children: [
                                     Text(e.name!.split(' ').first),
                                   ],
                                 ),

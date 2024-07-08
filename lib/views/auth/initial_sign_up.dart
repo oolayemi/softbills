@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:no_name/app/locator.dart';
-import 'package:no_name/core/services/utility_storage_service.dart';
 import 'package:no_name/views/auth/sign_in/sign_in_view.dart';
 import 'package:no_name/views/auth/sign_up/validate_phone/validate_phone_view.dart';
 import 'package:no_name/widgets/utility_widgets.dart';
-import 'package:stacked_services/stacked_services.dart';
 
 class InitialSignUpView extends StatefulWidget {
   const InitialSignUpView({super.key});

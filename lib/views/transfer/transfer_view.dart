@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:no_name/core/models/airtime_billers.dart';
+import 'package:no_name/core/models/bank_data.dart';
 import 'package:no_name/views/auth/sign_up/otp_verification/verification_complete.dart';
 import 'package:no_name/widgets/utility_widgets.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
 
-import '../../core/models/airtime_beneficiaries.dart';
 import 'transfer_viewmodel.dart';
 
 class TransferView extends StatelessWidget {
@@ -89,12 +88,12 @@ class TransferView extends StatelessWidget {
                     ),
                   ),
                   const SizedBox(height: 10),
-                  BuildAirtimeBillerDropDown(
-                    list: model.billers.take(4).toList(),
+                  BuildBankListDropDown(
+                    list: model.banks,
                     title: "Bank Name",
-                    value: model.selectedBiller,
-                    onChanged: (AirtimeBillers? value) {
-                      model.selectedBiller = value;
+                    value: model.selectedBank,
+                    onChanged: (Bank? value) {
+                      model.selectedBank = value;
                       model.notifyListeners();
                     },
                   ),
@@ -102,60 +101,54 @@ class TransferView extends StatelessWidget {
                   BuildTextField(
                     title: "Account Number",
                     textInputType: TextInputType.number,
-                    controller: model.phoneController,
+                    controller: model.accountNumberController,
                     hintText: "Enter account number",
                     bottomSpacing: 0,
                     validator: (String? val) => val!.isEmpty ? "Account number field cannot be empty" : null,
                   ),
-                  const Align(
+                  Align(
                     alignment: Alignment.centerLeft,
-                    child: Text("Yusuf Badmus",
-                      style: TextStyle(color: Color(0xFF095F85), fontWeight: FontWeight.w700, fontSize: 16),
+                    child: Text(model.accountName ?? "",
+                      style: const TextStyle(color: Color(0xFF095F85), fontWeight: FontWeight.w700, fontSize: 16),
                     ),
                   ),
                   const SizedBox(height: 20),
                   BuildTextField(
                     title: "Purpose",
                     textInputType: TextInputType.number,
-                    controller: model.phoneController,
+                    controller: model.narrationController,
                     hintText: "Enter description here",
                     bottomSpacing: 0,
-                    validator: (String? val) => val!.isEmpty ? "Account number field cannot be empty" : null,
                   ),
                   const SizedBox(height: 30),
                   SizedBox(
                     width: double.infinity,
                     child: RoundedButton(
-                      title: "Next",
+                      title: model.verified ? "Next" : "Validate",
                       onPressed: () {
-                        pinPad(
-                            ctx: context,
-                            function: (String pin) {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => VerificationComplete(
-                                    title: "Successful",
-                                    description: "Your transfer is on its way",
-                                    onTap: () {
-                                      NavigationService().popRepeated(2);
-                                    },
-                                  ),
-                                ),
-                              );
-                            });
-                        // if (model.formKey.currentState!.validate()) {
-                        //   if (model.selectedBiller != null) {
-                        //     validateTransactionDetails({
-                        //       "Phone Number": model.phoneController.text,
-                        //       "Network": model.selectedBiller?.name,
-                        //     }, model.amountController.text, context, func: () async {
-                        //       await model.purchaseAirtime(context);
-                        //     });
-                        //   } else {
-                        //     flusher("Pls select a provider", context, color: Colors.red);
-                        //   }
-                        // }
+                        if (model.formKey.currentState!.validate()){
+                          if (model.selectedBank != null) {
+                            !model.verified ? model.validateName(context) : pinPad(
+                                ctx: context,
+                                function: (String pin) {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => VerificationComplete(
+                                        title: "Successful",
+                                        description: "Your transfer is on its way",
+                                        onTap: () {
+                                          NavigationService().popRepeated(2);
+                                        },
+                                      ),
+                                    ),
+                                  );
+                                });
+                          } else {
+                            toast("Please select a bank to continue");
+                          }
+                        }
+
                       },
                     ),
                   ),
@@ -168,39 +161,39 @@ class TransferView extends StatelessWidget {
     );
   }
 
-  Widget _eachBeneficiary(AirtimeBeneficiary airtimeBeneficiary, TransferViewModel model) {
-    checkImage() {
-      if (airtimeBeneficiary.operator == 'mtn') {
-        return 'assets/images/billers/mtn.webp';
-      } else if (airtimeBeneficiary.operator == 'glo') {
-        return 'assets/images/billers/glo.webp';
-      } else if (airtimeBeneficiary.operator == 'airtel') {
-        return 'assets/images/billers/airtel.webp';
-      } else {
-        return 'assets/images/billers/9mobile.webp';
-      }
-    }
-
-    return Row(
-      children: [
-        InkWell(
-          onTap: () => model.setBeneficiary(airtimeBeneficiary),
-          child: Column(
-            children: [
-              CircleAvatar(
-                radius: 20,
-                backgroundImage: AssetImage(checkImage()),
-              ),
-              const SizedBox(height: 10),
-              Text(
-                airtimeBeneficiary.phoneNumber!,
-                style: const TextStyle(fontSize: 9),
-              )
-            ],
-          ),
-        ),
-        const SizedBox(width: 15)
-      ],
-    );
-  }
+  // Widget _eachBeneficiary(AirtimeBeneficiary airtimeBeneficiary, TransferViewModel model) {
+  //   checkImage() {
+  //     if (airtimeBeneficiary.operator == 'mtn') {
+  //       return 'assets/images/billers/mtn.webp';
+  //     } else if (airtimeBeneficiary.operator == 'glo') {
+  //       return 'assets/images/billers/glo.webp';
+  //     } else if (airtimeBeneficiary.operator == 'airtel') {
+  //       return 'assets/images/billers/airtel.webp';
+  //     } else {
+  //       return 'assets/images/billers/9mobile.webp';
+  //     }
+  //   }
+  //
+  //   return Row(
+  //     children: [
+  //       InkWell(
+  //         onTap: () => model.setBeneficiary(airtimeBeneficiary),
+  //         child: Column(
+  //           children: [
+  //             CircleAvatar(
+  //               radius: 20,
+  //               backgroundImage: AssetImage(checkImage()),
+  //             ),
+  //             const SizedBox(height: 10),
+  //             Text(
+  //               airtimeBeneficiary.phoneNumber!,
+  //               style: const TextStyle(fontSize: 9),
+  //             )
+  //           ],
+  //         ),
+  //       ),
+  //       const SizedBox(width: 15)
+  //     ],
+  //   );
+  // }
 }

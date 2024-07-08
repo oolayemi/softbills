@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:no_name/views/auth/sign_up/otp_verification/verification_complete.dart';
 import 'package:no_name/widgets/utility_widgets.dart';
 import 'package:stacked/stacked.dart';
-import 'package:stacked_services/stacked_services.dart';
 
 import 'user_info_dob_viewmodel.dart';
 
@@ -15,7 +13,7 @@ class UserInfoDobView extends StatelessWidget {
   Widget build(BuildContext context) {
     return ViewModelBuilder<UserInfoDobViewModel>.reactive(
         viewModelBuilder: () => UserInfoDobViewModel(),
-        onModelReady: (model) => model.setUp(details),
+        onViewModelReady: (model) => model.setUp(details),
         builder: (context, model, child) {
           return CustomScaffoldWidget(
             appBar: AppBar(

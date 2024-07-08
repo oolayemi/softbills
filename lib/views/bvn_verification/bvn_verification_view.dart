@@ -10,35 +10,33 @@ class BVNVerificationView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ViewModelBuilder<BVNVerificationViewModel>.reactive(
-        onModelReady: (model) => model.setUp(),
+        onViewModelReady: (model) => model.setUp(),
         viewModelBuilder: () => BVNVerificationViewModel(),
         builder: (context, model, child) {
           return CustomScaffoldWidget(
             appBar: const CustomAppBar(
               title: "BVN Verification",
-              withBackButton: false,
             ),
             body: Stack(
               children: [
                 Form(
                   key: model.formKey,
                   child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       const Text(
-                        "",
-                        style: TextStyle(fontSize: 16),
+                        "Enter your BVN",
+                        style: TextStyle(fontSize: 25, fontWeight: FontWeight.w700),
+                      ),
+                      const Text(
+                        "Type in your BVN carefully",
+                        style: TextStyle(fontSize: 15),
                       ),
                       const SizedBox(height: 40),
                       BuildTextField(
                         title: "BVN",
                         hintText: "Enter BVN",
                         controller: model.bvnController,
-                      ),
-                      const SizedBox(height: 10),
-                      BuildTextField(
-                        title: "Phone number",
-                        hintText: "Enter your phone number",
-                        controller: model.phoneNumberController,
                       ),
                     ],
                   ),
@@ -48,7 +46,7 @@ class BVNVerificationView extends StatelessWidget {
                   right: 0,
                   left: 0,
                   child: RoundedButton(
-                    title: "Validate",
+                    title: "Confirm",
                     onPressed: () {
                       if (model.formKey.currentState!.validate()) {
                         model.verifyBvn(context);

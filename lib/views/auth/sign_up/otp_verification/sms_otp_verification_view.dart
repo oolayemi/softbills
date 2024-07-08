@@ -95,7 +95,7 @@ class SmsOtpVerificationView extends StatelessWidget {
                         RichText(
                           text: TextSpan(
                             text: 'Didn\'t get the code? ',
-                            style: TextStyle(color: Colors.black, fontSize: 16, fontWeight: FontWeight.w700),
+                            style: const TextStyle(color: Colors.black, fontSize: 16, fontWeight: FontWeight.w700),
                             children: [
                               TextSpan(
                                 text: 'Resend it',
@@ -134,7 +134,7 @@ class SmsOtpVerificationView extends StatelessWidget {
                           seconds: 60,
                           build: (BuildContext context, double time) => Text(
                             "${time.toInt()}s",
-                            style: TextStyle(fontSize: 13, fontWeight: FontWeight.w700),
+                            style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w700),
                           ),
                           interval: const Duration(seconds: 1),
                           controller: model.countdownController,

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:no_name/core/utils/tools.dart';
 import 'package:no_name/views/homepage/homepage_viewmodel.dart';
@@ -15,7 +14,7 @@ class HomePageView extends StatelessWidget {
   Widget build(BuildContext context) {
     return ViewModelBuilder<HomePageViewModel>.reactive(
         viewModelBuilder: () => HomePageViewModel(),
-        onModelReady: (model) => model.setUp(),
+        onViewModelReady: (model) => model.setUp(),
         builder: (context, model, child) {
           Widget quickLinks(String title, String imageUrl, Color bgColor, Function()? onTap) {
             return InkWell(

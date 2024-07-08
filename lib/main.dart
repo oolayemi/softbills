@@ -35,19 +35,22 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return LifeCycleManager(
-      child: MaterialApp(
-          debugShowCheckedModeBanner: false,
-          title: 'Sample',
-          onGenerateRoute: Routers().onGenerateRoute,
-          navigatorKey: locator<NavigationService>().navigatorKey,
-          theme: ThemeData(
-            primaryColor: BrandColors.primary,
-            primarySwatch: createMaterialColor(BrandColors.primary),
-            visualDensity: VisualDensity.adaptivePlatformDensity,
-            brightness: Brightness.light,
-            textTheme: GoogleFonts.montserratTextTheme()
-          ),
-          home: const SplashScreen()),
+      child: MediaQuery(
+        data: MediaQuery.of(context).copyWith(textScaler: const TextScaler.linear(1)),
+        child: MaterialApp(
+            debugShowCheckedModeBanner: false,
+            title: 'Sample',
+            onGenerateRoute: Routers().onGenerateRoute,
+            navigatorKey: locator<NavigationService>().navigatorKey,
+            theme: ThemeData(
+              primaryColor: BrandColors.primary,
+              primarySwatch: createMaterialColor(BrandColors.primary),
+              visualDensity: VisualDensity.adaptivePlatformDensity,
+              brightness: Brightness.light,
+              textTheme: GoogleFonts.montserratTextTheme()
+            ),
+            home: const SplashScreen()),
+      ),
     );
   }
 }

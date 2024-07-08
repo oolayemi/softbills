@@ -52,7 +52,7 @@ class TransactionView extends StatelessWidget {
           ),
         ],
       ),
-      body: Column(),
+      body: const Column(),
     );
   }
 }

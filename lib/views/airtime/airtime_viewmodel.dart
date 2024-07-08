@@ -190,8 +190,4 @@ class AirtimeViewModel extends ReactiveViewModel {
     selectedBiller = billers.firstWhere((element) => element.name!.toLowerCase() == airtimeBeneficiary.operator);
     notifyListeners();
   }
-
-  @override
-  // TODO: implement reactiveServices
-  List<ReactiveServiceMixin> get reactiveServices => [_authService, _transferFundsService];
 }

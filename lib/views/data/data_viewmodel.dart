@@ -222,10 +222,6 @@ class DataViewModel extends ReactiveViewModel {
     selectedBiller = billers.firstWhere((element) => element.name!.toLowerCase() == dataBeneficiary.operator);
     notifyListeners();
   }
-  
-  @override
-  // TODO: implement reactiveServices
-  List<ReactiveServiceMixin> get reactiveServices => [_authService, _transferFundsService];
 
   void setPlan(Plans val) {
     selectedPlan = val;

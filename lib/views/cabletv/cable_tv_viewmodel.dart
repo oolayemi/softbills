@@ -209,8 +209,4 @@ class CableTvViewModel extends ReactiveViewModel {
     }
   }
 
-  @override
-  // TODO: implement reactiveServices
-  List<ReactiveServiceMixin> get reactiveServices => [_authService, _transferFundsService];
-
 }

@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:no_name/views/auth/sign_up/user_info_dob/user_info_dob_view.dart';
 import 'package:no_name/widgets/utility_widgets.dart';
 import 'package:stacked/stacked.dart';
-import 'package:stacked_services/stacked_services.dart';
 
 import 'user_info_viewmodel.dart';
 

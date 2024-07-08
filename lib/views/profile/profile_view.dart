@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:no_name/views/upgrade/upgrade_view.dart';
 import 'package:no_name/widgets/utility_widgets.dart';
 import 'package:stacked/stacked.dart';
 
@@ -79,7 +80,7 @@ class ProfileView extends StatelessWidget {
                         child: Center(
                           child: ElevatedButton(
                             onPressed: () {
-                              // Navigator.push(context, MaterialPageRoute(builder: (context) => const Upgrade()));
+                              Navigator.push(context, MaterialPageRoute(builder: (context) => const UpgradeView()));
                             },
                             style: ElevatedButton.styleFrom(
                               backgroundColor: const Color(0XFFF58634),
@@ -104,11 +105,11 @@ class ProfileView extends StatelessWidget {
                           Row(
                             children: [
                               Expanded(
-                                  child: BuildTextField(
-                                title: "First name",
-                                hintText: "firstname",
-                                initialValue: model.profileData?.firstname,
-                              )),
+                                child: BuildTextField(
+                                  title: "First name",
+                                  hintText: "firstname",
+                                  initialValue: model.profileData?.firstname,
+                                )),
                               const SizedBox(width: 12),
                               Expanded(
                                   child: BuildTextField(

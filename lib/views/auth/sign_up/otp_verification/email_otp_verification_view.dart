@@ -1,15 +1,11 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
-import 'package:no_name/views/auth/sign_up/create_password/create_password_view.dart';
-import 'package:no_name/views/auth/sign_up/otp_verification/verification_complete.dart';
 import 'package:no_name/widgets/utility_widgets.dart';
 import 'package:pinput/pinput.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
 import 'package:timer_count_down/timer_count_down.dart';
 
-import '../../../../styles/brand_color.dart';
 import 'otp_verification_viewmodel.dart';
 
 class EmailOtpVerificationView extends StatelessWidget {

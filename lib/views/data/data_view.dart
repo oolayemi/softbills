@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fluttercontactpicker/fluttercontactpicker.dart';
 import 'package:no_name/styles/brand_color.dart';
 import 'package:no_name/widgets/utility_widgets.dart';
 import 'package:stacked/stacked.dart';
@@ -49,9 +50,29 @@ class DataView extends StatelessWidget {
                   controller: model.phoneController,
                   hintText: "Enter phone number",
                   validator: (String? val) => val!.isEmpty ? "Phone field cannot be empty" : null,
-                  suffixTitle: const Text(
-                    "Choose contact",
-                    style: TextStyle(color: Color(0xFF095F85), fontWeight: FontWeight.w700, fontSize: 16),
+                  suffixTitle: InkWell(
+                    onTap: () async {
+                      FocusScope.of(context).unfocus();
+                      try {
+                        final PhoneContact contact = await FlutterContactPicker.pickPhoneContact();
+                        String? phone = contact.phoneNumber?.number;
+                        if (phone != null) {
+                          String repHyphen = phone.replaceAll('-', '');
+                          String replaceCloseBracket = repHyphen.replaceAll(')', '');
+                          String replaceOpenBracket = replaceCloseBracket.replaceAll('(', '');
+                          String newPhone = replaceOpenBracket.replaceAll(' ', '');
+                          model.phoneController.text = '0${newPhone.substring(newPhone.length - 10)}';
+                          model.notifyListeners();
+                        }
+                      } on Exception catch(exception) {
+                        print(exception);
+                      }
+
+                    },
+                    child: const Text(
+                      "Choose contact",
+                      style: TextStyle(color: Color(0xFF095F85), fontWeight: FontWeight.w700, fontSize: 16),
+                    ),
                   ),
                 ),
                 // const SizedBox(height: 20),
@@ -60,22 +81,24 @@ class DataView extends StatelessWidget {
                   child: RoundedButton(
                     title: "Next",
                     onPressed: () {
-                      pinPad(
-                          ctx: context,
-                          function: (String pin) {
-                            // Navigator.push(
-                            //   context,
-                            //   MaterialPageRoute(
-                            //     builder: (context) => VerificationComplete(
-                            //       title: "Successful",
-                            //       description: "Your airtime is on its way",
-                            //       onTap: () {
-                            //         NavigationService().popRepeated(2);
-                            //       },
-                            //     ),
-                            //   ),
-                            // );
-                          });
+                      if (model.formKey.currentState!.validate()) {
+                        pinPad(
+                            ctx: context,
+                            function: (String pin) {
+                              // Navigator.push(
+                              //   context,
+                              //   MaterialPageRoute(
+                              //     builder: (context) => VerificationComplete(
+                              //       title: "Successful",
+                              //       description: "Your airtime is on its way",
+                              //       onTap: () {
+                              //         NavigationService().popRepeated(2);
+                              //       },
+                              //     ),
+                              //   ),
+                              // );
+                            });
+                      }
                       // if (model.formKey.currentState!.validate()) {
                       //   if (model.selectedBiller != null) {
                       //     validateTransactionDetails({
@@ -139,10 +162,14 @@ class DataView extends StatelessWidget {
                               child: Container(
                                 width: SizeConfig.xMargin(context, 100),
                                 padding: EdgeInsets.symmetric(
-                                    vertical: SizeConfig.yMargin(context, 2), horizontal: SizeConfig.xMargin(context, 4)),
+                                    vertical: SizeConfig.yMargin(context, 2),
+                                    horizontal: SizeConfig.xMargin(context, 4)),
                                 decoration: BoxDecoration(border: Border(bottom: BorderSide(color: Colors.grey[200]!))),
                                 child: Text('${item.name} @ ${item.variationAmount}',
-                                    style: Theme.of(context).textTheme.displaySmall!.copyWith(fontSize: SizeConfig.textSize(context, 2))),
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .displaySmall!
+                                        .copyWith(fontSize: SizeConfig.textSize(context, 2))),
                               ),
                             )
                         ],
@@ -171,17 +198,25 @@ class DataView extends StatelessWidget {
             height: 60,
             width: double.maxFinite,
             padding: const EdgeInsets.symmetric(horizontal: 10),
-            decoration: BoxDecoration(borderRadius: BorderRadius.circular(10), border: Border.all(color: Colors.grey, width: .5)),
+            decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(10), border: Border.all(color: Colors.grey, width: .5)),
             // decoration: BoxDecoration(
             //     color: const Color(0xFF605F5F).withOpacity(.1), borderRadius: BorderRadius.circular(10)),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text(model.plans != null
-                    ? model.selectedPlan != null
-                        ? '${model.selectedPlan!.name} @ ${model.selectedPlan!.variationAmount}'
-                        : "Select Plan"
-                    : "Loading..."),
+                Expanded(
+                  child: Text(
+                    model.plans != null
+                        ? model.selectedPlan != null
+                            ? '${model.selectedPlan!.name} @ ${model.selectedPlan!.variationAmount}'
+                            : "Select Plan"
+                        : "Loading...",
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ),
+                const SizedBox(width: 10),
                 const Icon(Icons.keyboard_arrow_down_rounded)
               ],
             ),

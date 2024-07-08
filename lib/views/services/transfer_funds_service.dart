@@ -14,9 +14,9 @@ import '../../core/models/jamb_data.dart';
 import '../../core/models/plan_list.dart';
 import '../../core/models/waec_data.dart';
 
-class TransferFundsService with ReactiveServiceMixin {
-  List<Banks>? _banks = [];
-  List<Banks>? get banks => _banks;
+class TransferFundsService with ListenableServiceMixin {
+  List<Bank>? _banks = [];
+  List<Bank>? get banks => _banks;
 
   List<AirTimeDataModel> _airtimePlan = [];
   List<AirTimeDataModel> get airtimePlan => _airtimePlan;
@@ -57,10 +57,6 @@ class TransferFundsService with ReactiveServiceMixin {
   List<PlanData>? _planBillers = [];
   List<PlanData>? get planBillers => _planBillers;
 
-  List<Banks>? _bankData = [];
-  List<Banks>? get bankData => _bankData;
-
-
   String? url;
 
   TransferFundsService() {
@@ -68,7 +64,7 @@ class TransferFundsService with ReactiveServiceMixin {
       _electricityBillers, url, _dataBillers, _airtimeBillers, _packages, _bettingList, _planBillers]);
   }
 
-  void setBanks(List<Banks>? data) {
+  void setBanks(List<Bank>? data) {
     _banks = data;
   }
 
@@ -128,8 +124,8 @@ class TransferFundsService with ReactiveServiceMixin {
     _planBillers = data;
   }
 
-  void setBankList(List<Banks>? data) {
-    _bankData = data;
+  void setBankList(List<Bank>? data) {
+    _banks = data;
   }
 
   void setBettingList(List<BettingData> data) {

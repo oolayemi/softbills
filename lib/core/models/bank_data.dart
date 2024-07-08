@@ -1,44 +1,56 @@
-class BankData {
+class BankListResponse {
+  bool? success;
   String? status;
-  List<Banks>? banks;
+  String? message;
+  List<Bank>? data;
 
-  BankData({this.status, this.banks});
+  BankListResponse({this.success, this.status, this.message, this.data});
 
-  BankData.fromJson(Map<String, dynamic> json) {
+  BankListResponse.fromJson(Map<String, dynamic> json) {
+    success = json['success'];
     status = json['status'];
-    if (json['banks'] != null) {
-      banks = <Banks>[];
-      json['banks'].forEach((v) {
-        banks!.add(Banks.fromJson(v));
+    message = json['message'];
+    if (json['data'] != null) {
+      data = <Bank>[];
+      json['data'].forEach((v) {
+        data!.add(Bank.fromJson(v));
       });
     }
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
+    data['success'] = success;
     data['status'] = status;
-    if (banks != null) {
-      data['banks'] = banks!.map((v) => v.toJson()).toList();
+    data['message'] = message;
+    if (this.data != null) {
+      data['data'] = this.data!.map((v) => v.toJson()).toList();
     }
     return data;
   }
 }
 
-class Banks {
-  String? cbnCode;
-  String? bankName;
+class Bank {
+  String? name;
+  String? code;
+  String? nipBankCode;
 
-  Banks({this.cbnCode, this.bankName});
+  Bank(
+      {this.name,
+        this.code,
+        this.nipBankCode});
 
-  Banks.fromJson(Map<String, dynamic> json) {
-    cbnCode = json['cbn_code'];
-    bankName = json['bank_name'];
+  Bank.fromJson(Map<String, dynamic> json) {
+    name = json['name'];
+    code = json['code'];
+    nipBankCode = json['nipBankCode'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
-    data['cbn_code'] = cbnCode;
-    data['bank_name'] = bankName;
+    data['name'] = name;
+    data['code'] = code;
+    data['nipBankCode'] = nipBankCode;
     return data;
   }
 }

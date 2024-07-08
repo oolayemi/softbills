@@ -15,7 +15,7 @@ class ElectricityView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ViewModelBuilder<ElectricityViewModel>.reactive(
-      onModelReady: (model) => model.setup(context),
+      onViewModelReady: (model) => model.setup(context),
       viewModelBuilder: () => ElectricityViewModel(),
       builder: (context, model, child) {
         return CustomScaffoldWidget(

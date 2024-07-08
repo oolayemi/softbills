@@ -8,8 +8,6 @@ import 'package:no_name/views/dashboard/dashboard_view.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
 
-import '../auth/sign_in/existing_sign_in_view.dart';
-import '../auth/sign_in/sign_in_view.dart';
 
 class SplashScreenViewModel extends ReactiveViewModel {
   final NavigationService _navigationService = locator<NavigationService>();
@@ -56,8 +54,4 @@ class SplashScreenViewModel extends ReactiveViewModel {
     //           : const SignInView(),
     // );
   }
-
-  @override
-  // TODO: implement reactiveServices
-  List<ReactiveServiceMixin> get reactiveServices => [];
 }

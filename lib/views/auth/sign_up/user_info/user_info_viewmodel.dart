@@ -3,7 +3,6 @@ import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
 
 import '../../../../app/locator.dart';
-import '../sign_up_three/sign_up_three_view.dart';
 import '../user_info_dob/user_info_dob_view.dart';
 
 class UserInfoViewModel extends ReactiveViewModel {

@@ -1,11 +1,10 @@
 import 'dart:convert';
+import 'dart:developer';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:no_name/app/locator.dart';
-import 'package:no_name/core/models/airtime_beneficiaries.dart';
-import 'package:no_name/core/models/airtime_billers.dart';
+import 'package:no_name/core/models/bank_data.dart';
 import 'package:no_name/core/services/auth_service.dart';
 import 'package:no_name/views/services/transfer_funds_service.dart';
 import 'package:stacked/stacked.dart';
@@ -13,7 +12,6 @@ import 'package:stacked_services/stacked_services.dart';
 
 import '../../core/constants/loading_dialog.dart';
 import '../../core/exceptions/error_handling.dart';
-import '../../core/models/airtime_data_model.dart';
 import '../../core/models/currency_rates.dart';
 import '../../core/models/wallet_response.dart';
 import '../../core/utils/tools.dart';
@@ -27,28 +25,24 @@ class TransferViewModel extends ReactiveViewModel {
   final TransferFundsService _transferFundsService = locator<TransferFundsService>();
 
   final formKey = GlobalKey<FormState>();
+  bool loadingName = false;
+  bool verified = false;
 
   int selectedAmount = 0;
+  String? accountName;
 
-  List<AirTimeDataModel> get data => AirTimeDataModel.data;
-  AirTimeDataModel? selected;
-
-  List<AirtimeBeneficiary>? get airtimeBeneficiaries => _authService.airtimeBeneficiaries;
 
   WalletData? get wallet => _authService.walletResponse;
-
-  List<AirtimeBillers> tempBillers = [];
 
   bool fetched = false;
   bool errorFetching = false;
 
-  List<AirtimePlans>? plans;
-  AirtimePlans? selectedPlan;
+  List<Bank> get banks => _transferFundsService.banks ?? [];
+  Bank? selectedBank;
 
-  List<AirtimeBillers> get billers => _transferFundsService.airtimeBillers;
-  AirtimeBillers? selectedBiller;
+  TextEditingController accountNumberController = TextEditingController();
+  TextEditingController narrationController = TextEditingController();
 
-  TextEditingController phoneController = TextEditingController();
   TextEditingController amountController = TextEditingController();
 
   List<Rates>? get rateList => _authService.ratesList;
@@ -64,37 +58,39 @@ class TransferViewModel extends ReactiveViewModel {
     notifyListeners();
   }
 
+  void resetName() {
+    accountName = null;
+    verified = false;
+    notifyListeners();
+  }
+
+  void setLoading(bool val) {
+    loadingName = val;
+    notifyListeners();
+  }
+
   Future setup(BuildContext context) async {
     errorFetching = false;
 
     notifyListeners();
-    if (billers.isEmpty) {
-      await getBillers(context);
+    if (banks.isEmpty) {
+      await getBanks(context);
       // print('loadOperators::::: ');
     }
     if (!errorFetching && fetched) {
-      setProvider(data[0]);
-      setAirtimeBiller(billers[0]);
+      setBank(banks[0]);
     }
     notifyListeners();
   }
 
-  void setProvider(AirTimeDataModel val) {
-    selected = val;
+  void setBank(Bank val) {
+    selectedBank = val;
     notifyListeners();
   }
 
-  void setAirtimeBiller(AirtimeBillers val) {
-    selectedBiller = val;
-    plans = val.plans;
-    selectedPlan = null;
-    // amountController.text = '';
-    notifyListeners();
-  }
-
-  Future getBillers(context) async {
+  Future getBanks(context) async {
     try {
-      final response = await dio().get('/airtime/providers');
+      final response = await dio().get('/wallet/bank-list');
 
       int? statusCode = response.statusCode;
 
@@ -103,9 +99,9 @@ class TransferViewModel extends ReactiveViewModel {
 
       if (statusCode == 200) {
         if (success == 'success') {
-          AirtimeBillersData temp = AirtimeBillersData.fromJson(json);
-          tempBillers = temp.data ?? [];
-          _transferFundsService.setAirtimeBillers(temp.data!);
+          BankListResponse temp = BankListResponse.fromJson(json);
+          print(temp.toJson());
+          _transferFundsService.setBankList(temp.data);
           // fetched = true;
           notifyListeners();
         } else {
@@ -129,8 +125,8 @@ class TransferViewModel extends ReactiveViewModel {
 
     Map<String, dynamic> payload = {
       'amount': amountController.text,
-      'phone': phoneController.text,
-      'service_id': selectedBiller!.serviceID,
+      'account_number': accountNumberController.text,
+      'bank_code': selectedBank?.code
     };
 
     try {
@@ -165,33 +161,57 @@ class TransferViewModel extends ReactiveViewModel {
     }
   }
 
-  Future<void> saveAirtimeBeneficiary(context) async {
-    var data = {"phone_number": phoneController.text, "operator": selectedBiller!.name!.toLowerCase(), "nickname": ""};
-    try {
-      var response = await dio().post('/airtime/beneficiaries/add', data: data);
+  Future validateName(context) async {
+    if (accountNumberController.text.length == 10) {
+      LoaderDialog.showLoadingDialog(context,
+          message: "Verifying account number...");
+      setLoading(true);
 
-      int? statusCode = response.statusCode;
-      String? success = jsonDecode(response.toString())['status'];
+      Map<String, dynamic> payload = {
+        'bank_code': selectedBank!.code,
+        'account_number': accountNumberController.text
+      };
 
-      if (statusCode == 200 && success == 'success') {
-        Fluttertoast.showToast(msg: "Beneficiary saved successfully");
-        await _authService.getAirtimeBeneficiaries();
-      } else {
-        Fluttertoast.showToast(msg: "An error occurred");
+      try {
+        final response = await dio().post('/wallet/name-enquiry', data: payload);
+
+        int? statusCode = response.statusCode;
+
+        Map<String, dynamic> json = jsonDecode(response.toString());
+        log(jsonEncode(json));
+        String? success = json['status'];
+
+        if (statusCode == 200) {
+          if (success == 'success') {
+            accountName = json['data']['accountName'];
+
+            setLoading(false);
+            _dialogService.completeDialog(DialogResponse());
+            verified = true;
+            notifyListeners();
+          } else {
+            setLoading(false);
+            resetName();
+            _dialogService.completeDialog(DialogResponse());
+            flusher(json['message'] ?? 'Error Fetching data', context,
+                color: Colors.red);
+          }
+        } else {
+          setLoading(false);
+          resetName();
+          _dialogService.completeDialog(DialogResponse());
+          flusher(json['message'] ?? 'Error Fetching data', context,
+              color: Colors.red);
+        }
+      } on DioException catch (e) {
+        setLoading(false);
+        resetName();
+        _dialogService.completeDialog(DialogResponse());
+        flusher(DioExceptions.fromDioError(e).toString(), context,
+            color: Colors.red);
       }
-    } on DioException catch (e) {
-      print(e.response);
-      Fluttertoast.showToast(msg: DioExceptions.fromDioError(e).message);
+    } else {
+      toast("Please check the account number");
     }
   }
-
-  void setBeneficiary(AirtimeBeneficiary airtimeBeneficiary) {
-    phoneController.text = airtimeBeneficiary.phoneNumber!;
-    selectedBiller = billers.firstWhere((element) => element.name!.toLowerCase() == airtimeBeneficiary.operator);
-    notifyListeners();
-  }
-
-  @override
-  // TODO: implement reactiveServices
-  List<ReactiveServiceMixin> get reactiveServices => [_authService, _transferFundsService];
 }

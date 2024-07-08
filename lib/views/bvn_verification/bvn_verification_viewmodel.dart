@@ -49,7 +49,7 @@ class BVNVerificationViewModel extends ReactiveViewModel {
 
     Map<String, dynamic> payload = {
       'bvn': bvnController.text,
-      'phone': phoneNumberController.text
+      //'phone': phoneNumberController.text
     };
 
     try {
@@ -80,9 +80,5 @@ class BVNVerificationViewModel extends ReactiveViewModel {
       flusher(DioExceptions.fromDioError(e).toString(), context, color: Colors.red);
     }
   }
-
-  @override
-  // TODO: implement reactiveServices
-  List<ReactiveServiceMixin> get reactiveServices => [_authService];
 
 }
