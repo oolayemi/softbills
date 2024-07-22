@@ -163,7 +163,7 @@ class AuthService with ReactiveServiceMixin {
         }
       });
     } on DioException catch (e) {
-      print(e.response!.data);
+      print(e.response?.data);
       response =
           ApiResponse(showMessage: true, message: 'Error Processing Request');
     }
@@ -198,7 +198,7 @@ class AuthService with ReactiveServiceMixin {
         }
       });
     } on DioException catch (e) {
-      print(e.response!.data);
+      print(e.response?.data);
       response =
           ApiResponse(showMessage: true, message: 'Error Processing Request');
     }
@@ -233,7 +233,7 @@ class AuthService with ReactiveServiceMixin {
         }
       });
     } on DioException catch (e) {
-      print(e.response!.data);
+      print(e.response?.data);
       response =
           ApiResponse(showMessage: true, message: 'Error Processing Request');
     }
@@ -268,7 +268,7 @@ class AuthService with ReactiveServiceMixin {
         }
       });
     } on DioException catch (e) {
-      print(e.response!.data);
+      print(e.response?.data);
       response =
           ApiResponse(showMessage: true, message: 'Error Processing Request');
     }
@@ -304,7 +304,7 @@ class AuthService with ReactiveServiceMixin {
         }
       });
     } on DioException catch (e) {
-      print(e.response!.data);
+      print(e.response?.data);
       response =
           ApiResponse(showMessage: true, message: 'Error Processing Request');
     }
@@ -341,7 +341,7 @@ class AuthService with ReactiveServiceMixin {
         return apiResponse;
       }
     } on DioException catch (e) {
-      print(e.response!.data);
+      print(e.response?.data);
       apiResponse =
           ApiResponse(showMessage: true, message: 'Error Processing Request');
     }
@@ -377,7 +377,7 @@ class AuthService with ReactiveServiceMixin {
         return apiResponse;
       }
     } on DioException catch (e) {
-      print(e.response!.data);
+      print(e.response?.data);
       apiResponse =
           ApiResponse(showMessage: true, message: 'Error Processing Request');
     }

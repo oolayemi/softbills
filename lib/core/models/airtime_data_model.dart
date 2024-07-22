@@ -48,26 +48,45 @@ class PlanResponse {
 }
 
 class Plans {
-  String? variationCode;
-  String? name;
-  String? variationAmount;
-  String? fixedPrice;
+  int? id;
+  String? type;
+  String? code;
+  String? description;
+  String? amount;
+  String? price;
+  String? value;
+  String? duration;
 
-  Plans({this.variationCode, this.name, this.variationAmount, this.fixedPrice});
+  Plans({this.id,
+    this.type,
+    this.code,
+    this.description,
+    this.amount,
+    this.price,
+    this.value,
+    this.duration});
 
   Plans.fromJson(Map<String, dynamic> json) {
-    variationCode = json['variation_code'];
-    name = json['name'];
-    variationAmount = json['variation_amount'];
-    fixedPrice = json['fixedPrice'];
+    id = json['id'];
+    type = json['type'];
+    code = json['code'];
+    description = json['description'];
+    amount =  json['amount'];
+    price = json['price'];
+    value = json['value'];
+    duration = json['duration'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
-    data['variation_code'] = variationCode;
-    data['name'] = name;
-    data['variation_amount'] = variationAmount;
-    data['fixedPrice'] = fixedPrice;
+    data['id'] = id;
+    data['type'] = type;
+    data['code'] = code;
+    data['description'] = description;
+    data['amount'] = amount;
+    data['price'] = price;
+    data['value'] = value;
+    data['duration'] = duration;
     return data;
   }
 }

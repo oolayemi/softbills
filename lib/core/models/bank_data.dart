@@ -31,26 +31,20 @@ class BankListResponse {
 }
 
 class Bank {
-  String? name;
-  String? code;
-  String? nipBankCode;
+  String? bankName;
+  String? cbnCode;
 
-  Bank(
-      {this.name,
-        this.code,
-        this.nipBankCode});
+  Bank({this.bankName, this.cbnCode});
 
   Bank.fromJson(Map<String, dynamic> json) {
-    name = json['name'];
-    code = json['code'];
-    nipBankCode = json['nipBankCode'];
+    bankName = json['bank_name'];
+    cbnCode = json['cbn_code'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
-    data['name'] = name;
-    data['code'] = code;
-    data['nipBankCode'] = nipBankCode;
+    data['bank_name'] = bankName;
+    data['cbn_code'] = cbnCode;
     return data;
   }
 }

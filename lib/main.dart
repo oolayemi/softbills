@@ -39,7 +39,7 @@ class MyApp extends StatelessWidget {
         data: MediaQuery.of(context).copyWith(textScaler: const TextScaler.linear(1)),
         child: MaterialApp(
             debugShowCheckedModeBanner: false,
-            title: 'Sample',
+            title: 'Softbills',
             onGenerateRoute: Routers().onGenerateRoute,
             navigatorKey: locator<NavigationService>().navigatorKey,
             theme: ThemeData(

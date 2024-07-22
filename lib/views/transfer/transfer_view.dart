@@ -38,6 +38,7 @@ class TransferView extends StatelessWidget {
 
         return CustomScaffoldWidget(
           appBar: const CustomAppBar(title: "Transfer"),
+          resizeToAvoidBottomInset: true,
           body: SingleChildScrollView(
             child: Form(
               key: model.formKey,
@@ -115,7 +116,6 @@ class TransferView extends StatelessWidget {
                   const SizedBox(height: 20),
                   BuildTextField(
                     title: "Purpose",
-                    textInputType: TextInputType.number,
                     controller: model.narrationController,
                     hintText: "Enter description here",
                     bottomSpacing: 0,

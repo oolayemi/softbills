@@ -141,7 +141,7 @@ class SmeDataViewModel extends ReactiveViewModel {
       }
     } on DioException catch (e) {
       errorFetching = true;
-      print(e.response!.data);
+      print(e.response?.data);
       _dialogService.completeDialog(DialogResponse());
       flusher(DioExceptions.fromDioError(e).toString(), context, color: Colors.red);
     }

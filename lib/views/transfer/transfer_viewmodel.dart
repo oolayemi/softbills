@@ -95,12 +95,13 @@ class TransferViewModel extends ReactiveViewModel {
       int? statusCode = response.statusCode;
 
       String? success = jsonDecode(response.toString())['status'];
-      Map<String, dynamic> json = jsonDecode(response.toString());
+      Map<String, dynamic> json = response.data;
+
+      log(jsonEncode(json));
 
       if (statusCode == 200) {
         if (success == 'success') {
           BankListResponse temp = BankListResponse.fromJson(json);
-          print(temp.toJson());
           _transferFundsService.setBankList(temp.data);
           // fetched = true;
           notifyListeners();
@@ -126,7 +127,7 @@ class TransferViewModel extends ReactiveViewModel {
     Map<String, dynamic> payload = {
       'amount': amountController.text,
       'account_number': accountNumberController.text,
-      'bank_code': selectedBank?.code
+      'bank_code': selectedBank?.cbnCode
     };
 
     try {
@@ -168,7 +169,7 @@ class TransferViewModel extends ReactiveViewModel {
       setLoading(true);
 
       Map<String, dynamic> payload = {
-        'bank_code': selectedBank!.code,
+        'bank_code': selectedBank!.cbnCode,
         'account_number': accountNumberController.text
       };
 
@@ -178,7 +179,6 @@ class TransferViewModel extends ReactiveViewModel {
         int? statusCode = response.statusCode;
 
         Map<String, dynamic> json = jsonDecode(response.toString());
-        log(jsonEncode(json));
         String? success = json['status'];
 
         if (statusCode == 200) {

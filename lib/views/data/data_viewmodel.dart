@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
@@ -55,6 +56,31 @@ class DataViewModel extends ReactiveViewModel {
   TextEditingController phoneController = TextEditingController();
   TextEditingController amountController = TextEditingController();
 
+  Future setup(context) async {
+    // data = [];
+    errorFetching = false;
+    notifyListeners();
+
+    if (billers.isEmpty) {
+      await getBillers(context);
+      // print('loadOperators::::: ');
+    }
+    if (billers.isEmpty) {
+      for (DataBillers item in tempBillers!) {
+        if (!errorFetching) {
+          await getPlans(context, item);
+        }
+      }
+    } else {
+      fetched = true;
+    }
+    if (!errorFetching && fetched) {
+      setProvider(data[0]);
+      setDataBiller(billers[0]);
+    }
+    notifyListeners();
+  }
+
   Future getBillers(context) async {
 
     try {
@@ -63,7 +89,9 @@ class DataViewModel extends ReactiveViewModel {
       int? statusCode = response.statusCode;
 
       String? success = jsonDecode(response.toString())['status'];
-      Map<String, dynamic> json = jsonDecode(response.toString());
+      Map<String, dynamic> json = response.data;
+
+      log(jsonEncode(json));
 
       if (statusCode == 200) {
         if (success == 'success') {
@@ -90,7 +118,7 @@ class DataViewModel extends ReactiveViewModel {
 
     try {
 
-      final response = await dio().get('/data/${biller.serviceID}/bundles');
+      final response = await dio().get('/data/${biller.type}/bundles');
 
       int? statusCode = response.statusCode;
 
@@ -114,31 +142,6 @@ class DataViewModel extends ReactiveViewModel {
     }
   }
 
-  Future setup(context) async {
-    // data = [];
-    errorFetching = false;
-    notifyListeners();
-
-    if (billers.isEmpty) {
-      await getBillers(context);
-      // print('loadOperators::::: ');
-    }
-    if (billers.isEmpty) {
-      for (DataBillers item in tempBillers!) {
-        if (!errorFetching) {
-          await getPlans(context, item);
-        }
-      }
-    } else {
-      fetched = true;
-    }
-    if (!errorFetching && fetched) {
-      setProvider(data[0]);
-      setDataBiller(billers[0]);
-    }
-    notifyListeners();
-  }
-
   void setProvider(AirTimeDataModel val) {
     selected = val;
     notifyListeners();
@@ -156,10 +159,10 @@ class DataViewModel extends ReactiveViewModel {
     LoaderDialog.showLoadingDialog(context, message: "Purchasing Data...");
 
     Map<String, dynamic> payload = {
-      'phone': phoneController.text,
-      'amount': selectedPlan!.variationAmount,
-      'service_id': selectedBiller!.serviceID,
-      'variation_code': selectedPlan!.variationCode,
+      'mobile': phoneController.text,
+      'amount': selectedPlan!.amount,
+      'operator': selectedBiller!.name!.toLowerCase(),
+      'bundle': selectedPlan!.code.toString(),
     };
 
     print(payload);
@@ -225,7 +228,7 @@ class DataViewModel extends ReactiveViewModel {
 
   void setPlan(Plans val) {
     selectedPlan = val;
-    amountController.text = val.variationAmount.toString();
+    amountController.text = val.amount.toString();
     notifyListeners();
   }
 

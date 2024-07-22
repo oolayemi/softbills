@@ -165,7 +165,7 @@ class DataView extends StatelessWidget {
                                     vertical: SizeConfig.yMargin(context, 2),
                                     horizontal: SizeConfig.xMargin(context, 4)),
                                 decoration: BoxDecoration(border: Border(bottom: BorderSide(color: Colors.grey[200]!))),
-                                child: Text('${item.name} @ ${item.variationAmount}',
+                                child: Text('${item.description}',
                                     style: Theme.of(context)
                                         .textTheme
                                         .displaySmall!
@@ -209,7 +209,7 @@ class DataView extends StatelessWidget {
                   child: Text(
                     model.plans != null
                         ? model.selectedPlan != null
-                            ? '${model.selectedPlan!.name} @ ${model.selectedPlan!.variationAmount}'
+                            ? '${model.selectedPlan!.description}'
                             : "Select Plan"
                         : "Loading...",
                     maxLines: 1,

@@ -34,44 +34,30 @@ class DataBillersData {
 }
 
 class DataBillers {
-  String? serviceID;
+  String? type;
+  int? id;
   String? name;
-  String? minimiumAmount;
-  String? maximumAmount;
-  String? convinienceFee;
-  String? productType;
+  String? narration;
   String? image;
   List<Plans>? plans;
 
-  DataBillers(
-      {this.serviceID,
-        this.name,
-        this.minimiumAmount,
-        this.maximumAmount,
-        this.convinienceFee,
-        this.productType,
-        this.image,
-        this.plans
-      });
+  DataBillers({this.type, this.id, this.name, this.narration, this.image, this.plans});
 
   DataBillers.fromJson(Map<String, dynamic> json) {
-    serviceID = json['serviceID'];
+    type = json['type'];
+    id = json['id'];
     name = json['name'];
-    minimiumAmount = json['minimium_amount'];
-    maximumAmount = json['maximum_amount'];
-    convinienceFee = json['convinience_fee'];
-    productType = json['product_type'];
+    narration = json['narration'];
     image = json['image'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
-    data['serviceID'] = serviceID;
+    data['type'] = type;
+    data['id'] = id;
     data['name'] = name;
-    data['minimium_amount'] = minimiumAmount;
-    data['maximum_amount'] = maximumAmount;
-    data['convinience_fee'] = convinienceFee;
-    data['product_type'] = productType;
+    data['narration'] = narration;
+    data['image'] = image;
     data['image'] = image;
     return data;
   }

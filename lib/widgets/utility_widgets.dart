@@ -123,12 +123,14 @@ Widget customTextField(
                     // borderSide: BorderSide.none,
                     borderRadius: BorderRadius.circular(SizeConfig.yMargin(context, 1))),
                 errorBorder: OutlineInputBorder(
-                    borderSide: const BorderSide(color: Colors.red), borderRadius: BorderRadius.circular(SizeConfig.yMargin(context, 1))),
+                    borderSide: const BorderSide(color: Colors.red),
+                    borderRadius: BorderRadius.circular(SizeConfig.yMargin(context, 1))),
                 focusedBorder: OutlineInputBorder(
                     borderSide: const BorderSide(color: BrandColors.secondary),
                     borderRadius: BorderRadius.circular(SizeConfig.yMargin(context, 1))),
                 errorText: errorText,
-                contentPadding: EdgeInsets.symmetric(vertical: SizeConfig.yMargin(context, 2), horizontal: SizeConfig.xMargin(context, 4)),
+                contentPadding: EdgeInsets.symmetric(
+                    vertical: SizeConfig.yMargin(context, 2), horizontal: SizeConfig.xMargin(context, 4)),
                 prefixIcon: prefixImage == null
                     ? null
                     : Container(
@@ -157,8 +159,8 @@ Widget customTextField(
                     onTap: suffixFunc as void Function()?,
                     child: Container(
                       height: SizeConfig.yMargin(context, 6),
-                      padding:
-                          EdgeInsets.symmetric(vertical: SizeConfig.yMargin(context, 0.5), horizontal: SizeConfig.xMargin(context, 3.8)),
+                      padding: EdgeInsets.symmetric(
+                          vertical: SizeConfig.yMargin(context, 0.5), horizontal: SizeConfig.xMargin(context, 3.8)),
                       decoration: BoxDecoration(
                         color: Colors.transparent,
                         border: Border.all(
@@ -189,7 +191,8 @@ Widget customTextField(
   );
 }
 
-Widget customDropdown<T>({String? label, T? value, List<DropdownMenuItem<T>>? items, Function? onChanged, required BuildContext context}) {
+Widget customDropdown<T>(
+    {String? label, T? value, List<DropdownMenuItem<T>>? items, Function? onChanged, required BuildContext context}) {
   return Column(
     mainAxisAlignment: MainAxisAlignment.start,
     crossAxisAlignment: CrossAxisAlignment.start,
@@ -204,9 +207,11 @@ Widget customDropdown<T>({String? label, T? value, List<DropdownMenuItem<T>>? it
               ),
             ),
       Container(
-        padding: EdgeInsets.symmetric(vertical: SizeConfig.yMargin(context, 2.2), horizontal: SizeConfig.xMargin(context, 4)),
+        padding: EdgeInsets.symmetric(
+            vertical: SizeConfig.yMargin(context, 2.2), horizontal: SizeConfig.xMargin(context, 4)),
         decoration: BoxDecoration(
-            color: const Color(0xFFB9B9B9).withOpacity(0.12), borderRadius: BorderRadius.circular(SizeConfig.yMargin(context, 1))),
+            color: const Color(0xFFB9B9B9).withOpacity(0.12),
+            borderRadius: BorderRadius.circular(SizeConfig.yMargin(context, 1))),
         child: DropdownButton(
             // focusColor: Color(0xFFB9B9B9).withOpacity(0.12),
             dropdownColor: Colors.white,
@@ -227,14 +232,19 @@ Widget customDropdown<T>({String? label, T? value, List<DropdownMenuItem<T>>? it
 }
 
 Widget serviceMode(
-    {required BuildContext context, required String title, required bool isSelected, Function? onClick, required String icon}) {
+    {required BuildContext context,
+    required String title,
+    required bool isSelected,
+    Function? onClick,
+    required String icon}) {
   return Container(
     margin: EdgeInsets.symmetric(horizontal: SizeConfig.xMargin(context, 2)),
     child: InkWell(
       borderRadius: BorderRadius.circular(SizeConfig.yMargin(context, 1.4)),
       onTap: onClick as void Function()?,
       child: Container(
-        padding: EdgeInsets.symmetric(vertical: SizeConfig.yMargin(context, 1), horizontal: SizeConfig.xMargin(context, 2)),
+        padding:
+            EdgeInsets.symmetric(vertical: SizeConfig.yMargin(context, 1), horizontal: SizeConfig.xMargin(context, 2)),
         width: SizeConfig.xMargin(context, 40),
         height: SizeConfig.yMargin(context, 10),
         decoration: BoxDecoration(
@@ -299,10 +309,12 @@ Widget walletDetailItem(BuildContext context, String item, String? value, bool s
   return Container(
     padding: EdgeInsets.symmetric(vertical: SizeConfig.yMargin(context, 2)),
     decoration: BoxDecoration(
-        border: Border(bottom: BorderSide(color: showBorder ? const Color(0xFF8A8A8A).withOpacity(0.26) : Colors.transparent))),
+        border: Border(
+            bottom: BorderSide(color: showBorder ? const Color(0xFF8A8A8A).withOpacity(0.26) : Colors.transparent))),
     child: Row(
       children: [
-        Text(item, style: Theme.of(context).textTheme.headlineSmall!.copyWith(fontSize: SizeConfig.textSize(context, 2))),
+        Text(item,
+            style: Theme.of(context).textTheme.headlineSmall!.copyWith(fontSize: SizeConfig.textSize(context, 2))),
         Flexible(
           child: SelectableText(
             '$value',
@@ -322,7 +334,8 @@ class AmountTextField extends StatelessWidget {
   final Function(String)? onChanged;
   final String? Function(String?)? validator;
 
-  const AmountTextField({super.key, this.title, this.suffixTitle, this.validator, this.controller, this.enabled = true, this.onChanged});
+  const AmountTextField(
+      {super.key, this.title, this.suffixTitle, this.validator, this.controller, this.enabled = true, this.onChanged});
 
   @override
   Widget build(BuildContext context) {
@@ -494,7 +507,9 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   Widget build(BuildContext context) {
     return AppBar(
       elevation: 0,
-      title: title != null ? Text(title!, style: const TextStyle(fontWeight: FontWeight.w600, fontSize: 19)) : const SizedBox(),
+      title: title != null
+          ? Text(title!, style: const TextStyle(fontWeight: FontWeight.w600, fontSize: 19))
+          : const SizedBox(),
       leading: withBackButton
           ? InkWell(
               onTap: () => NavigationService().back(),
@@ -516,6 +531,7 @@ class CustomScaffoldWidget extends StatelessWidget {
   final double padding;
   final Widget? bottomNavBar;
   final Color? bgColor;
+  final bool resizeToAvoidBottomInset;
 
   const CustomScaffoldWidget({
     super.key,
@@ -524,13 +540,14 @@ class CustomScaffoldWidget extends StatelessWidget {
     this.padding = 24.0,
     this.bottomNavBar,
     this.bgColor,
+    this.resizeToAvoidBottomInset = false,
   });
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: bgColor,
-      resizeToAvoidBottomInset: false,
+      resizeToAvoidBottomInset: resizeToAvoidBottomInset,
       appBar: appBar,
       body: GestureDetector(
         onTap: () {
@@ -558,7 +575,8 @@ class RecentTransactionSection extends StatelessWidget {
         children: [
           Container(
             decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(10), border: Border.all(color: BrandColors.secondary.withOpacity(.3), width: 1)),
+                borderRadius: BorderRadius.circular(10),
+                border: Border.all(color: BrandColors.secondary.withOpacity(.3), width: 1)),
             child: ListTile(
               onTap: () {
                 Navigator.push(
@@ -723,7 +741,8 @@ class BuildDropDown extends StatelessWidget {
         ),
         Container(
           padding: const EdgeInsets.only(right: 6, left: 6, top: 6, bottom: 6),
-          decoration: BoxDecoration(borderRadius: BorderRadius.circular(10), border: Border.all(width: .5, color: Colors.grey)),
+          decoration:
+              BoxDecoration(borderRadius: BorderRadius.circular(10), border: Border.all(width: .5, color: Colors.grey)),
           child: Row(
             children: [
               iconUrl != null
@@ -791,7 +810,8 @@ class BuildBillerDropDown extends StatelessWidget {
         ),
         Container(
           padding: const EdgeInsets.only(right: 6, left: 6, top: 6, bottom: 6),
-          decoration: BoxDecoration(borderRadius: BorderRadius.circular(10), border: Border.all(color: Colors.grey, width: .5)),
+          decoration:
+              BoxDecoration(borderRadius: BorderRadius.circular(10), border: Border.all(color: Colors.grey, width: .5)),
           child: Row(
             children: [
               list.isNotEmpty
@@ -961,10 +981,10 @@ class BuildBankListDropDown extends StatelessWidget {
                             .map<DropdownMenuItem<Bank>>(
                               (e) => DropdownMenuItem(
                                 value: e,
-                                child: Row(
-                                  children: [
-                                    Text(e.name!.split(' ').first),
-                                  ],
+                                child: Text(
+                                  e.bankName!,
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
                                 ),
                               ),
                             )
