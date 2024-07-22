@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:developer';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
@@ -25,7 +24,6 @@ class TransferViewModel extends ReactiveViewModel {
   final TransferFundsService _transferFundsService = locator<TransferFundsService>();
 
   final formKey = GlobalKey<FormState>();
-  bool loadingName = false;
   bool verified = false;
 
   int selectedAmount = 0;
@@ -64,11 +62,6 @@ class TransferViewModel extends ReactiveViewModel {
     notifyListeners();
   }
 
-  void setLoading(bool val) {
-    loadingName = val;
-    notifyListeners();
-  }
-
   Future setup(BuildContext context) async {
     errorFetching = false;
 
@@ -96,8 +89,6 @@ class TransferViewModel extends ReactiveViewModel {
 
       String? success = jsonDecode(response.toString())['status'];
       Map<String, dynamic> json = response.data;
-
-      log(jsonEncode(json));
 
       if (statusCode == 200) {
         if (success == 'success') {
@@ -166,7 +157,6 @@ class TransferViewModel extends ReactiveViewModel {
     if (accountNumberController.text.length == 10) {
       LoaderDialog.showLoadingDialog(context,
           message: "Verifying account number...");
-      setLoading(true);
 
       Map<String, dynamic> payload = {
         'bank_code': selectedBank!.cbnCode,
@@ -178,33 +168,32 @@ class TransferViewModel extends ReactiveViewModel {
 
         int? statusCode = response.statusCode;
 
-        Map<String, dynamic> json = jsonDecode(response.toString());
+        Map<String, dynamic> json = response.data;
+
         String? success = json['status'];
 
         if (statusCode == 200) {
-          if (success == 'success') {
-            accountName = json['data']['accountName'];
+          if (success == 'success' && json['data']['account_name'] != null) {
+            accountName = json['data']['account_name'];
 
-            setLoading(false);
+            print(accountName);
+
             _dialogService.completeDialog(DialogResponse());
             verified = true;
             notifyListeners();
           } else {
-            setLoading(false);
             resetName();
             _dialogService.completeDialog(DialogResponse());
             flusher(json['message'] ?? 'Error Fetching data', context,
                 color: Colors.red);
           }
         } else {
-          setLoading(false);
           resetName();
           _dialogService.completeDialog(DialogResponse());
           flusher(json['message'] ?? 'Error Fetching data', context,
               color: Colors.red);
         }
       } on DioException catch (e) {
-        setLoading(false);
         resetName();
         _dialogService.completeDialog(DialogResponse());
         flusher(DioExceptions.fromDioError(e).toString(), context,

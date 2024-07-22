@@ -95,6 +95,8 @@ class TransferView extends StatelessWidget {
                     value: model.selectedBank,
                     onChanged: (Bank? value) {
                       model.selectedBank = value;
+                      model.verified = false;
+                      model.accountName = null;
                       model.notifyListeners();
                     },
                   ),
@@ -106,11 +108,16 @@ class TransferView extends StatelessWidget {
                     hintText: "Enter account number",
                     bottomSpacing: 0,
                     validator: (String? val) => val!.isEmpty ? "Account number field cannot be empty" : null,
+                    onChanged: (value) {
+                      model.verified = false;
+                      model.accountName = null;
+                      model.notifyListeners();
+                    }
                   ),
                   Align(
                     alignment: Alignment.centerLeft,
                     child: Text(model.accountName ?? "",
-                      style: const TextStyle(color: Color(0xFF095F85), fontWeight: FontWeight.w700, fontSize: 16),
+                      style: const TextStyle(color: Colors.black, fontWeight: FontWeight.w700, fontSize: 16),
                     ),
                   ),
                   const SizedBox(height: 20),
