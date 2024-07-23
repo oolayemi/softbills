@@ -5,6 +5,7 @@ import 'package:no_name/core/services/auth_service.dart';
 import 'package:no_name/views/all_transactions/all_transactions_view.dart';
 import 'package:no_name/views/betting/betting_view.dart';
 import 'package:no_name/views/cabletv/cable_tv_view.dart';
+import 'package:no_name/views/electricity/electricity_view.dart';
 import 'package:no_name/views/transfer/transfer_view.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:stacked/stacked.dart';
@@ -71,6 +72,10 @@ class HomePageViewModel extends ReactiveViewModel {
 
   void gotoBetting() {
     _navigationService.navigateToView(const BettingView());
+  }
+
+  void gotoElectricity() {
+    _navigationService.navigateToView(const ElectricityView());
   }
 
   void gotoSmeData() {

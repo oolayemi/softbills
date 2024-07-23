@@ -32,41 +32,25 @@ class ElectricityData {
 }
 
 class ElectricityBillers {
-  String? serviceID;
-  String? name;
-  String? minimiumAmount;
-  String? maximumAmount;
-  String? convinienceFee;
-  String? productType;
+  String? type;
+  String? narration;
+  String? shortName;
   String? image;
 
-  ElectricityBillers(
-      {this.serviceID,
-        this.name,
-        this.minimiumAmount,
-        this.maximumAmount,
-        this.convinienceFee,
-        this.productType,
-        this.image});
+  ElectricityBillers({this.type, this.narration, this.shortName, this.image});
 
   ElectricityBillers.fromJson(Map<String, dynamic> json) {
-    serviceID = json['serviceID'];
-    name = json['name'];
-    minimiumAmount = json['minimium_amount'];
-    maximumAmount = json['maximum_amount'];
-    convinienceFee = json['convinience_fee'];
-    productType = json['product_type'];
+    type = json['type'];
+    narration = json['narration'];
+    shortName = json['short_name'];
     image = json['image'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
-    data['serviceID'] = serviceID;
-    data['name'] = name;
-    data['minimium_amount'] = minimiumAmount;
-    data['maximum_amount'] = maximumAmount;
-    data['convinience_fee'] = convinienceFee;
-    data['product_type'] = productType;
+    data['type'] = type;
+    data['narration'] = narration;
+    data['short_name'] = shortName;
     data['image'] = image;
     return data;
   }

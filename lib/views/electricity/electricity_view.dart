@@ -3,10 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:no_name/styles/brand_color.dart';
 import 'package:no_name/widgets/utility_widgets.dart';
 import 'package:stacked/stacked.dart';
+import 'package:stacked_services/stacked_services.dart';
 
 import '../../core/models/electricity_data.dart';
 import '../../core/utils/size_config.dart';
 import '../../core/utils/tools.dart';
+import '../auth/sign_up/otp_verification/verification_complete.dart';
 import 'electricity_viewmodel.dart';
 
 class ElectricityView extends StatelessWidget {
@@ -28,6 +30,8 @@ class ElectricityView extends StatelessWidget {
                 key: model.formKey,
                 child: Column(
                   children: [
+                    _selectDataPlan(context, model),
+                    const SizedBox(height: 20),
                     BuildTextField(
                       title: "Meter Number",
                       hintText: "Meter Number",
@@ -39,52 +43,30 @@ class ElectricityView extends StatelessWidget {
                     Align(
                       alignment: Alignment.centerRight,
                       child: Container(
-                        child: model.loadingName
-                            ? const Text("...")
-                            : model.accountName != null
-                                ? Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    const Text("Customer's Name: "),
-                                    Text(model.accountName!),
-                                  ],
-                                )
-                                : const SizedBox(height: 10),
+                        child: model.accountName != null
+                            ? Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                                  const Text("Customer's name: "),
+                                  Text(model.accountName!),
+                                ],
+                              )
+                            : const SizedBox(
+                                height: 10,
+                              ),
                       ),
                     ),
-                    const SizedBox(height: 20),
-                    _selectDataPlan(context, model),
                     const SizedBox(height: 20),
                     AmountTextField(
                       title: "Amount",
                       controller: model.amountController,
                       suffixTitle: Text(
-                        formatMoney(
-                          model.wallet!.balance!
-                        ),
+                        formatMoney(model.wallet!.balance!),
                       ),
                       validator: (String? val) => val!.isEmpty ? "Amount field cannot be empty" : null,
                     ),
-                    model.loadingName
-                        ? const Align(
-                            alignment: Alignment.centerRight,
-                            child: Text("..."),
-                          )
-                        : model.minimumAmount != null
-                            ? Padding(
-                                padding: const EdgeInsets.symmetric(vertical: 5.0),
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    const Text("Minimum amount: "),
-                                    Text(formatMoney(model.minimumAmount)),
-                                  ],
-                                ),
-                              )
-                            : const SizedBox(),
                     const SizedBox(height: 20),
-                    _selectType(context, model),
-
+                    // _selectType(context, model),
                   ],
                 ),
               ),
@@ -96,16 +78,28 @@ class ElectricityView extends StatelessWidget {
                   title: model.verified ? "Buy Now" : "Validate Details",
                   onPressed: () {
                     if (model.formKey.currentState!.validate()) {
-                      !model.verified
-                          ? model.validateMeter(context)
-                          : validateTransactionDetails({
-                              "Meter Number": model.meterNoController.text,
-                              "Name": model.accountName,
-                              "Provider": model.selectedBiller!.name,
-                              "Type": ucWord(model.selectedType)
-                            }, model.amountController.text, context, func: () async {
-                              await model.purchaseElectricity(context);
-                            });
+                      if (model.selectedBiller != null) {
+                        !model.verified
+                            ? model.validateMeter(context)
+                            : pinPad(
+                                ctx: context,
+                                function: (String pin) {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => VerificationComplete(
+                                        title: "Successful",
+                                        description: "Your transfer is on its way",
+                                        onTap: () {
+                                          NavigationService().popRepeated(2);
+                                        },
+                                      ),
+                                    ),
+                                  );
+                                });
+                      } else {
+                        toast("Please select a provider to continue");
+                      }
                     }
                   },
                 ),
@@ -138,11 +132,13 @@ class ElectricityView extends StatelessWidget {
             }
           },
           child: Container(
-            height: 60,
+            height: 55,
             width: double.maxFinite,
             padding: const EdgeInsets.symmetric(horizontal: 10),
             decoration: BoxDecoration(
-                color: const Color(0xFF605F5F).withOpacity(.1), borderRadius: BorderRadius.circular(10)),
+                color: Colors.white.withOpacity(.1),
+                borderRadius: BorderRadius.circular(10),
+                border: Border.all(color: Colors.grey, width: .7)),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
@@ -159,11 +155,13 @@ class ElectricityView extends StatelessWidget {
                                       imageUrl: model.selectedBiller!.image!,
                                       filterQuality: FilterQuality.low,
                                       fit: BoxFit.fill,
+                                      errorWidget: (context, url, error) => const Icon(Icons.info_outline),
                                     ),
                                   ),
                             Container(
                               margin: EdgeInsets.only(left: SizeConfig.xMargin(context, 2)),
-                              child: Text(model.selectedBiller == null ? 'Select Biller' : model.selectedBiller!.name!),
+                              child: Text(
+                                  model.selectedBiller == null ? 'Select Biller' : ucWord(model.selectedBiller!.narration!)),
                             ),
                           ],
                         )
@@ -200,7 +198,7 @@ class ElectricityView extends StatelessWidget {
     );
   }
 
-  Widget _selectType(context, ElectricityViewModel model){
+  Widget _selectType(context, ElectricityViewModel model) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -295,14 +293,17 @@ class ElectricityView extends StatelessWidget {
                                   imageUrl: item.image!,
                                   filterQuality: FilterQuality.low,
                                   fit: BoxFit.fill,
+                                  errorWidget: (context, url, error) => const Icon(Icons.info_outline),
                                 ),
                               ),
                               Expanded(
                                 child: Container(
                                   margin: EdgeInsets.only(left: SizeConfig.xMargin(context, 2)),
-                                  child: Text('${item.name}',
-                                      style:
-                                          Theme.of(context).textTheme.displaySmall!.copyWith(fontSize: SizeConfig.textSize(context, 2))),
+                                  child: Text('${ucWord(item.shortName!)}',
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .displaySmall!
+                                          .copyWith(fontSize: SizeConfig.textSize(context, 2))),
                                 ),
                               ),
                             ],

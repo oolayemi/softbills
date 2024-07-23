@@ -76,9 +76,9 @@ class ServicesView extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      quickLinks("Internet Recharge", "assets/icons/network.svg", const Color(0xFF0F8CC3).withOpacity(.1), null),
-                      quickLinks("Mobile Recharge", "assets/icons/mobile.svg", const Color(0xFF0F8CC3).withOpacity(.1), null),
-                      quickLinks("Transfer", "assets/icons/two-way-arrow.svg", const Color(0xFF0F8CC3).withOpacity(.1), null),
+                      quickLinks("Internet Recharge", "assets/icons/network.svg", const Color(0xFF0F8CC3).withOpacity(.1), () => model.gotoData()),
+                      quickLinks("Mobile Recharge", "assets/icons/mobile.svg", const Color(0xFF0F8CC3).withOpacity(.1), () => model.gotoAirtime()),
+                      quickLinks("Transfer", "assets/icons/two-way-arrow.svg", const Color(0xFF0F8CC3).withOpacity(.1), () => model.gotoTransfer()),
                     ],
                   ),
                   const SizedBox(height: 10),
@@ -86,21 +86,20 @@ class ServicesView extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      quickLinks("Electricity Bill", "assets/icons/lightbulb.svg", const Color(0xFF0F8CC3).withOpacity(.1), null),
-                      quickLinks("Store", "assets/icons/shopping-bag.svg", const Color(0xFF0F8CC3).withOpacity(.1), null),
-                      quickLinks("Waste Bill", "assets/icons/waste-bill.svg", const Color(0xFF0F8CC3).withOpacity(.1), null),
-                    ],
-                  ),
-                  const SizedBox(height: 10),
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
+                      quickLinks("Electricity Bill", "assets/icons/lightbulb.svg", const Color(0xFF0F8CC3).withOpacity(.1), () => model.gotoElectricity()),
                       quickLinks("Airtime to Cash", "assets/icons/airtime-to-cash.svg", const Color(0xFF0F8CC3).withOpacity(.1), null),
-                      quickLinks("Travel", "assets/icons/plan.svg", const Color(0xFF0F8CC3).withOpacity(.1), null),
-                      quickLinks("Water Bill", "assets/icons/water-bill.svg", const Color(0xFF0F8CC3).withOpacity(.1), null),
+                      quickLinks("Store", "assets/icons/shopping-bag.svg", const Color(0xFF0F8CC3).withOpacity(.1), null),
+
                     ],
                   ),
+                  const SizedBox(height: 10),
+                  // Row(
+                  //   crossAxisAlignment: CrossAxisAlignment.start,
+                  //   children: [
+                  //     quickLinks("Waste Bill", "assets/icons/waste-bill.svg", const Color(0xFF0F8CC3).withOpacity(.1), null),
+                  //     quickLinks("Travel", "assets/icons/plan.svg", const Color(0xFF0F8CC3).withOpacity(.1), null),
+                  //   ],
+                  // ),
                 ],
               )
             ],

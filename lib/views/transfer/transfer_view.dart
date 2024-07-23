@@ -24,7 +24,9 @@ class TransferView extends StatelessWidget {
               height: 50,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(10),
-                color: model.selectedAmount == selectedValue ? const Color(0xFFF58634) : const Color(0xFFA4A9AE).withOpacity(.2),
+                color: model.selectedAmount == selectedValue
+                    ? const Color(0xFFF58634)
+                    : const Color(0xFFA4A9AE).withOpacity(.2),
               ),
               child: Center(
                 child: Text(
@@ -84,7 +86,8 @@ class TransferView extends StatelessWidget {
                   ),
                   const Align(
                     alignment: Alignment.centerRight,
-                    child: Text("Beneficiaries",
+                    child: Text(
+                      "Beneficiaries",
                       style: TextStyle(color: Color(0xFF095F85), fontWeight: FontWeight.w700, fontSize: 16),
                     ),
                   ),
@@ -102,23 +105,28 @@ class TransferView extends StatelessWidget {
                   ),
                   // const SizedBox(height: 20),
                   BuildTextField(
-                    title: "Account Number",
-                    textInputType: TextInputType.number,
-                    controller: model.accountNumberController,
-                    hintText: "Enter account number",
-                    bottomSpacing: 0,
-                    validator: (String? val) => val!.isEmpty ? "Account number field cannot be empty" : null,
-                    onChanged: (value) {
-                      model.verified = false;
-                      model.accountName = null;
-                      model.notifyListeners();
-                    }
-                  ),
+                      title: "Account Number",
+                      textInputType: TextInputType.number,
+                      controller: model.accountNumberController,
+                      hintText: "Enter account number",
+                      bottomSpacing: 0,
+                      validator: (String? val) => val!.isEmpty ? "Account number field cannot be empty" : null,
+                      onChanged: (value) {
+                        model.verified = false;
+                        model.accountName = null;
+                        model.notifyListeners();
+                      }),
                   Align(
                     alignment: Alignment.centerLeft,
-                    child: Text(model.accountName ?? "",
-                      style: const TextStyle(color: Colors.black, fontWeight: FontWeight.w700, fontSize: 16),
-                    ),
+                    child: model.accountName != null
+                        ? Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              const Text("Customer's name: "),
+                              Text(model.accountName!),
+                            ],
+                          )
+                        : const SizedBox(height: 10),
                   ),
                   const SizedBox(height: 20),
                   BuildTextField(
@@ -133,29 +141,30 @@ class TransferView extends StatelessWidget {
                     child: RoundedButton(
                       title: model.verified ? "Next" : "Validate",
                       onPressed: () {
-                        if (model.formKey.currentState!.validate()){
+                        if (model.formKey.currentState!.validate()) {
                           if (model.selectedBank != null) {
-                            !model.verified ? model.validateName(context) : pinPad(
-                                ctx: context,
-                                function: (String pin) {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => VerificationComplete(
-                                        title: "Successful",
-                                        description: "Your transfer is on its way",
-                                        onTap: () {
-                                          NavigationService().popRepeated(2);
-                                        },
-                                      ),
-                                    ),
-                                  );
-                                });
+                            !model.verified
+                                ? model.validateName(context)
+                                : pinPad(
+                                    ctx: context,
+                                    function: (String pin) {
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) => VerificationComplete(
+                                            title: "Successful",
+                                            description: "Your transfer is on its way",
+                                            onTap: () {
+                                              NavigationService().popRepeated(2);
+                                            },
+                                          ),
+                                        ),
+                                      );
+                                    });
                           } else {
                             toast("Please select a bank to continue");
                           }
                         }
-
                       },
                     ),
                   ),
@@ -168,39 +177,39 @@ class TransferView extends StatelessWidget {
     );
   }
 
-  // Widget _eachBeneficiary(AirtimeBeneficiary airtimeBeneficiary, TransferViewModel model) {
-  //   checkImage() {
-  //     if (airtimeBeneficiary.operator == 'mtn') {
-  //       return 'assets/images/billers/mtn.webp';
-  //     } else if (airtimeBeneficiary.operator == 'glo') {
-  //       return 'assets/images/billers/glo.webp';
-  //     } else if (airtimeBeneficiary.operator == 'airtel') {
-  //       return 'assets/images/billers/airtel.webp';
-  //     } else {
-  //       return 'assets/images/billers/9mobile.webp';
-  //     }
-  //   }
-  //
-  //   return Row(
-  //     children: [
-  //       InkWell(
-  //         onTap: () => model.setBeneficiary(airtimeBeneficiary),
-  //         child: Column(
-  //           children: [
-  //             CircleAvatar(
-  //               radius: 20,
-  //               backgroundImage: AssetImage(checkImage()),
-  //             ),
-  //             const SizedBox(height: 10),
-  //             Text(
-  //               airtimeBeneficiary.phoneNumber!,
-  //               style: const TextStyle(fontSize: 9),
-  //             )
-  //           ],
-  //         ),
-  //       ),
-  //       const SizedBox(width: 15)
-  //     ],
-  //   );
-  // }
+// Widget _eachBeneficiary(AirtimeBeneficiary airtimeBeneficiary, TransferViewModel model) {
+//   checkImage() {
+//     if (airtimeBeneficiary.operator == 'mtn') {
+//       return 'assets/images/billers/mtn.webp';
+//     } else if (airtimeBeneficiary.operator == 'glo') {
+//       return 'assets/images/billers/glo.webp';
+//     } else if (airtimeBeneficiary.operator == 'airtel') {
+//       return 'assets/images/billers/airtel.webp';
+//     } else {
+//       return 'assets/images/billers/9mobile.webp';
+//     }
+//   }
+//
+//   return Row(
+//     children: [
+//       InkWell(
+//         onTap: () => model.setBeneficiary(airtimeBeneficiary),
+//         child: Column(
+//           children: [
+//             CircleAvatar(
+//               radius: 20,
+//               backgroundImage: AssetImage(checkImage()),
+//             ),
+//             const SizedBox(height: 10),
+//             Text(
+//               airtimeBeneficiary.phoneNumber!,
+//               style: const TextStyle(fontSize: 9),
+//             )
+//           ],
+//         ),
+//       ),
+//       const SizedBox(width: 15)
+//     ],
+//   );
+// }
 }

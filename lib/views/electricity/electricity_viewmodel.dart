@@ -19,8 +19,7 @@ import '../transaction_successful/transaction_successful_view.dart';
 
 class ElectricityViewModel extends ReactiveViewModel {
   final AuthService _authService = locator<AuthService>();
-  final TransferFundsService _transferFundsService =
-      locator<TransferFundsService>();
+  final TransferFundsService _transferFundsService = locator<TransferFundsService>();
   final NavigationService _navigationService = locator<NavigationService>();
   final DialogService _dialogService = locator<DialogService>();
 
@@ -34,11 +33,9 @@ class ElectricityViewModel extends ReactiveViewModel {
 
   String selectedType = "prepaid";
 
-  bool loadingName = false;
   bool verified = false;
 
-  List<ElectricityBillers>? get electricityBillers =>
-      _transferFundsService.electricityBillers;
+  List<ElectricityBillers>? get electricityBillers => _transferFundsService.electricityBillers;
   ElectricityBillers? selectedBiller;
 
   WalletData? get wallet => _authService.walletResponse;
@@ -77,11 +74,6 @@ class ElectricityViewModel extends ReactiveViewModel {
     _navigationService.back();
   }
 
-  void setLoading(bool val) {
-    loadingName = val;
-    notifyListeners();
-  }
-
   Future getData(context) async {
     try {
       final response = await dio().get('/electricity/providers');
@@ -97,29 +89,23 @@ class ElectricityViewModel extends ReactiveViewModel {
           _transferFundsService.setElectricitybiller(temp.data);
           notifyListeners();
         } else {
-          flusher(json['message'] ?? 'Error Fetching data', context,
-              color: Colors.red);
+          flusher(json['message'] ?? 'Error Fetching data', context, color: Colors.red);
         }
       } else {
-        flusher(json['message'] ?? 'Error Fetching data', context,
-            color: Colors.red);
+        flusher(json['message'] ?? 'Error Fetching data', context, color: Colors.red);
       }
     } on DioException catch (e) {
       print(e.response);
-      flusher(DioExceptions.fromDioError(e).toString(), context,
-          color: Colors.red);
+      flusher(DioExceptions.fromDioError(e).toString(), context, color: Colors.red);
     }
   }
 
   Future validateMeter(context) async {
-    LoaderDialog.showLoadingDialog(context,
-        message: "Validating meter number...");
-    setLoading(true);
+    LoaderDialog.showLoadingDialog(context, message: "Validating meter number...");
 
     Map<String, dynamic> payload = {
-      'billers_code': meterNoController.text,
-      'service_id': selectedBiller!.serviceID,
-      'type': selectedType
+      'account_number': meterNoController.text,
+      'type': selectedBiller!.type,
     };
 
     try {
@@ -132,45 +118,35 @@ class ElectricityViewModel extends ReactiveViewModel {
       String? success = json['status'];
 
       if (statusCode == 200) {
-        if (success == 'success') {
-          accountName = json['data']['Customer_Name'];
+        if (success == 'success' && json['data']['customerName'] != null) {
+          accountName = json['data']['customerName'];
 
-          setLoading(false);
           _dialogService.completeDialog(DialogResponse());
           verified = true;
           notifyListeners();
         } else {
-          setLoading(false);
           resetName();
           _dialogService.completeDialog(DialogResponse());
-          flusher(json['message'] ?? 'Error Fetching data', context,
-              color: Colors.red);
+          flusher(json['message'] ?? 'Error Fetching data', context, color: Colors.red);
         }
       } else {
-        setLoading(false);
         resetName();
         _dialogService.completeDialog(DialogResponse());
-        flusher(json['message'] ?? 'Error Fetching data', context,
-            color: Colors.red);
+        flusher(json['message'] ?? 'Error Fetching data', context, color: Colors.red);
       }
     } on DioException catch (e) {
-      setLoading(false);
       resetName();
       _dialogService.completeDialog(DialogResponse());
-      flusher(DioExceptions.fromDioError(e).toString(), context,
-          color: Colors.red);
+      flusher(DioExceptions.fromDioError(e).toString(), context, color: Colors.red);
     }
   }
 
   Future purchaseElectricity(context) async {
-    LoaderDialog.showLoadingDialog(context,
-        message:
-            'Purchasing ${selectedBiller!.name} of ${amountController.text}');
+    LoaderDialog.showLoadingDialog(context, message: 'Purchasing ${selectedBiller!.narration} of ${amountController.text}');
 
     Map<String, dynamic> payload = {
-      'service_id': selectedBiller!.serviceID,
-      'billers_code': meterNoController.text,
-      'variation_code': selectedType,
+      'account_number': meterNoController.text,
+      'type': selectedBiller!.type,
       'amount': amountController.text,
     };
 
@@ -179,24 +155,23 @@ class ElectricityViewModel extends ReactiveViewModel {
       String? success = jsonDecode(response.toString())['status'];
       Map<String, dynamic> json = jsonDecode(response.toString());
 
-        if (success == 'success') {
-          await _authService.getWalletDetails();
-          await _authService.getWalletTransactions(page: 1);
-          notifyListeners();
-          _dialogService.completeDialog(DialogResponse());
-          _navigationService.back();
-          _navigationService.navigateToView(
-            const TransactionSuccessfulView(),
-          );
-        } else {
-          _dialogService.completeDialog(DialogResponse());
-          print(json);
-          flusher(json['message'] ?? 'Error Fetching data', context, color: Colors.red);
-        }
+      if (success == 'success') {
+        await _authService.getWalletDetails();
+        await _authService.getWalletTransactions(page: 1);
+        notifyListeners();
+        _dialogService.completeDialog(DialogResponse());
+        _navigationService.back();
+        _navigationService.navigateToView(
+          const TransactionSuccessfulView(),
+        );
+      } else {
+        _dialogService.completeDialog(DialogResponse());
+        print(json);
+        flusher(json['message'] ?? 'Error Fetching data', context, color: Colors.red);
+      }
     } on DioException catch (e) {
       _dialogService.completeDialog(DialogResponse());
-      flusher(DioExceptions.fromDioError(e).toString(), context,
-          color: Colors.red);
+      flusher(DioExceptions.fromDioError(e).toString(), context, color: Colors.red);
     }
   }
 

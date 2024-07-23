@@ -311,7 +311,7 @@ class HomePageView extends StatelessWidget {
                                       crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
                                         quickLinks("Electricity Bill", "assets/icons/lightbulb.svg",
-                                            const Color(0xFF345AFA).withOpacity(.1), null),
+                                            const Color(0xFF345AFA).withOpacity(.1), () => model.gotoElectricity()),
                                         quickLinks("Store", "assets/icons/shopping-bag.svg",
                                             const Color(0xFF9F05B8).withOpacity(.1), null),
                                         quickLinks("More", "assets/icons/add.svg",
