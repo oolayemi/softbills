@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:no_name/core/utils/tools.dart';
+import 'package:no_name/views/fund_account/fund_account_view.dart';
 import 'package:no_name/views/homepage/homepage_viewmodel.dart';
 import 'package:no_name/views/profile/profile_view.dart';
 import 'package:no_name/views/transactions/transaction_view.dart';
@@ -206,7 +207,7 @@ class HomePageView extends StatelessWidget {
                                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                           children: [
                                             Container(
-                                              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 5),
+                                              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
                                               decoration: BoxDecoration(
                                                 color: const Color(0xFFC4C4C4).withOpacity(.4),
                                                 borderRadius: BorderRadius.circular(10),
@@ -224,6 +225,14 @@ class HomePageView extends StatelessWidget {
                                                   ),
                                                   const SizedBox(width: 13),
                                                   GestureDetector(
+                                                    onTap: () {
+                                                      if (model.wallet?.number != null) {
+                                                        copyToClipboard(
+                                                          model.wallet!.number!,
+                                                          "Wallet number copied successfully",
+                                                        );
+                                                      }
+                                                    },
                                                     child: const Icon(
                                                       Icons.copy_rounded,
                                                       size: 20,
@@ -233,30 +242,35 @@ class HomePageView extends StatelessWidget {
                                                 ],
                                               ),
                                             ),
-                                            Container(
-                                              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 5),
-                                              decoration: BoxDecoration(
-                                                color: const Color(0xFFC4C4C4).withOpacity(.4),
-                                                borderRadius: BorderRadius.circular(10),
-                                              ),
-                                              child: const Row(
-                                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                                children: [
-                                                  Icon(
-                                                    Icons.add_circle_outline_outlined,
-                                                    size: 24,
-                                                    color: Colors.white,
-                                                  ),
-                                                  SizedBox(width: 4),
-                                                  Text(
-                                                    'Fund account',
-                                                    style: TextStyle(
+                                            InkWell(
+                                              onTap: () {
+                                                NavigationService().navigateToView(const FundAccountView());
+                                              },
+                                              child: Container(
+                                                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 5),
+                                                decoration: BoxDecoration(
+                                                  color: const Color(0xFFC4C4C4).withOpacity(.4),
+                                                  borderRadius: BorderRadius.circular(10),
+                                                ),
+                                                child: const Row(
+                                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                  children: [
+                                                    Icon(
+                                                      Icons.add_circle_outline_outlined,
+                                                      size: 24,
                                                       color: Colors.white,
-                                                      fontSize: 18,
-                                                      fontWeight: FontWeight.w400,
                                                     ),
-                                                  ),
-                                                ],
+                                                    SizedBox(width: 4),
+                                                    Text(
+                                                      'Fund account',
+                                                      style: TextStyle(
+                                                        color: Colors.white,
+                                                        fontSize: 18,
+                                                        fontWeight: FontWeight.w400,
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
                                               ),
                                             ),
                                           ],

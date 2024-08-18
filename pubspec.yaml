@@ -114,6 +114,7 @@ flutter:
     - assets/images/flags/
     - assets/images/background/
     - assets/icons/
+    - assets/svg/banks/
     - assets/svg/
 
   # An image asset can refer to one or more resolution-specific "variants", see

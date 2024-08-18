@@ -85,6 +85,7 @@ class DataView extends StatelessWidget {
                         pinPad(
                             ctx: context,
                             function: (String pin) {
+                              model.purchaseData(context);
                               // Navigator.push(
                               //   context,
                               //   MaterialPageRoute(

@@ -129,9 +129,11 @@ class AirtimeViewModel extends ReactiveViewModel {
 
     Map<String, dynamic> payload = {
       'amount': amountController.text,
-      'phone': phoneController.text,
-      'service_id': selectedBiller!.serviceID,
+      'mobile': phoneController.text,
+      'operator': selectedBiller!.serviceID,
     };
+
+    print(payload);
 
     try {
       final response = await dio().post('/airtime/purchase', data: payload);
@@ -147,7 +149,7 @@ class AirtimeViewModel extends ReactiveViewModel {
           await _authService.getWalletTransactions(page: 1);
           notifyListeners();
           _dialogService.completeDialog(DialogResponse());
-          _navigationService.popRepeated(2);
+          _navigationService.back();
           _navigationService.navigateToView(
             const TransactionSuccessfulView(),
           );

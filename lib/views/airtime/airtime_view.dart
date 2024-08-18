@@ -134,20 +134,21 @@ class AirtimeView extends StatelessWidget {
                           pinPad(
                               ctx: context,
                               function: (String pin) {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) =>
-                                        VerificationComplete(
-                                          title: "Successful",
-                                          description: "Your airtime is on its way",
-                                          buttonText: "View Receipt",
-                                          onTap: () {
-                                            NavigationService().popRepeated(2);
-                                          },
-                                        ),
-                                  ),
-                                );
+                                model.purchaseAirtime(context);
+                                // Navigator.push(
+                                //   context,
+                                //   MaterialPageRoute(
+                                //     builder: (context) =>
+                                //         VerificationComplete(
+                                //           title: "Successful",
+                                //           description: "Your airtime is on its way",
+                                //           buttonText: "View Receipt",
+                                //           onTap: () {
+                                //             NavigationService().popRepeated(2);
+                                //           },
+                                //         ),
+                                //   ),
+                                // );
                               });
                         }
                         // if (model.formKey.currentState!.validate()) {

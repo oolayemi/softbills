@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:no_name/styles/brand_color.dart';
 import 'package:no_name/widgets/utility_widgets.dart';
 import 'package:stacked/stacked.dart';
@@ -44,13 +45,24 @@ class ElectricityView extends StatelessWidget {
                       alignment: Alignment.centerRight,
                       child: Container(
                         child: model.accountName != null
-                            ? Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            ? Column(
+                          children: [
+                            const SizedBox(height: 10),
+                            Container(
+                              width: double.infinity,
+                              padding: const EdgeInsets.all(15),
+                              decoration: BoxDecoration(
+                                  color: const Color(0xFFDDFFD7), borderRadius: BorderRadius.circular(10)),
+                              child: Row(
                                 children: [
-                                  const Text("Customer's name: "),
+                                  SvgPicture.asset("assets/svg/fancy_check.svg"),
+                                  const SizedBox(width: 10),
                                   Text(model.accountName!),
                                 ],
-                              )
+                              ),
+                            ),
+                          ],
+                        )
                             : const SizedBox(
                                 height: 10,
                               ),
@@ -84,18 +96,7 @@ class ElectricityView extends StatelessWidget {
                             : pinPad(
                                 ctx: context,
                                 function: (String pin) {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => VerificationComplete(
-                                        title: "Successful",
-                                        description: "Your transfer is on its way",
-                                        onTap: () {
-                                          NavigationService().popRepeated(2);
-                                        },
-                                      ),
-                                    ),
-                                  );
+                                  model.purchaseElectricity(context);
                                 });
                       } else {
                         toast("Please select a provider to continue");

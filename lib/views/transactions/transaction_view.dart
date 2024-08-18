@@ -1,4 +1,6 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:no_name/widgets/utility_widgets.dart';
 
 import '../profile/profile_view.dart';
@@ -52,7 +54,70 @@ class TransactionView extends StatelessWidget {
           ),
         ],
       ),
-      body: const Column(),
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            Container(
+              padding: const EdgeInsets.symmetric(vertical: 7, horizontal: 7),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(10),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.grey.withOpacity(.3),
+                    blurRadius: 20.0,
+                    spreadRadius: .5,
+                    offset: Offset(
+                      0.4,
+                      12.4,
+                    ),
+                  )
+                ],
+              ),
+              child: Row(
+                children: [
+                  Container(
+                      height: 45,
+                      width: 45,
+                      decoration: BoxDecoration(
+                        color: Colors.red,
+                        borderRadius: BorderRadius.circular(15),
+                      )),
+                  const SizedBox(width: 10),
+                  const Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          "Airtime",
+                          style: TextStyle(fontWeight: FontWeight.w600),
+                          maxLines: 1,
+                        ),
+                        Text(
+                          "4:34 PM",
+                          style: TextStyle(fontSize: 12),
+                        ),
+                      ],
+                    ),
+                  ),
+                  const SizedBox(width: 10),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: [
+                      SvgPicture.asset("assets/svg/inward.svg"),
+                      Text(
+                        "N6,000",
+                        style: TextStyle(fontSize: 14, fontWeight: FontWeight.w900),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+            const SizedBox(height: 15),
+          ],
+        ),
+      ),
     );
   }
 }

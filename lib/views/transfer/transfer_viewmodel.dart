@@ -83,7 +83,7 @@ class TransferViewModel extends ReactiveViewModel {
 
   Future getBanks(context) async {
     try {
-      final response = await dio().get('/wallet/bank-list');
+      final response = await dio().get('/transfer/bank-list');
 
       int? statusCode = response.statusCode;
 
@@ -112,17 +112,19 @@ class TransferViewModel extends ReactiveViewModel {
     }
   }
 
-  Future purchaseAirtime(context) async {
-    LoaderDialog.showLoadingDialog(context, message: "Purchasing Airtime...");
+  Future makeTransfer(context) async {
+    LoaderDialog.showLoadingDialog(context, message: "Making transfer...");
 
     Map<String, dynamic> payload = {
-      'amount': amountController.text,
-      'account_number': accountNumberController.text,
-      'bank_code': selectedBank?.cbnCode
+    'bank_code': selectedBank?.cbnCode,
+    'account_number': accountNumberController.text,
+    'account_name': accountName,
+    'amount': amountController.text,
+    'narration': narrationController.text,
     };
 
     try {
-      final response = await dio().post('/airtime/purchase', data: payload);
+      final response = await dio().post('/transfer/make-transfer', data: payload);
 
       int? statusCode = response.statusCode;
       String? success = jsonDecode(response.toString())['status'];
@@ -135,7 +137,7 @@ class TransferViewModel extends ReactiveViewModel {
           await _authService.getWalletTransactions(page: 1);
           notifyListeners();
           _dialogService.completeDialog(DialogResponse());
-          _navigationService.popRepeated(2);
+          _navigationService.back();
           _navigationService.navigateToView(
             const TransactionSuccessfulView(),
           );
@@ -164,7 +166,7 @@ class TransferViewModel extends ReactiveViewModel {
       };
 
       try {
-        final response = await dio().post('/wallet/name-enquiry', data: payload);
+        final response = await dio().post('/transfer/name-enquiry', data: payload);
 
         int? statusCode = response.statusCode;
 

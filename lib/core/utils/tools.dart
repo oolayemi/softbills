@@ -2,6 +2,8 @@ import 'dart:async';
 import 'dart:math';
 
 import 'package:dio/dio.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:intl/intl.dart';
@@ -90,4 +92,10 @@ class CustomInterceptor extends Interceptor {
     // Pass the error on to the next interceptor
     return handler.next(err);
   }
+}
+
+void copyToClipboard(String value, String message) {
+  Clipboard.setData(ClipboardData(text: value)).then(
+        (value) => Fluttertoast.showToast(msg: message, backgroundColor: Colors.blue),
+  );
 }

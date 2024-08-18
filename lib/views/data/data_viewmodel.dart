@@ -91,8 +91,6 @@ class DataViewModel extends ReactiveViewModel {
       String? success = jsonDecode(response.toString())['status'];
       Map<String, dynamic> json = response.data;
 
-      log(jsonEncode(json));
-
       if (statusCode == 200) {
         if (success == 'success') {
           DataBillersData temp = DataBillersData.fromJson(json);
@@ -181,7 +179,7 @@ class DataViewModel extends ReactiveViewModel {
           await _authService.getWalletTransactions(page: 1);
           notifyListeners();
           _dialogService.completeDialog(DialogResponse());
-          _navigationService.popRepeated(2);
+          _navigationService.back();
           _navigationService.navigateToView(
             const TransactionSuccessfulView(),
           );

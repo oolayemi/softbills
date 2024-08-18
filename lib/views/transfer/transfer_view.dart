@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:no_name/core/models/bank_data.dart';
 import 'package:no_name/views/auth/sign_up/otp_verification/verification_complete.dart';
 import 'package:no_name/widgets/utility_widgets.dart';
@@ -116,30 +117,39 @@ class TransferView extends StatelessWidget {
                         model.accountName = null;
                         model.notifyListeners();
                       }),
-                  Align(
-                    alignment: Alignment.centerLeft,
-                    child: model.accountName != null
-                        ? Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              const Text("Customer's name: "),
-                              Text(model.accountName!),
-                            ],
-                          )
-                        : const SizedBox(height: 10),
-                  ),
+                  model.accountName != null
+                      ? Column(
+                          children: [
+                            const SizedBox(height: 10),
+                            Container(
+                              width: double.infinity,
+                              padding: const EdgeInsets.all(15),
+                              decoration: BoxDecoration(
+                                  color: const Color(0xFFDDFFD7), borderRadius: BorderRadius.circular(10)),
+                              child: Row(
+                                children: [
+                                  SvgPicture.asset("assets/svg/fancy_check.svg"),
+                                  const SizedBox(width: 10),
+                                  Text(model.accountName!),
+                                ],
+                              ),
+                            ),
+                          ],
+                        )
+                      : const SizedBox(),
                   const SizedBox(height: 20),
                   BuildTextField(
                     title: "Purpose",
                     controller: model.narrationController,
                     hintText: "Enter description here",
                     bottomSpacing: 0,
+                    validator: (String? val) => val!.isEmpty ? "Purpose field cannot be empty" : null,
                   ),
                   const SizedBox(height: 30),
                   SizedBox(
                     width: double.infinity,
                     child: RoundedButton(
-                      title: model.verified ? "Next" : "Validate",
+                      title: model.verified ? "Proceed" : "Validate",
                       onPressed: () {
                         if (model.formKey.currentState!.validate()) {
                           if (model.selectedBank != null) {
@@ -148,18 +158,7 @@ class TransferView extends StatelessWidget {
                                 : pinPad(
                                     ctx: context,
                                     function: (String pin) {
-                                      Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                          builder: (context) => VerificationComplete(
-                                            title: "Successful",
-                                            description: "Your transfer is on its way",
-                                            onTap: () {
-                                              NavigationService().popRepeated(2);
-                                            },
-                                          ),
-                                        ),
-                                      );
+                                      model.makeTransfer(context);
                                     });
                           } else {
                             toast("Please select a bank to continue");

@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 
 import 'package:dio/dio.dart';
 import 'package:encrypt/encrypt.dart';
@@ -249,6 +250,8 @@ class AuthService with ReactiveServiceMixin {
 
         int? statusCode = value.statusCode;
         Map<String, dynamic> responseData = value.data!;
+
+        log(jsonEncode(responseData));
 
         if (statusCode == 200) {
           if (responseData['status'] == 'success') {
