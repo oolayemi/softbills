@@ -23,7 +23,7 @@ class CreatePasswordView extends StatelessWidget {
                 onTap: Navigator.of(context).pop,
                 child: Padding(
                   padding: const EdgeInsets.only(left: 10.0),
-                  child: Image.asset('assets/images/Frame 1000002902.png'),
+                  child: Image.asset('assets/images/Frame 1000002854.png'),
                 ),
               ),
             ),
@@ -80,8 +80,12 @@ class CreatePasswordView extends StatelessWidget {
                     width: double.infinity,
                     child: RoundedButton(
                       title: "Done",
-                      onPressed: () {
+                      onPressed: () async {
                         if (model.formKey.currentState!.validate()) {
+                          if (from == "reset") {
+                            await model.changePassword(context);
+                            return;
+                          }
                           model.gotoVerificationCompleteView();
                         }
                       },

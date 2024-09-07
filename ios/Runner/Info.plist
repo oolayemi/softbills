@@ -30,6 +30,12 @@
 	<string>Please authenticate to use the app</string>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
+	<key>NSPhotoLibraryUsageDescription</key>
+    <string>This app requires access to the photo library.</string>
+    <key>NSMicrophoneUsageDescription</key>
+    <string>This app does not require access to the microphone.</string>
+    <key>NSCameraUsageDescription</key>
+    <string>This app requires access to the camera.</string>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
 	<key>UIMainStoryboardFile</key>

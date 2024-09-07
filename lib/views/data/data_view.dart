@@ -26,7 +26,7 @@ class DataView extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 BuildBillerDropDown(
-                  list: model.billers.take(5).toList(),
+                  list: model.billers,
                   title: "Provider",
                   value: model.selectedBiller,
                   bottomSpacing: 0,

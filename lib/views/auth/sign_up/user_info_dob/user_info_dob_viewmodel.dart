@@ -100,7 +100,7 @@ class UserInfoDobViewModel extends ReactiveViewModel {
               buttonText: "Start exploring App",
               imageUrl: "assets/images/Design 1.png",
               onTap: () {
-                NavigationService().navigateToView(const DashboardView());
+                NavigationService().clearStackAndShowView(const DashboardView());
               },
             ),
           );
@@ -132,7 +132,7 @@ class UserInfoDobViewModel extends ReactiveViewModel {
         buttonText: "Start exploring App",
         imageUrl: "assets/images/Design 1.png",
         onTap: () {
-          NavigationService().navigateToView(const DashboardView());
+          NavigationService().clearStackAndShowView(const DashboardView());
         },
       ),
     );

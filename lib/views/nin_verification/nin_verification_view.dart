@@ -2,20 +2,20 @@ import 'package:flutter/material.dart';
 import 'package:no_name/widgets/utility_widgets.dart';
 import 'package:stacked/stacked.dart';
 
-import 'bvn_verification_viewmodel.dart';
+import 'nin_verification_viewmodel.dart';
 
-class BVNVerificationView extends StatelessWidget {
-  const BVNVerificationView({super.key});
+class NinVerificationView extends StatelessWidget {
+  const NinVerificationView({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return ViewModelBuilder<BVNVerificationViewModel>.reactive(
+    return ViewModelBuilder<NinVerificationViewModel>.reactive(
         onViewModelReady: (model) => model.setUp(),
-        viewModelBuilder: () => BVNVerificationViewModel(),
+        viewModelBuilder: () => NinVerificationViewModel(),
         builder: (context, model, child) {
           return CustomScaffoldWidget(
             appBar: const CustomAppBar(
-              title: "BVN Verification",
+              title: "NIN Verification",
             ),
             body: Stack(
               children: [
@@ -25,20 +25,20 @@ class BVNVerificationView extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       const Text(
-                        "Enter your BVN",
+                        "Enter your NIN",
                         style: TextStyle(fontSize: 25, fontWeight: FontWeight.w700),
                       ),
                       const Text(
-                        "Type in your BVN carefully",
+                        "Type in your NIN carefully",
                         style: TextStyle(fontSize: 15),
                       ),
                       const SizedBox(height: 40),
                       BuildTextField(
-                        title: "BVN",
-                        hintText: "Enter BVN",
+                        title: "NIN",
+                        hintText: "Enter NIN",
                         textInputType: TextInputType.number,
                         maxLength: 11,
-                        controller: model.bvnController,
+                        controller: model.ninController,
                         validator: (value) => value!.isEmpty ? "" : null,
                       ),
                     ],
@@ -52,7 +52,7 @@ class BVNVerificationView extends StatelessWidget {
                     title: "Confirm",
                     onPressed: () {
                       if (model.formKey.currentState!.validate()) {
-                        model.verifyBvn(context);
+                        model.verifyNin(context);
                       }
                     },
                   ),

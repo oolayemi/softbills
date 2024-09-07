@@ -4,12 +4,10 @@ import 'package:flutter_svg/svg.dart';
 import 'package:no_name/styles/brand_color.dart';
 import 'package:no_name/widgets/utility_widgets.dart';
 import 'package:stacked/stacked.dart';
-import 'package:stacked_services/stacked_services.dart';
 
 import '../../core/models/electricity_data.dart';
 import '../../core/utils/size_config.dart';
 import '../../core/utils/tools.dart';
-import '../auth/sign_up/otp_verification/verification_complete.dart';
 import 'electricity_viewmodel.dart';
 
 class ElectricityView extends StatelessWidget {
@@ -300,7 +298,7 @@ class ElectricityView extends StatelessWidget {
                               Expanded(
                                 child: Container(
                                   margin: EdgeInsets.only(left: SizeConfig.xMargin(context, 2)),
-                                  child: Text('${ucWord(item.shortName!)}',
+                                  child: Text(ucWord(item.shortName!),
                                       style: Theme.of(context)
                                           .textTheme
                                           .displaySmall!

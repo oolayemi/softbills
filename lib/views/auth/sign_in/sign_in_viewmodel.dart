@@ -130,8 +130,4 @@ class SignInViewModel extends ReactiveViewModel {
       flusher(DioExceptions.fromDioError(e).toString(), context, color: Colors.red);
     }
   }
-
-  @override
-  // TODO: implement reactiveServices
-  List<ReactiveServiceMixin> get reactiveServices => [];
 }

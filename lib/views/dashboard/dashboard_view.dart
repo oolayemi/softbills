@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:no_name/views/homepage/homepage_view.dart';
+import 'package:no_name/views/more/more_view.dart';
 import 'package:no_name/views/services/services_view.dart';
 import 'package:stacked/stacked.dart';
 
@@ -19,7 +20,7 @@ class DashboardView extends StatelessWidget {
             const HomePageView(),
             const ServicesView(),
             const SizedBox(),
-            const SizedBox(),
+            const MoreView(),
           ];
         }
 

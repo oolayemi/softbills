@@ -56,6 +56,7 @@ class ElectricityViewModel extends ReactiveViewModel {
   }
 
   void setElectricityBiller(ElectricityBillers val) {
+    print(val.toJson());
     verified = false;
     accountName = null;
     minimumAmount = null;
@@ -148,6 +149,7 @@ class ElectricityViewModel extends ReactiveViewModel {
       'account_number': meterNoController.text,
       'type': selectedBiller!.type,
       'amount': amountController.text,
+      'image_url': selectedBiller?.image
     };
 
     try {

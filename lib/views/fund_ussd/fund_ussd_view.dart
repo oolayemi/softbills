@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:no_name/widgets/utility_widgets.dart';
 import 'package:stacked/stacked.dart';
 
@@ -49,7 +48,7 @@ class FundUssdView extends StatelessWidget {
                 const SizedBox(width: 10)
               ],
             ),
-            Text(name, style: TextStyle(fontWeight: FontWeight.w600, fontSize: 18)),
+            Text(name, style: const TextStyle(fontWeight: FontWeight.w600, fontSize: 18)),
           ],
         ),
         const SizedBox(height: 10),
@@ -62,7 +61,7 @@ class FundUssdView extends StatelessWidget {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text(value, style: TextStyle(fontSize: 18)),
+              Text(value, style: const TextStyle(fontSize: 18)),
               shouldCopy == true ? InkWell(
                 onTap: (){},
                   child: const Icon(Icons.copy_all)) : const SizedBox(),

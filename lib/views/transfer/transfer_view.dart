@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:no_name/core/models/bank_data.dart';
-import 'package:no_name/views/auth/sign_up/otp_verification/verification_complete.dart';
 import 'package:no_name/widgets/utility_widgets.dart';
 import 'package:stacked/stacked.dart';
-import 'package:stacked_services/stacked_services.dart';
 
 import 'transfer_viewmodel.dart';
 

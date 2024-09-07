@@ -8,7 +8,6 @@ import 'package:no_name/views/dashboard/dashboard_view.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
 
-
 class SplashScreenViewModel extends ReactiveViewModel {
   final NavigationService _navigationService = locator<NavigationService>();
   final AuthService _authService = locator<AuthService>();

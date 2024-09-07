@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:no_name/app/locator.dart';
 import 'package:no_name/core/models/airtime_beneficiaries.dart';
-import 'package:no_name/core/models/airtime_billers.dart';
 import 'package:no_name/core/services/auth_service.dart';
 import 'package:no_name/views/services/transfer_funds_service.dart';
 import 'package:stacked/stacked.dart';
@@ -13,11 +12,12 @@ import 'package:stacked_services/stacked_services.dart';
 
 import '../../core/constants/loading_dialog.dart';
 import '../../core/exceptions/error_handling.dart';
-import '../../core/models/airtime_data_model.dart';
 import '../../core/models/currency_rates.dart';
+import '../../core/models/data_billers.dart';
 import '../../core/models/wallet_response.dart';
 import '../../core/utils/tools.dart';
 import '../../widgets/utility_widgets.dart';
+import '../auth/sign_up/otp_verification/verification_complete.dart';
 import '../transaction_successful/transaction_successful_view.dart';
 
 class AirtimeViewModel extends ReactiveViewModel {
@@ -30,23 +30,15 @@ class AirtimeViewModel extends ReactiveViewModel {
 
   int selectedAmount = 0;
 
-  List<AirTimeDataModel> get data => AirTimeDataModel.data;
-  AirTimeDataModel? selected;
-
   List<AirtimeBeneficiary>? get airtimeBeneficiaries => _authService.airtimeBeneficiaries;
 
   WalletData? get wallet => _authService.walletResponse;
 
-  List<AirtimeBillers> tempBillers = [];
-
   bool fetched = false;
   bool errorFetching = false;
 
-  List<AirtimePlans>? plans;
-  AirtimePlans? selectedPlan;
-
-  List<AirtimeBillers> get billers => _transferFundsService.airtimeBillers;
-  AirtimeBillers? selectedBiller;
+  List<DataBillers> get billers => _transferFundsService.dataBillers;
+  DataBillers? selectedBiller;
 
   TextEditingController phoneController = TextEditingController();
   TextEditingController amountController = TextEditingController();
@@ -56,9 +48,9 @@ class AirtimeViewModel extends ReactiveViewModel {
   Rates? selectedRate;
   String? buildText;
 
-  void changeSelectAmount(int page, int? value){
+  void changeSelectAmount(int page, int? value) {
     selectedAmount = page;
-    if(page != 0){
+    if (page != 0) {
       amountController.text = "$value";
     }
     notifyListeners();
@@ -68,60 +60,15 @@ class AirtimeViewModel extends ReactiveViewModel {
     errorFetching = false;
 
     notifyListeners();
-    if (billers.isEmpty) {
-      await getBillers(context);
-      // print('loadOperators::::: ');
-    }
     if (!errorFetching && fetched) {
-      setProvider(data[0]);
       setAirtimeBiller(billers[0]);
     }
     notifyListeners();
   }
 
-  void setProvider(AirTimeDataModel val) {
-    selected = val;
-    notifyListeners();
-  }
-
-  void setAirtimeBiller(AirtimeBillers val) {
+  void setAirtimeBiller(DataBillers val) {
     selectedBiller = val;
-    plans = val.plans;
-    selectedPlan = null;
-    // amountController.text = '';
     notifyListeners();
-  }
-
-  Future getBillers(context) async {
-    try {
-      final response = await dio().get('/airtime/providers');
-
-      int? statusCode = response.statusCode;
-
-      String? success = jsonDecode(response.toString())['status'];
-      Map<String, dynamic> json = jsonDecode(response.toString());
-
-      if (statusCode == 200) {
-        if (success == 'success') {
-          AirtimeBillersData temp = AirtimeBillersData.fromJson(json);
-          tempBillers = temp.data ?? [];
-          _transferFundsService.setAirtimeBillers(temp.data!);
-          // fetched = true;
-          notifyListeners();
-        } else {
-          flusher(json['message'] ?? 'Error Fetching data', context, color: Colors.red);
-          errorFetching = true;
-        }
-      } else {
-        flusher(json['message'] ?? 'Error Fetching data', context, color: Colors.red);
-        errorFetching = true;
-        fetched = false;
-      }
-    } on DioException catch (e) {
-      errorFetching = true;
-      print(e.response);
-      flusher(DioExceptions.fromDioError(e).toString(), context, color: Colors.red);
-    }
   }
 
   Future purchaseAirtime(context) async {
@@ -130,7 +77,8 @@ class AirtimeViewModel extends ReactiveViewModel {
     Map<String, dynamic> payload = {
       'amount': amountController.text,
       'mobile': phoneController.text,
-      'operator': selectedBiller!.serviceID,
+      'operator': selectedBiller!.name!.toLowerCase(),
+      'image_url': selectedBiller?.image
     };
 
     print(payload);
@@ -138,29 +86,19 @@ class AirtimeViewModel extends ReactiveViewModel {
     try {
       final response = await dio().post('/airtime/purchase', data: payload);
 
-      int? statusCode = response.statusCode;
-      String? success = jsonDecode(response.toString())['status'];
+      Map<String, dynamic> responseData = response.data;
 
-      Map<String, dynamic> json = jsonDecode(response.toString());
-
-      if (statusCode == 200) {
-        if (success == 'success') {
-          await _authService.getWalletDetails();
-          await _authService.getWalletTransactions(page: 1);
-          notifyListeners();
-          _dialogService.completeDialog(DialogResponse());
-          _navigationService.back();
-          _navigationService.navigateToView(
-            const TransactionSuccessfulView(),
-          );
-        } else {
-          _dialogService.completeDialog(DialogResponse());
-          flusher(json['message'] ?? 'Error Fetching data', context, color: Colors.red);
-        }
-      } else {
-        _dialogService.completeDialog(DialogResponse());
-        flusher(json['message'] ?? 'Error Fetching data', context, color: Colors.red);
-      }
+      await _authService.getWalletDetails();
+      await _authService.getWalletTransactions(page: 1);
+      notifyListeners();
+      _dialogService.completeDialog(DialogResponse());
+      _navigationService.back();
+      _navigationService.navigateToView(VerificationComplete(
+          title: "Successful",
+          description: responseData['message'],
+          buttonText: "Continue",
+          onTap: () => _navigationService.back()
+      ));
     } on DioException catch (e) {
       _dialogService.completeDialog(DialogResponse());
       flusher(DioExceptions.fromDioError(e).toString(), context, color: Colors.red);

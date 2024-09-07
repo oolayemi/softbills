@@ -6,9 +6,9 @@ import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:crypto/crypto.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:image_picker/image_picker.dart';
 
 import 'package:intl/intl.dart';
-import 'package:no_name/core/models/airtime_billers.dart';
 import 'package:no_name/core/services/utility_storage_service.dart';
 import 'package:no_name/core/utils/tools.dart';
 import 'package:pinput/pinput.dart';
@@ -858,10 +858,10 @@ class BuildBillerDropDown extends StatelessWidget {
 
 class BuildAirtimeBillerDropDown extends StatelessWidget {
   final String title;
-  final AirtimeBillers? value;
-  final List<AirtimeBillers> list;
+  final DataBillers? value;
+  final List<DataBillers> list;
   final double bottomSpacing;
-  final Function(AirtimeBillers?)? onChanged;
+  final Function(DataBillers?)? onChanged;
 
   const BuildAirtimeBillerDropDown({
     super.key,
@@ -894,13 +894,13 @@ class BuildAirtimeBillerDropDown extends StatelessWidget {
             children: [
               list.isNotEmpty
                   ? Expanded(
-                      child: DropdownButton<AirtimeBillers>(
+                      child: DropdownButton<DataBillers>(
                         value: value,
                         isExpanded: true,
                         hint: Text("Select $title"),
                         underline: const SizedBox(),
                         items: list
-                            .map<DropdownMenuItem<AirtimeBillers>>(
+                            .map<DropdownMenuItem<DataBillers>>(
                               (e) => DropdownMenuItem(
                                 value: e,
                                 child: Row(
@@ -1250,6 +1250,83 @@ class TextBoxText extends StatelessWidget {
           fontSize: 13,
           fontWeight: FontWeight.w400,
           color: Color(0xFF333333),
+        ),
+      ),
+    );
+  }
+}
+
+class ImageSourcePopup extends StatelessWidget {
+  final dynamic model;
+  final dynamic setState;
+
+  const ImageSourcePopup({super.key, required this.model, this.setState});
+
+  @override
+  Widget build(BuildContext context) {
+    return Dialog(
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(12.0),
+      ),
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 25.0, vertical: 15),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            // Your content in the center
+            const Text(
+              'Select Image Source',
+              style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold),
+            ),
+            const SizedBox(height: 10.0),
+            // Two buttons at the bottom
+            Row(
+              children: [
+                Expanded(
+                  child: ElevatedButton(
+                    onPressed: () {
+                      model.getImage(ImageSource.camera).then((value) {
+                        NavigationService().back();
+                        if (setState != null) setState ((){});
+                      });
+                    },
+                    style: ElevatedButton.styleFrom(
+                        backgroundColor: BrandColors.primary,
+                        elevation: 0,
+                        padding: const EdgeInsets.symmetric(horizontal: 20),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(30),
+                        )),
+                    child: const Text(
+                      'Camera',
+                      style: TextStyle(color: Colors.white),
+                    ),
+                  ),
+                ),
+                const SizedBox(width: 10),
+                Expanded(
+                  child: ElevatedButton(
+                    onPressed: () {
+                      model.getImage(ImageSource.gallery).then((value) {
+                        NavigationService().back();
+                        if (setState != null) setState ((){});
+                      });
+                    },
+                    style: ElevatedButton.styleFrom(
+                        backgroundColor: BrandColors.primary,
+                        elevation: 0,
+                        padding: const EdgeInsets.symmetric(horizontal: 20),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(30),
+                        )),
+                    child: const Text('Gallery', style: TextStyle(color: Colors.white)),
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(height: 10.0),
+          ],
         ),
       ),
     );

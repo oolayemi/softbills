@@ -1,123 +1,130 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:intl/intl.dart';
+import 'package:no_name/core/utils/tools.dart';
+import 'package:no_name/styles/brand_color.dart';
+import 'package:no_name/views/transactions/transaction_viewmodel.dart';
 import 'package:no_name/widgets/utility_widgets.dart';
+import 'package:stacked/stacked.dart';
 
-import '../profile/profile_view.dart';
+import '../../core/models/transaction_history_data.dart';
 
 class TransactionView extends StatelessWidget {
   const TransactionView({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return CustomScaffoldWidget(
-      appBar: CustomAppBar(
-        title: "Transactions",
-        actions: [
-          SizedBox(
-            width: 60,
-            height: 60,
-            child: Stack(
-              clipBehavior: Clip.none,
-              children: [
-                GestureDetector(
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const ProfileView(),
-                      ),
-                    );
-                  },
-                  child: const Padding(
-                    padding: EdgeInsets.only(left: 15.0, top: 10),
-                    child: CircleAvatar(
-                      radius: 30,
-                      backgroundImage: AssetImage('assets/images/image 128.png'),
-                    ),
+    return ViewModelBuilder<TransactionViewModel>.reactive(
+        viewModelBuilder: () => TransactionViewModel(),
+        onViewModelReady: (model) => model.setUp(),
+        builder: (context, model, _) {
+          return CustomScaffoldWidget(
+            appBar: const CustomAppBar(title: "Transactions"),
+            body: model.transactions.isNotEmpty
+                ? ListView.separated(
+                    itemCount: model.groupedRecords.keys.length,
+                    separatorBuilder: (context, index) => const Divider(height: 20),
+                    itemBuilder: (context, index) {
+                      String date = model.groupedRecords.keys.elementAt(index);
+                      List<DataResponse> dailyTransactions = model.groupedRecords[date]!;
+
+                      return Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            parseDate(DateTime.parse(date)),
+                            style: const TextStyle(
+                              fontSize: 14,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          const SizedBox(height: 10),
+                          ...dailyTransactions.map((e) {
+                            return Column(
+                              children: [
+                                Container(
+                                  padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+                                  decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    borderRadius: BorderRadius.circular(20),
+                                    boxShadow: [
+                                      BoxShadow(
+                                        color: Colors.grey.withOpacity(.3),
+                                        blurRadius: 70.0,
+                                        spreadRadius: .9,
+                                        offset: const Offset(
+                                          0.4,
+                                          12.4,
+                                        ),
+                                      )
+                                    ],
+                                  ),
+                                  child: Row(
+                                    children: [
+                                      ClipRRect(
+                                        borderRadius: BorderRadius.circular(15),
+                                        child: Container(
+                                          height: 45,
+                                          width: 45,
+                                          decoration: const BoxDecoration(
+                                            color: Colors.red,
+                                          ),
+                                          child: e.imageUrl != null ? Image.network(e.imageUrl!) : const SizedBox(),
+                                        ),
+                                      ),
+                                      const SizedBox(width: 20),
+                                      Expanded(
+                                        child: Column(
+                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          children: [
+                                            Text(
+                                              ucWord(e.serviceType!),
+                                              style: const TextStyle(fontWeight: FontWeight.w600),
+                                              maxLines: 1,
+                                            ),
+                                            Text(
+                                              DateFormat('hh:mm a').format(DateTime.parse(e.createdAt!)),
+                                              style: const TextStyle(fontSize: 12),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                      const SizedBox(width: 10),
+                                      Column(
+                                        crossAxisAlignment: CrossAxisAlignment.end,
+                                        children: [
+                                          SvgPicture.asset(
+                                              e.transactionType == "credit"
+                                                  ? "assets/svg/inward.svg"
+                                                  : "assets/svg/outward.svg",
+                                              color: e.transactionType == "credit"
+                                                  ? BrandColors.primary
+                                                  : BrandColors.secondary),
+                                          Text(
+                                            formatMoney(e.amount),
+                                            style: TextStyle(
+                                                fontSize: 17,
+                                                fontWeight: FontWeight.w900,
+                                                color: e.transactionType == "credit"
+                                                    ? BrandColors.primary
+                                                    : BrandColors.secondary),
+                                          ),
+                                        ],
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                const SizedBox(height: 15),
+                              ],
+                            );
+                          }),
+                        ],
+                      );
+                    })
+                : const Center(
+                    child: Text("There are no transactions yet"),
                   ),
-                ),
-                Positioned(
-                  top: 8,
-                  right: 0,
-                  child: Container(
-                    width: 12,
-                    height: 12,
-                    decoration: const BoxDecoration(
-                      shape: BoxShape.circle,
-                      color: Color(0xFFE73726),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ],
-      ),
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            Container(
-              padding: const EdgeInsets.symmetric(vertical: 7, horizontal: 7),
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(10),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.grey.withOpacity(.3),
-                    blurRadius: 20.0,
-                    spreadRadius: .5,
-                    offset: Offset(
-                      0.4,
-                      12.4,
-                    ),
-                  )
-                ],
-              ),
-              child: Row(
-                children: [
-                  Container(
-                      height: 45,
-                      width: 45,
-                      decoration: BoxDecoration(
-                        color: Colors.red,
-                        borderRadius: BorderRadius.circular(15),
-                      )),
-                  const SizedBox(width: 10),
-                  const Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          "Airtime",
-                          style: TextStyle(fontWeight: FontWeight.w600),
-                          maxLines: 1,
-                        ),
-                        Text(
-                          "4:34 PM",
-                          style: TextStyle(fontSize: 12),
-                        ),
-                      ],
-                    ),
-                  ),
-                  const SizedBox(width: 10),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.end,
-                    children: [
-                      SvgPicture.asset("assets/svg/inward.svg"),
-                      Text(
-                        "N6,000",
-                        style: TextStyle(fontSize: 14, fontWeight: FontWeight.w900),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-            ),
-            const SizedBox(height: 15),
-          ],
-        ),
-      ),
-    );
+          );
+        });
   }
 }

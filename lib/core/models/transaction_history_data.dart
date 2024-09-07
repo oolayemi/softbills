@@ -120,6 +120,7 @@ class DataResponse {
   String? channel;
   bool? isCommission;
   String? narration;
+  String? imageUrl;
   String? createdAt;
   String? updatedAt;
 
@@ -138,6 +139,7 @@ class DataResponse {
         this.channel,
         this.isCommission,
         this.narration,
+        this.imageUrl,
         this.createdAt,
         this.updatedAt});
 
@@ -156,6 +158,7 @@ class DataResponse {
     channel = json['channel'];
     isCommission = json['is_commission'];
     narration = json['narration'];
+    imageUrl = json['image_url'];
     createdAt = json['created_at'];
     updatedAt = json['updated_at'];
   }
@@ -176,6 +179,7 @@ class DataResponse {
     data['channel'] = channel;
     data['is_commission'] = isCommission;
     data['narration'] = narration;
+    data['image_url'] = imageUrl;
     data['created_at'] = createdAt;
     data['updated_at'] = updatedAt;
     return data;

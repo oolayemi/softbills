@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:no_name/core/utils/tools.dart';
 import 'package:no_name/widgets/utility_widgets.dart';
@@ -43,7 +42,7 @@ class FundTransferView extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(name, style: TextStyle(fontWeight: FontWeight.w600, fontSize: 18)),
+        Text(name, style: const TextStyle(fontWeight: FontWeight.w600, fontSize: 18)),
         const SizedBox(height: 10),
         Container(
           padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),

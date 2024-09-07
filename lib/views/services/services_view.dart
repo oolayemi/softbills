@@ -127,23 +127,13 @@ class ServicesView extends StatelessWidget {
                                 ),
                               );
                             },
-                            child: const Padding(
-                              padding: EdgeInsets.only(left: 15.0, top: 10),
+                            child: Padding(
+                              padding: const EdgeInsets.only(left: 15.0, top: 10),
                               child: CircleAvatar(
                                 radius: 30,
-                                backgroundImage: AssetImage('assets/images/image 128.png'),
-                              ),
-                            ),
-                          ),
-                          Positioned(
-                            top: 8,
-                            right: 0,
-                            child: Container(
-                              width: 12,
-                              height: 12,
-                              decoration: const BoxDecoration(
-                                shape: BoxShape.circle,
-                                color: Color(0xFFE73726),
+                                backgroundImage: model.profileData?.imageUrl == null
+                                    ? const AssetImage('assets/images/image 128.png')
+                                    : NetworkImage(model.profileData!.imageUrl!) as ImageProvider,
                               ),
                             ),
                           ),
@@ -151,9 +141,9 @@ class ServicesView extends StatelessWidget {
                       ),
                     ),
                     const SizedBox(width: 10),
-                    const Text(
-                      'Hi, Yusuf',
-                      style: TextStyle(
+                    Text(
+                      'Hi, ${model.profileData?.firstname ?? ''}',
+                      style: const TextStyle(
                         fontSize: 20,
                         fontWeight: FontWeight.w700,
                       ),

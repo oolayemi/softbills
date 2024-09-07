@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:fluttercontactpicker/fluttercontactpicker.dart';
-import 'package:no_name/core/models/airtime_billers.dart';
-import 'package:no_name/views/auth/sign_up/otp_verification/verification_complete.dart';
 import 'package:no_name/widgets/utility_widgets.dart';
 import 'package:stacked/stacked.dart';
-import 'package:stacked_services/stacked_services.dart';
 
 import '../../core/models/airtime_beneficiaries.dart';
+import '../../core/models/data_billers.dart';
 import 'airtime_viewmodel.dart';
 
 class AirtimeView extends StatelessWidget {
@@ -86,10 +84,10 @@ class AirtimeView extends StatelessWidget {
                   const SizedBox(height: 20),
                   SizedBox(
                     child: BuildAirtimeBillerDropDown(
-                      list: model.billers.take(4).toList(),
+                      list: model.billers,
                       title: "Network",
                       value: model.selectedBiller,
-                      onChanged: (AirtimeBillers? value) {
+                      onChanged: (DataBillers? value) {
                         model.selectedBiller = value;
                         model.notifyListeners();
                       },

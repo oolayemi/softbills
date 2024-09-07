@@ -109,63 +109,170 @@ class HomePageView extends StatelessWidget {
                             padding: const EdgeInsets.only(left: 15.0, right: 15),
                             child: SizedBox(
                               child: Card(
-                                color: const Color(0xFF0991CC),
+                                color: const Color(0xFF095F85),
                                 elevation: 4.0,
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(15.0),
                                 ),
-                                child: Padding(
-                                  padding: const EdgeInsets.symmetric(vertical: 28.0, horizontal: 16),
-                                  child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      Row(
-                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          Row(
-                                            children: [
-                                              const Text(
-                                                'Balance',
+                                child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(15.0),
+                                  child: Container(
+                                    padding: const EdgeInsets.symmetric(vertical: 28.0, horizontal: 16),
+                                    decoration: const BoxDecoration(
+                                      image: DecorationImage(
+                                          image: AssetImage("assets/images/card_bg.png"), fit: BoxFit.cover),
+                                    ),
+                                    child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        Row(
+                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            Row(
+                                              children: [
+                                                const Text(
+                                                  'Balance',
+                                                  style: TextStyle(
+                                                    fontSize: 16,
+                                                    fontWeight: FontWeight.w800,
+                                                    color: Colors.white,
+                                                  ),
+                                                ),
+                                                const SizedBox(width: 15),
+                                                GestureDetector(
+                                                  onTap: () {
+                                                    model.isSwitchedOn = !model.isSwitchedOn;
+                                                    model.notifyListeners();
+                                                  },
+                                                  child: AnimatedContainer(
+                                                    duration: const Duration(milliseconds: 300),
+                                                    width: 40,
+                                                    height: 20,
+                                                    decoration: BoxDecoration(
+                                                      borderRadius: BorderRadius.circular(15.0),
+                                                      color: model.isSwitchedOn
+                                                          ? const Color(0xFFF58634)
+                                                          : Colors.black
+                                                    ),
+                                                    child: Stack(
+                                                      children: [
+                                                        AnimatedPositioned(
+                                                          duration: const Duration(milliseconds: 300),
+                                                          curve: Curves.easeIn,
+                                                          left: model.isSwitchedOn ? 20.0 : 0.0,
+                                                          right: model.isSwitchedOn ? 0.0 : 20.0,
+                                                          child: AnimatedSwitcher(
+                                                            duration: const Duration(milliseconds: 300),
+                                                            transitionBuilder:
+                                                                (Widget child, Animation<double> animation) {
+                                                              return ScaleTransition(scale: animation, child: child);
+                                                            },
+                                                            child: model.isSwitchedOn
+                                                                ? Icon(Icons.circle,
+                                                                    color: Colors.white, size: 20, key: UniqueKey())
+                                                                : Icon(Icons.circle,
+                                                                    color: Colors.white, size: 20, key: UniqueKey()),
+                                                          ),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                            InkWell(
+                                              onTap: () {
+                                                NavigationService().navigateToView(const TransactionView());
+                                              },
+                                              child: const Text(
+                                                'Transaction History >',
                                                 style: TextStyle(
-                                                  fontSize: 16,
-                                                  fontWeight: FontWeight.w800,
+                                                  fontWeight: FontWeight.w500,
                                                   color: Colors.white,
+                                                  fontSize: 15,
                                                 ),
                                               ),
-                                              const SizedBox(width: 15),
-                                              GestureDetector(
+                                            ),
+                                          ],
+                                        ),
+                                        Padding(
+                                          padding: const EdgeInsets.only(top: 0),
+                                          child: Text(
+                                            model.isSwitchedOn ? formatMoney(model.wallet?.balance ?? 0) : "******",
+                                            // '\u20A6${formatMoney(model.wallet?.balance ?? 0)}',
+                                            style: const TextStyle(
+                                              fontSize: 25,
+                                              color: Colors.white,
+                                              fontWeight: FontWeight.w700,
+                                            ),
+                                          ),
+                                        ),
+                                        Padding(
+                                          padding: const EdgeInsets.only(top: 10),
+                                          child: Row(
+                                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              Container(
+                                                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
+                                                decoration: BoxDecoration(
+                                                  color: const Color(0xFFC4C4C4).withOpacity(.4),
+                                                  borderRadius: BorderRadius.circular(10),
+                                                ),
+                                                child: Row(
+                                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                  children: [
+                                                    Text(
+                                                      model.wallet?.number ?? "N/A",
+                                                      style: const TextStyle(
+                                                        color: Colors.white,
+                                                        fontSize: 15,
+                                                        fontWeight: FontWeight.w600,
+                                                      ),
+                                                    ),
+                                                    const SizedBox(width: 13),
+                                                    GestureDetector(
+                                                      onTap: () {
+                                                        if (model.wallet?.number != null) {
+                                                          copyToClipboard(
+                                                            model.wallet!.number!,
+                                                            "Wallet number copied successfully",
+                                                          );
+                                                        }
+                                                      },
+                                                      child: const Icon(
+                                                        Icons.copy_rounded,
+                                                        size: 20,
+                                                        color: Colors.white,
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+                                              InkWell(
                                                 onTap: () {
-                                                  model.isSwitchedOn = !model.isSwitchedOn;
-                                                  model.notifyListeners();
+                                                  NavigationService().navigateToView(const FundAccountView());
                                                 },
-                                                child: AnimatedContainer(
-                                                  duration: const Duration(milliseconds: 300),
-                                                  width: 40,
-                                                  height: 20,
+                                                child: Container(
+                                                  padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 5),
                                                   decoration: BoxDecoration(
-                                                    borderRadius: BorderRadius.circular(15.0),
-                                                    color: model.isSwitchedOn
-                                                        ? const Color(0xFFF58634)
-                                                        : const Color(0xFFF58634),
+                                                    color: const Color(0xFFC4C4C4).withOpacity(.4),
+                                                    borderRadius: BorderRadius.circular(10),
                                                   ),
-                                                  child: Stack(
+                                                  child: const Row(
+                                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                                     children: [
-                                                      AnimatedPositioned(
-                                                        duration: const Duration(milliseconds: 300),
-                                                        curve: Curves.easeIn,
-                                                        left: model.isSwitchedOn ? 20.0 : 0.0,
-                                                        right: model.isSwitchedOn ? 0.0 : 20.0,
-                                                        child: AnimatedSwitcher(
-                                                          duration: const Duration(milliseconds: 300),
-                                                          transitionBuilder:
-                                                              (Widget child, Animation<double> animation) {
-                                                            return ScaleTransition(scale: animation, child: child);
-                                                          },
-                                                          child: model.isSwitchedOn
-                                                              ? Icon(Icons.circle,
-                                                                  color: Colors.white, size: 20, key: UniqueKey())
-                                                              : Icon(Icons.circle,
-                                                                  color: Colors.white, size: 20, key: UniqueKey()),
+                                                      Icon(
+                                                        Icons.add_circle_outline_outlined,
+                                                        size: 20,
+                                                        color: Colors.white,
+                                                      ),
+                                                      SizedBox(width: 4),
+                                                      Text(
+                                                        'Fund account',
+                                                        style: TextStyle(
+                                                          color: Colors.white,
+                                                          fontSize: 15,
+                                                          fontWeight: FontWeight.w400,
                                                         ),
                                                       ),
                                                     ],
@@ -174,109 +281,9 @@ class HomePageView extends StatelessWidget {
                                               ),
                                             ],
                                           ),
-                                          InkWell(
-                                            onTap: () {
-                                              NavigationService().navigateToView(const TransactionView());
-                                            },
-                                            child: const Text(
-                                              'Transaction History >',
-                                              style: TextStyle(
-                                                fontWeight: FontWeight.w500,
-                                                color: Colors.white,
-                                                fontSize: 15,
-                                              ),
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                      Padding(
-                                        padding: const EdgeInsets.only(top: 0),
-                                        child: Text(
-                                          formatMoney(model.wallet?.balance ?? 0),
-                                          // '\u20A6${formatMoney(model.wallet?.balance ?? 0)}',
-                                          style: const TextStyle(
-                                            fontSize: 25,
-                                            color: Colors.white,
-                                            fontWeight: FontWeight.w700,
-                                          ),
                                         ),
-                                      ),
-                                      Padding(
-                                        padding: const EdgeInsets.only(top: 10),
-                                        child: Row(
-                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                          children: [
-                                            Container(
-                                              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
-                                              decoration: BoxDecoration(
-                                                color: const Color(0xFFC4C4C4).withOpacity(.4),
-                                                borderRadius: BorderRadius.circular(10),
-                                              ),
-                                              child: Row(
-                                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                                children: [
-                                                  Text(
-                                                    model.wallet?.number ?? "N/A",
-                                                    style: const TextStyle(
-                                                      color: Colors.white,
-                                                      fontSize: 16,
-                                                      fontWeight: FontWeight.w600,
-                                                    ),
-                                                  ),
-                                                  const SizedBox(width: 13),
-                                                  GestureDetector(
-                                                    onTap: () {
-                                                      if (model.wallet?.number != null) {
-                                                        copyToClipboard(
-                                                          model.wallet!.number!,
-                                                          "Wallet number copied successfully",
-                                                        );
-                                                      }
-                                                    },
-                                                    child: const Icon(
-                                                      Icons.copy_rounded,
-                                                      size: 20,
-                                                      color: Colors.white,
-                                                    ),
-                                                  ),
-                                                ],
-                                              ),
-                                            ),
-                                            InkWell(
-                                              onTap: () {
-                                                NavigationService().navigateToView(const FundAccountView());
-                                              },
-                                              child: Container(
-                                                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 5),
-                                                decoration: BoxDecoration(
-                                                  color: const Color(0xFFC4C4C4).withOpacity(.4),
-                                                  borderRadius: BorderRadius.circular(10),
-                                                ),
-                                                child: const Row(
-                                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                                  children: [
-                                                    Icon(
-                                                      Icons.add_circle_outline_outlined,
-                                                      size: 24,
-                                                      color: Colors.white,
-                                                    ),
-                                                    SizedBox(width: 4),
-                                                    Text(
-                                                      'Fund account',
-                                                      style: TextStyle(
-                                                        color: Colors.white,
-                                                        fontSize: 18,
-                                                        fontWeight: FontWeight.w400,
-                                                      ),
-                                                    ),
-                                                  ],
-                                                ),
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                    ],
+                                      ],
+                                    ),
                                   ),
                                 ),
                               ),

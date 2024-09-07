@@ -99,3 +99,24 @@ void copyToClipboard(String value, String message) {
         (value) => Fluttertoast.showToast(msg: message, backgroundColor: Colors.blue),
   );
 }
+
+String parseDate(DateTime date) {
+  DateTime now = DateTime.now();
+  if (date.year == now.year && date.month == now.month && date.day == now.day) {
+    return "Today";
+  }
+
+  if (date.year == now.year && date.month == now.month && date.day == now.day-1) {
+    return "Yesterday";
+  }
+
+  return DateFormat('dd MMMM, yyyy').format(date);
+}
+
+String formatTime(int totalSeconds) {
+  int minutes = totalSeconds ~/ 60;
+  int seconds = totalSeconds % 60;
+
+  if (minutes != 0) return '${minutes}m ${seconds}s';
+  return '${seconds}s';
+}

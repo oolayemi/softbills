@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:no_name/views/auth/sign_in/sign_in_viewmodel.dart';
-import 'package:no_name/views/dashboard/dashboard_view.dart';
-import 'package:no_name/views/forgot_password/fp_otp_verification_view.dart';
+import 'package:no_name/views/forgot_password/forgot_password_view.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
 
@@ -72,7 +71,7 @@ class SignInView extends StatelessWidget {
                         title: "Sign In",
                         onPressed: () {
                           if (model.formKey.currentState!.validate()) {
-                            NavigationService().navigateToView(const DashboardView());
+                            model.signIn(context);
                           }
                         }),
                   ),
@@ -80,14 +79,7 @@ class SignInView extends StatelessWidget {
                     height: 15,
                   ),
                   InkWell(
-                    onTap: () {
-                      showModalBottomSheet(
-                        context: context,
-                        builder: (BuildContext context) {
-                          return const ModalSheet();
-                        },
-                      );
-                    },
+                    onTap: () => NavigationService().navigateToView(const ForgotPasswordView()),
                     child: const Center(
                       child: Text(
                         "Forgot Password?",
@@ -104,107 +96,5 @@ class SignInView extends StatelessWidget {
             ),
           );
         });
-  }
-}
-
-class ModalSheet extends StatelessWidget {
-  const ModalSheet({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      height: MediaQuery.of(context).size.height * 0.20,
-      width: MediaQuery.of(context).size.width,
-      decoration: const BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.vertical(
-          top: Radius.circular(20),
-        ),
-      ),
-      child: Padding(
-        padding: const EdgeInsets.only(left: 4.0, top: 0, right: 5),
-        child: Column(
-          children: <Widget>[
-            Center(
-              child: Container(
-                width: 40,
-                height: 5,
-                margin: const EdgeInsets.only(top: 8.0, bottom: 8.0),
-                decoration: BoxDecoration(
-                  color: Colors.grey[400],
-                  borderRadius: BorderRadius.circular(10),
-                ),
-              ),
-            ),
-            const SizedBox(height: 5),
-            GestureDetector(
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const FPOtpVerificationView(email: "email"),
-                  ), // Replace NextScreen with your desired screen
-                );
-              },
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: <Widget>[
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Image.asset('assets/images/icon _messages.png'),
-                      const Padding(
-                        padding: EdgeInsets.only(left: 15.0),
-                        child: Text(
-                          'Password reset via SMS',
-                          style: TextStyle(
-                            fontSize: 18,
-                            fontWeight: FontWeight.w400,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                  Image.asset('assets/images/Frame 1000002942.png'),
-                ],
-              ),
-            ),
-            const SizedBox(height: 16),
-            GestureDetector(
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const FPOtpVerificationView(email: "email"),
-                  ), // Replace NextScreen with your desired screen
-                );
-              },
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: <Widget>[
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Image.asset('assets/images/Vector (2).png'),
-                      const Padding(
-                        padding: EdgeInsets.only(left: 15.0),
-                        child: Text(
-                          'Password reset via Email',
-                          style: TextStyle(
-                            fontSize: 18,
-                            fontWeight: FontWeight.w400,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                  Image.asset('assets/images/Frame 1000002942.png'),
-                ],
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
   }
 }

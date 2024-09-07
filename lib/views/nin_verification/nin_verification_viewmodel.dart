@@ -15,9 +15,8 @@ import '../../core/constants/loading_dialog.dart';
 import '../../core/exceptions/error_handling.dart';
 import '../../core/utils/tools.dart';
 import '../../widgets/utility_widgets.dart';
-import '../auth/sign_up/otp_verification/verification_complete.dart';
 
-class BVNVerificationViewModel extends ReactiveViewModel {
+class NinVerificationViewModel extends ReactiveViewModel {
   final NavigationService _navigationService = locator<NavigationService>();
   final AuthService _authService = locator<AuthService>();
   final DialogService _dialogService = locator<DialogService>();
@@ -26,35 +25,27 @@ class BVNVerificationViewModel extends ReactiveViewModel {
 
   ProfileData? get profile => _authService.profileResponse;
   TextEditingController phoneNumberController = TextEditingController();
-  TextEditingController bvnController = TextEditingController();
+  TextEditingController ninController = TextEditingController();
 
   void setUp() {
     phoneNumberController.text = "0${profile!.phone!.substring(profile!.phone!.length - 10, profile!.phone!.length)}";
     notifyListeners();
   }
 
-  Future verifyBvn(context) async {
+  Future verifyNin(context) async {
     LoaderDialog.showLoadingDialog(context, message: "Validating details...");
 
-    Map<String, dynamic> payload = {'bvn': bvnController.text, 'phone': phoneNumberController.text};
+    Map<String, dynamic> payload = {'nin': ninController.text, 'phone': phoneNumberController.text};
 
     try {
-      final response = await dio().post('/user/bvn/update', data: payload);
+      final response = await dio().post('/user/nin/update', data: payload);
 
       Map responseData = response.data!;
       print(json);
       await _authService.getProfile();
       _dialogService.completeDialog(DialogResponse());
-
-
       _navigationService.back();
-      _navigationService.navigateToView(VerificationComplete(
-        title: "Successful",
-        description: responseData['message'],
-        buttonText: "Continue",
-        onTap: () => _navigationService.back()
-      ));
-
+      flusher(responseData['message'], context, color: Colors.green);
       notifyListeners();
     } on DioException catch (e) {
       print(e.response);
