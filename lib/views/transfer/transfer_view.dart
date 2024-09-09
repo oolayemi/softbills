@@ -58,18 +58,18 @@ class TransferView extends StatelessWidget {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          buildAmount(200, 1),
-                          buildAmount(300, 2),
-                          buildAmount(500, 3),
+                          buildAmount(500, 1),
+                          buildAmount(1000, 2),
+                          buildAmount(2000, 3),
                         ],
                       ),
                       const SizedBox(height: 18),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          buildAmount(1000, 4),
-                          buildAmount(2000, 5),
-                          buildAmount(5000, 6),
+                          buildAmount(5000, 4),
+                          buildAmount(10000, 5),
+                          buildAmount(20000, 6),
                         ],
                       ),
                     ],

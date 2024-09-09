@@ -4,6 +4,7 @@ import 'package:no_name/views/more/more_view.dart';
 import 'package:no_name/views/services/services_view.dart';
 import 'package:stacked/stacked.dart';
 
+import '../credit/credit_view.dart';
 import 'dashboard_viewmodel.dart';
 
 class DashboardView extends StatelessWidget {
@@ -19,7 +20,7 @@ class DashboardView extends StatelessWidget {
           return [
             const HomePageView(),
             const ServicesView(),
-            const SizedBox(),
+            const CreditView(),
             const MoreView(),
           ];
         }

@@ -128,7 +128,7 @@ class ServicesView extends StatelessWidget {
                               );
                             },
                             child: Padding(
-                              padding: const EdgeInsets.only(left: 15.0, top: 10),
+                              padding: const EdgeInsets.all(8),
                               child: CircleAvatar(
                                 radius: 30,
                                 backgroundImage: model.profileData?.imageUrl == null
@@ -140,7 +140,6 @@ class ServicesView extends StatelessWidget {
                         ],
                       ),
                     ),
-                    const SizedBox(width: 10),
                     Text(
                       'Hi, ${model.profileData?.firstname ?? ''}',
                       style: const TextStyle(

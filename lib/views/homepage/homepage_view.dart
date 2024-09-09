@@ -152,15 +152,15 @@ class HomePageView extends StatelessWidget {
                                                       borderRadius: BorderRadius.circular(15.0),
                                                       color: model.isSwitchedOn
                                                           ? const Color(0xFFF58634)
-                                                          : Colors.black
+                                                          : Colors.grey
                                                     ),
                                                     child: Stack(
                                                       children: [
                                                         AnimatedPositioned(
                                                           duration: const Duration(milliseconds: 300),
                                                           curve: Curves.easeIn,
-                                                          left: model.isSwitchedOn ? 20.0 : 0.0,
-                                                          right: model.isSwitchedOn ? 0.0 : 20.0,
+                                                          right: model.isSwitchedOn ? 20.0 : 0.0,
+                                                          left: model.isSwitchedOn ? 0.0 : 20.0,
                                                           child: AnimatedSwitcher(
                                                             duration: const Duration(milliseconds: 300),
                                                             transitionBuilder:
@@ -196,7 +196,7 @@ class HomePageView extends StatelessWidget {
                                           ],
                                         ),
                                         Padding(
-                                          padding: const EdgeInsets.only(top: 0),
+                                          padding: const EdgeInsets.only(top: 10),
                                           child: Text(
                                             model.isSwitchedOn ? formatMoney(model.wallet?.balance ?? 0) : "******",
                                             // '\u20A6${formatMoney(model.wallet?.balance ?? 0)}',

@@ -56,8 +56,8 @@ class AirtimeView extends StatelessWidget {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          buildAmount(200, 1),
-                          buildAmount(300, 2),
+                          buildAmount(100, 1),
+                          buildAmount(200, 2),
                           buildAmount(500, 3),
                         ],
                       ),
